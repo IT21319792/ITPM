@@ -1,7 +1,37 @@
-import React from 'react'
+import { useState } from 'react'
+import './App.css'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
-export default function App() {
-  return (
-    <div>App</div>
-  )
+import StudentDash from './pages/student/StudentDash';
+import AdminDash from './pages/admin/AdminDash';
+
+
+
+
+function App() {
+
+  return(
+    <BrowserRouter>
+
+      <Routes>
+        
+          {/* Admin Routes  */}
+          <Route path='adminDash' element={<AdminDash />} />
+
+
+          {/* Student Routes  */}
+          <Route path='studentDash' element={<StudentDash />} />
+     
+    
+      </Routes>
+    
+    
+    </BrowserRouter>
+
+  );
+
+
 }
+
+
+export default App;
