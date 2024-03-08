@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 import StudentDash from './pages/student/StudentDash';
@@ -8,6 +7,7 @@ import CoDash from './pages/co-ordinator/CoDash';
 import ExaminarDash from './pages/examinar/ExaminarDash';
 import PMemberDash from './pages/projectMember/PMemberDash';
 import SupervisorDash from './pages/supervisor/SupervisorDash';
+
 
 
 
@@ -42,8 +42,11 @@ function App() {
           {/* Supervisor Routes  */}
           <Route path='supervisorDash' element={<SupervisorDash />} />
 
+
+          {/* Other Routes  */}
           
-     
+
+
     
       </Routes>
     

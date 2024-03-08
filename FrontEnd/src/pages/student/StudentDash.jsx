@@ -1,10 +1,20 @@
-import React from "react";
+import * as React from 'react';
+import BasicLineChart from '../../components/BasicLineChart';
+import TopNav from '../../components/TopNav';
+import WelcomeCard from '../../components/WelcomeCard';
 
-function StudentDash () {
-
-
+function StudentDash() {
     return (
-        <h1>Student Dashboard</h1>
+        <>
+        
+            
+            <TopNav />
+            <WelcomeCard />
+            <BasicLineChart />
+
+            
+            
+        </>
     );
 }
 
