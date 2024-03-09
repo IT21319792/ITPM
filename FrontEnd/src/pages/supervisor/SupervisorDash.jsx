@@ -1,10 +1,17 @@
 import React from "react";
+import TopNav from "../../components/TopNav";
 
 function SupervisorDash () {
 
 
     return (
-        <h1>Supervisor Dashboard</h1>
-    )
+        <>
+
+        
+        <TopNav />
+        
+        </>
+    );
 }
+
 export default SupervisorDash;
