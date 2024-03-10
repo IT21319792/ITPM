@@ -19,7 +19,7 @@ import Notifications from './pages/student/Notifications';
 
 function App() {
 
-  return(
+  return (
     <BrowserRouter>
 
       <Routes>
@@ -60,8 +60,8 @@ function App() {
 
     
       </Routes>
-    
-    
+
+
     </BrowserRouter>
 
   );
