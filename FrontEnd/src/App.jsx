@@ -7,6 +7,11 @@ import CoDash from './pages/co-ordinator/CoDash';
 import ExaminarDash from './pages/examinar/ExaminarDash';
 import PMemberDash from './pages/projectMember/PMemberDash';
 import SupervisorDash from './pages/supervisor/SupervisorDash';
+import Assignments from './pages/student/Assignments';
+import Research from './pages/student/Research';
+import MyResults from './pages/student/MyResults';
+import MyTeam from './pages/student/MyTeam';
+import Notifications from './pages/student/Notifications';
 
 
 
@@ -19,12 +24,18 @@ function App() {
 
       <Routes>
 
+
           {/* Admin Routes  */}
           <Route path='adminDash' element={<AdminDash />} />
 
 
           {/* Student Routes  */}
           <Route path='studentDash' element={<StudentDash />} />
+          <Route path='/assignments' element={<Assignments />} />
+          <Route path='/research' element={<Research/>} />
+          <Route path='/myResults' element={<MyResults/>} />
+          <Route path='/myTeam' element={<MyTeam/>} />
+          <Route path='/notifications' element={<Notifications/>} />
 
 
           {/* Co-ordinator Routes  */}
