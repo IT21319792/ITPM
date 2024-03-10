@@ -5,12 +5,11 @@ function SupervisorDash () {
 
 
     return (
-        <>
-
+       
         
         <TopNav />
         
-        </>
+       
     );
 }
 
