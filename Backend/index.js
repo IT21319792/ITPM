@@ -1,31 +1,30 @@
-const express = require ("express");
-const mongoose = require ("mongoose");
-const bodyParser = require ("body-parser");
-const cors = require ("cors");
-//const dotenv = require ("dotenv");
+import express from 'express';
+import morgan from 'morgan';
+import dotenv from 'dotenv'
+import { dbConfig } from './utils/dbConfig.js';
+import cors from 'cors';
+import userRouter from './routes/UserRoutes.js';
+
+const port = process.env.PORT || 510;
 const app = express();
-require("dotenv").config();
+app.use(express.json());
+dotenv.config();
 
-
-const PORT = process.env.PORT || 510 ;
-
+app.use(morgan('dev'));
 app.use(cors());
-app.use(bodyParser.json());
-
-const URL = process.env.MONGODB_URL; 
-
-mongoose.connect(URL);
-
-
-const connection = mongoose.connection;
-connection.once("open",() => {
-    console.log("Mongodb connection success!");
-
+app.get('/', async (req,res)=>{
+    res.status(200).json('Server is up and running');
 })
 
-app.listen(PORT, () => {
-    console.log(`Server is up and running on port number: ${PORT}`);
+//Admin Routes
+app.use('/user',userRouter);
 
+
+dbConfig().then(()=>{
+    app.listen(port,()=>{
+        console.log(`Server is up and running on port ${port}`);
+    })
+}).catch((err)=>{
+    console.log(err);
 })
-
 

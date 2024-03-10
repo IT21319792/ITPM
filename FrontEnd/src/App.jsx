@@ -1,14 +1,12 @@
 import { useState } from 'react'
-import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 import StudentDash from './pages/student/StudentDash';
 import AdminDash from './pages/admin/AdminDash';
-import CordinatorDash from './pages/co-ordinator/CordinatorDash';
-import Supervisor from './pages/supervisor/Supervisor';
+import CoDash from './pages/co-ordinator/CoDash';
 import ExaminarDash from './pages/examinar/ExaminarDash';
-
-
+import PMemberDash from './pages/projectMember/PMemberDash';
+import SupervisorDash from './pages/supervisor/SupervisorDash';
 
 
 
@@ -21,29 +19,35 @@ function App() {
 
       <Routes>
 
-        {/* Admin Routes  */}
-        <Route path='adminDash' element={<AdminDash />} />
+          {/* Admin Routes  */}
+          <Route path='adminDash' element={<AdminDash />} />
 
 
-        {/* Student Routes  */}
-        <Route path='studentDash' element={<StudentDash />} />
+          {/* Student Routes  */}
+          <Route path='studentDash' element={<StudentDash />} />
 
 
-        {/* Cordinator Routes  */}
-        <Route path='CordinatorDash' element={<CordinatorDash />} />
+          {/* Co-ordinator Routes  */}
+          <Route path='coDash' element={<CoDash />} />
 
 
-        {/* Supervisor Routes  */}
-        <Route path='Supervisor' element={<Supervisor />} />
+          {/* Examinar Routes  */}
+          <Route path='examinarDash' element={<ExaminarDash />} />
 
 
-        {/* Examiner Routes  */}
-        <Route path='Examiner' element={<ExaminarDash />} />
+          {/* Project Member Routes  */}
+          <Route path='pMemberDash' element={<PMemberDash />} />
 
 
+          {/* Supervisor Routes  */}
+          <Route path='supervisorDash' element={<SupervisorDash />} />
 
 
+          {/* Other Routes  */}
+          
 
+
+    
       </Routes>
 
 
