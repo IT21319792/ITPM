@@ -14,7 +14,7 @@ import SupervisorDash from './pages/supervisor/SupervisorDash';
 
 function App() {
 
-  return(
+  return (
     <BrowserRouter>
 
       <Routes>
@@ -49,8 +49,8 @@ function App() {
 
     
       </Routes>
-    
-    
+
+
     </BrowserRouter>
 
   );
