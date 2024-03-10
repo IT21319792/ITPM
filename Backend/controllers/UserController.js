@@ -54,7 +54,7 @@ export const CreateAccount = async (req, res) => {
 
         const result = await UserModel.create(data);
         
-        sendEmail(data.email, "Account Created Successfully", { name: `Username : ${data.email}`, description: `Password: ${data.password}`, }, "./template/emailtemplate.handlebars");
+        sendEmail(data.email, "Account Created Successfully", { name: `User : ${data.email}`, description: ` You Have Created a account with Contact Number: ${data.contactNo} successfully`, }, "./template/emailtemplate.handlebars");
         res.status(200).json({
             message: 'Account Created Successfully!'
         })
