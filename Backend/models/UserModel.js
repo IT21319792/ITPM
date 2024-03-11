@@ -10,7 +10,7 @@ const UserSchema = new mongoose.Schema({
     },
     contactNo: {
         type: Number,
-        unique:true,
+       
     },
     address: {
         type: String,
@@ -19,7 +19,7 @@ const UserSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
-        unique:true,
+       
     },
     password: {
         type: String,
