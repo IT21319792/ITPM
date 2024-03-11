@@ -12,6 +12,8 @@ import Research from './pages/student/Research';
 import MyResults from './pages/student/MyResults';
 import MyTeam from './pages/student/MyTeam';
 import Notifications from './pages/student/Notifications';
+import SignUp from './pages/SignUp';
+import LogIn from './pages/LogIn';
 
 
 
@@ -55,7 +57,9 @@ function App() {
 
 
           {/* Other Routes  */}
-          
+          <Route path='signup' element={<SignUp />} />
+          <Route path='login' element={<LogIn />} />
+
 
 
     
