@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 
-function SignUp() {
+function AddUsers() {
   const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', contactNo: '', password: '', confirm_password: '' })
   
   const handleChange = (e) => {
@@ -32,7 +32,7 @@ function SignUp() {
     <div className="bg-grey-lighter min-h-screen flex flex-col">
             <div className="container max-w-xl mx-auto flex-1 flex flex-col items-center justify-center px-2">
                 <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
-                    <h1 className="mb-8 text-3xl text-center">Sign up</h1>
+                    <h1 className="mb-8 text-3xl text-center">Add Users</h1>
                     <form onSubmit={handleSubmit} className="mb-4 md:flex md:flex-wrap md:justify-between" action="/signup/" method="post">
                    
                    <div className='flex gap-2 w-full'>
@@ -142,4 +142,4 @@ function SignUp() {
   )
 }
 
-export default SignUp
+export default AddUsers;

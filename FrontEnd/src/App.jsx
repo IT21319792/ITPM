@@ -12,8 +12,11 @@ import Research from './pages/student/Research';
 import MyResults from './pages/student/MyResults';
 import MyTeam from './pages/student/MyTeam';
 import Notifications from './pages/student/Notifications';
-import SignUp from './pages/SignUp';
-import LogIn from './pages/LogIn';
+import LandingPage from './pages/common/LandingPage';
+import StudentLogin from './components/StudentLogIn';
+import StudentSignUp from './components/StudentSignUp';
+import AdminLogin from './components/AdminLogIn';
+
 
 
 
@@ -55,10 +58,14 @@ function App() {
           {/* Supervisor Routes  */}
           <Route path='supervisorDash' element={<SupervisorDash />} />
 
+          {/* other Routes  */}
+          <Route path='landingpage' element={<LandingPage />} />
+          <Route path='studentlogin' element={<StudentLogin />} />
+          <Route path='studentsignup' element={<StudentSignUp/>} />
+          <Route path='adminlogin' element={<AdminLogin />} />  
 
-          {/* Other Routes  */}
-          <Route path='signup' element={<SignUp />} />
-          <Route path='login' element={<LogIn />} />
+
+       
 
 
 
