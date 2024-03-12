@@ -1,11 +1,11 @@
 
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 function StudentLogin() {
   const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', contactNo: '', password: '', confirm_password: '' })
-  
+  const navigate = useNavigate()
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -19,9 +19,9 @@ function StudentLogin() {
     .then(()=>{
       alert('User logged in successfully')
       console.log('User logged in  successfully')//alert('User created successfully')
+      navigate ('/studentDash')
     })
     .catch((err)=>{
-    console.log('Form data:', formData)
     console.log('Error:', err)//alert('User creation failed')
     alert(err.response.data.message)
     })
@@ -72,10 +72,10 @@ function StudentLogin() {
 
                 <div className="text-grey-dark mt-6 flex gap-2">
                     <p>Do not have an account? </p>
-                    <Link to="/create" >
-                    <span className="no-underline border-b border-blue text-blue-700" href="../login/">
+                    <Link to="../studentsignup" >
+                    <h1 className="no-underline border-b border-blue text-blue-700" >
                        Sign Up!
-                    </span>
+                    </h1>
                     </Link>
                     
                 </div>

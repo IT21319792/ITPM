@@ -29,12 +29,17 @@ export const Login = async (req, res) => {
         // }
         const id = isExist._id.toString();
         const token = createToken(id);
+        const { password: pass, ...rest } = isExist._doc;
+        const expirydare = new Date(Date.now() + 3600000);//1 hour
+        res.cookie('access_token', token, { httpOnly: true, expires: expirydare});
         
-        //await sendEmail('nimsaramahagedara@gmail.com', "TEST EMAIL", { name: 'NIMSARA MAHAGEDARA', description: 'TEST DESCRIPTION', }, "./template/emailtemplate.handlebars");
+        // await sendEmail('nimsaramahagedara@gmail.com', "TEST EMAIL", { name: 'NIMSARA MAHAGEDARA', description: 'TEST DESCRIPTION', }, "./template/emailtemplate.handlebars");
         res.status(200).json({
             token,
             userRole: isExist.role,
-            firstName: isExist.firstName
+            firstName: isExist.firstName,
+            rest
+            
         })
     } catch (error) {
         //console.log(error);
