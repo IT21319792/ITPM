@@ -59,7 +59,7 @@ function App() {
           <Route path='supervisorDash' element={<SupervisorDash />} />
 
           {/* other Routes  */}
-          <Route path='landingpage' element={<LandingPage />} />
+          <Route path='/' element={<LandingPage />} />
           <Route path='studentlogin' element={<StudentLogin />} />
           <Route path='studentsignup' element={<StudentSignUp/>} />
           <Route path='adminlogin' element={<AdminLogin />} />  
