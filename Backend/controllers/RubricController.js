@@ -104,7 +104,9 @@ const deleteRubric = async (req, res) => {
         },
       });
     }
-  };
+};
+
+
 
   
 export {addRubric,getRubrics,updateRubric,deleteRubric};
