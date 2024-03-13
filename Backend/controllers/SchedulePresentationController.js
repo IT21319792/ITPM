@@ -116,14 +116,15 @@ const deleteSchedule = async (req, res) => {
 };
 
 
-// create search function to search by schedule ID , group ID,date , location, and topic
+// create search function to search by schedule ID , group ID,date , location, and
 
 const searchSchedule = async (req, res) => {
     console.log(req.params.key)
     let data =await SchedulePresentationModel.find(
       {
         "$or": [
-          { "ScheduleID": {$regex:req.params.key}}
+          { "ScheduleID": {$regex:req.params.key}},
+          { "GroupID": {$regex:req.params.key}}
         ],
       }
     );
