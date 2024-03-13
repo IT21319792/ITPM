@@ -1,4 +1,3 @@
-import { get } from "mongoose";
 import RubricModel from "../models/RubricModel.js";
 
 // add new rubric
