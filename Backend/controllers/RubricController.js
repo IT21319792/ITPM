@@ -106,7 +106,28 @@ const deleteRubric = async (req, res) => {
     }
 };
 
+// create search function to search by rubric ID , topic name, and type
+
+const searchRubric = async (req, res) => {
+  console.log(req.params.key)
+  let data =await RubricModel.find(
+    {
+      "$or": [
+        { "rubricID": {$regex:req.params.key}},
+        { "topic": {$regex:req.params.key}},
+        { "type": {$regex:req.params.key}}
+      ],
+    }
+  );
+  console.log(data);
+  res.status(200).json({
+    message: "Rubric details",
+    data: data,
+  })
+};
+
+// write above fucntion with if search result is empty show empty jessage
 
 
-  
-export {addRubric,getRubrics,updateRubric,deleteRubric};
+
+export {addRubric,getRubrics,updateRubric,deleteRubric,searchRubric};
