@@ -44,7 +44,22 @@ const createSchedule = async (req, res) => {
     });
 };
 
-export {
-    createSchedule
-};
+// get all presentation schedules
+
+const getSchedules = async (req, res) => {
+    let results = await SchedulePresentationModel.find();
+    if (!results) {
+        res.status(500).json({
+            message: "Error while getting all presentation schedules",
+            error: "Something went wrong",
+        });
+    } else {
+        res.status(200).json({
+            message: "All presentation schedules details",
+            data: results,
+        });
+    }
+}
+
+export {createSchedule,getSchedules};
 
