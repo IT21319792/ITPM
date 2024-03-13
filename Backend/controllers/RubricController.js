@@ -125,8 +125,4 @@ const searchRubric = async (req, res) => {
   })
 };
 
-// write above fucntion with if search result is empty show empty jessage
-
-
-
 export {addRubric,getRubrics,updateRubric,deleteRubric,searchRubric};

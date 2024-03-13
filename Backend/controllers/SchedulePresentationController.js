@@ -115,5 +115,39 @@ const deleteSchedule = async (req, res) => {
     }
 };
 
-export {createSchedule,getSchedules,updateSchedule,deleteSchedule};
+
+// create search function to search by schedule ID , group ID,date , and location
+
+const searchSchedule = async (req, res) => {
+    console.log(req.params.key)
+    let date;
+    // Check if req.params.key can be parsed into a date
+    if (isNaN(Date.parse(req.params.key))) {
+        // If not, return an error or handle it appropriately
+        return res.status(400).json({ message: "Invalid date format" });
+    } else {
+        // If yes, parse it into a Date object
+        date = new Date(req.params.key);
+    }
+
+    let data = await SchedulePresentationModel.find(
+        {
+            "$or": [
+                { "ScheduleID": { $regex: req.params.key } },
+                { "GroupID": { $regex: req.params.key } },
+                { "date": date }, // Search by Date object
+                { "topic": { $regex: req.params.key } },
+                { "location": { $regex: req.params.key } }
+            ],
+        }
+    );
+    console.log(data);
+    res.status(200).json({
+        message: "Rubric details",
+        data: data,
+    })
+};
+
+
+export {createSchedule,getSchedules,updateSchedule,deleteSchedule,searchSchedule};
 
