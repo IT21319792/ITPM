@@ -57,6 +57,38 @@ const getRubrics = async (req, res) => {
   }
 };
 
+// create update function for rubric
+const updateRubric = async (req, res) => {
+    const {
+        rubricID,
+        topic,
+        criteria,
+        marks,
+        type
+    } = req.body;
+
+    const result = await RubricModel.findOneAndUpdate({
+        rubricID: rubricID
+    }, {
+        topic: topic,
+        criteria: criteria,
+        marks: marks,
+        type: type
+    });
+
+    if (!result) {
+        res.status(500).json({
+            message: "Error while updating rubric",
+            error: "Something went wrong",
+        });
+    } else {
+        res.status(200).json({
+            message: "Rubric updated successfully",
+            data: result,
+        });
+    }
+};
 
 
-export {addRubric,getRubrics};
+
+export {addRubric,getRubrics,updateRubric};
