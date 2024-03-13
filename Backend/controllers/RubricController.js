@@ -41,6 +41,22 @@ const addRubric = async (req, res) => {
     });
 };
 
+// get all rubrics
+const getRubrics = async (req, res) => {
+    let results = await RubricModel.find();
+  if (!results) {
+    res.status(500).json({
+      message: "Error while getting all runbrics",
+      error: "Something went wrong",
+    });
+  } else {
+    res.status(200).json({
+      message: "All rubrics details",
+      data: results,
+    });
+  }
+};
 
 
-export {addRubric};
+
+export {addRubric,getRubrics};
