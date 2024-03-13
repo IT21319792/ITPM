@@ -89,6 +89,22 @@ const updateRubric = async (req, res) => {
     }
 };
 
+// delete rubric
 
+const deleteRubric = async (req, res) => {
+    const response = await RubricModel.findByIdAndDelete(req.params.id);
+    if (!response) {
+      res.status(500).send(err);
+    } else {
+      res.status(200).json({
+        message: "Rubric Deleted successfully",
+        result: {
+          data: response,
+          response: true,
+        },
+      });
+    }
+  };
 
-export {addRubric,getRubrics,updateRubric};
+  
+export {addRubric,getRubrics,updateRubric,deleteRubric};
