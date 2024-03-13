@@ -98,5 +98,22 @@ const updateSchedule = async (req, res) => {
     }
 };
 
-export {createSchedule,getSchedules,updateSchedule};
+// delete sheculed presentation
+
+const deleteSchedule = async (req, res) => {
+    const response = await SchedulePresentationModel.findByIdAndDelete(req.params.id);
+    if (!response) {
+      res.status(500).send(err);
+    } else {
+      res.status(200).json({
+        message: "Scheduled Presentation Deleted Successfully",
+        result: {
+          data: response,
+          response: true,
+        },
+      });
+    }
+};
+
+export {createSchedule,getSchedules,updateSchedule,deleteSchedule};
 
