@@ -4,8 +4,10 @@ import dotenv from 'dotenv'
 import { dbConfig } from './utils/dbConfig.js';
 import cors from 'cors';
 import userRouter from './routes/UserRoutes.js';
+import RubricRouter from './routes/RubricRoutes.js';
 
-const port = process.env.PORT || 510;
+
+const PORT = process.env.PORT || 510;
 const app = express();
 app.use(express.json());
 dotenv.config();
@@ -19,10 +21,11 @@ app.get('/', async (req,res)=>{
 //Admin Routes
 app.use('/user',userRouter);
 
+app.use('/rubric', RubricRouter);
 
 dbConfig().then(()=>{
-    app.listen(port,()=>{
-        console.log(`Server is up and running on port ${port}`);
+    app.listen(PORT,()=>{
+        console.log(`Server is up and running on 🚀 @http://localhost:${PORT}`);
     })
 }).catch((err)=>{
     console.log(err);
