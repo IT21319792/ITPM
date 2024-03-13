@@ -115,5 +115,24 @@ const deleteSchedule = async (req, res) => {
     }
 };
 
-export {createSchedule,getSchedules,updateSchedule,deleteSchedule};
+
+// create search function to search by schedule ID , group ID,date , location, and topic
+
+const searchSchedule = async (req, res) => {
+    console.log(req.params.key)
+    let data =await SchedulePresentationModel.find(
+      {
+        "$or": [
+          { "ScheduleID": {$regex:req.params.key}}
+        ],
+      }
+    );
+    console.log(data);
+    res.status(200).json({
+      message: "Rubric details",
+      data: data,
+    })
+  };
+
+export {createSchedule,getSchedules,updateSchedule,deleteSchedule,searchSchedule};
 
