@@ -7,6 +7,7 @@ const SchedulePresentationSchema = new Schema({
     date : {type: String, required: true},
     time : {type: String, required: true},
     location : {type: String, required: true},
+    topic : {type: String, required: true},
     examiners : {type : Array,"default":[],required: true}
 }, {timestamps: true});
 
