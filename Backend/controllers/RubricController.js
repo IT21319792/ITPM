@@ -113,7 +113,8 @@ const searchRubric = async (req, res) => {
   let data =await RubricModel.find(
     {
       "$or": [
-        { "rubricID": {$regex:req.params.key}}
+        { "rubricID": {$regex:req.params.key}},
+        { "topic": {$regex:req.params.key}}
       ],
     }
   );
