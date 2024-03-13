@@ -5,7 +5,7 @@ const createSchedule = async (req, res) => {
     const {
         GroupID,
         date,
-        time,
+        timeDuration,
         location,
         topic,
         examiners
@@ -21,7 +21,7 @@ const createSchedule = async (req, res) => {
         ScheduleID: newScheuleID,
         GroupID,
         date,
-        time,
+        timeDuration,
         location,
         topic,
         examiners
@@ -61,5 +61,42 @@ const getSchedules = async (req, res) => {
     }
 }
 
-export {createSchedule,getSchedules};
+// update presentation schedule
+
+const updateSchedule = async (req, res) => {
+    const {
+        ScheduleID,
+        GroupID,
+        date,
+        timeDuration,
+        location,
+        topic,
+        examiners
+    } = req.body;
+
+    const result = await SchedulePresentationModel.findOneAndUpdate({
+        ScheduleID: ScheduleID
+    }, {
+        GroupID :GroupID,
+        date:date,
+        timeDuration :timeDuration,
+        location :location,
+        topic :topic,
+        examiners :examiners
+    });
+
+    if (!result) {
+        res.status(500).json({
+            message: "Error while updating scheduled presentation",
+            error: "Something went wrong",
+        });
+    } else {
+        res.status(200).json({
+            message: "Presentation schedule updated successfully",
+            data: result,
+        });
+    }
+};
+
+export {createSchedule,getSchedules,updateSchedule};
 
