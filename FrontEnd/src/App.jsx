@@ -16,6 +16,11 @@ import LandingPage from './pages/common/LandingPage';
 import StudentLogin from './components/StudentLogIn';
 import StudentSignUp from './components/StudentSignUp';
 import AdminLogin from './components/AdminLogIn';
+import ProjectMemberMng from './pages/co-ordinator/ProjectMemberMng/ProjectMemberMng';
+import ExaminerMng from './pages/co-ordinator/ExaminerMng/ExaminerMng';
+import StudentFinalMarks from './pages/co-ordinator/StdDetailsMng/StudentFinalMarks';
+import AssignmentDetails from './pages/co-ordinator/AssignmentMng/AssignmentDetails';
+import AddMarking from './pages/co-ordinator/Markings/AddMarking';
 
 
 
@@ -45,8 +50,14 @@ function App() {
 
           {/* Co-ordinator Routes  */}
           <Route path='coDash' element={<CoDash />} />
-
-
+          <Route path='proMembers' element={<ProjectMemberMng/>} />
+          <Route path='examiners' element={<ExaminerMng />} />
+          <Route path='stdDetails' element={<StudentFinalMarks />} />
+          <Route path='assignmentDetails' element={<AssignmentDetails />} />
+          <Route path='marking' element={<AddMarking/>} />
+          <Route path='home' element={<CoDash />} />
+        
+          
           {/* Examinar Routes  */}
           <Route path='examinarDash' element={<ExaminarDash />} />
 
