@@ -124,7 +124,8 @@ const searchSchedule = async (req, res) => {
       {
         "$or": [
           { "ScheduleID": {$regex:req.params.key}},
-          { "GroupID": {$regex:req.params.key}}
+          { "GroupID": {$regex:req.params.key}},
+          { "date": {$regex:req.params.key}},
         ],
       }
     );
