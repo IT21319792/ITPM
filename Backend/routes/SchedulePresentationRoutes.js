@@ -4,5 +4,6 @@ const SchduleRouter = express.Router();
 
 SchduleRouter.post('/createSchedule', createSchedule);
 SchduleRouter.get('/getSchedules', getSchedules);
+SchduleRouter.put('/putSchedule/:id', updateSchedule);
 
 export default SchduleRouter;
