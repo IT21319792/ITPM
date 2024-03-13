@@ -136,7 +136,8 @@ const searchSchedule = async (req, res) => {
                 { "ScheduleID": { $regex: req.params.key } },
                 { "GroupID": { $regex: req.params.key } },
                 { "date": date }, // Search by Date object
-                { "topic": { $regex: req.params.key } }
+                { "topic": { $regex: req.params.key } },
+                { "location": { $regex: req.params.key } }
             ],
         }
     );
