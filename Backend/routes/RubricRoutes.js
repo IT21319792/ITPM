@@ -5,6 +5,7 @@ const RubricRouter = express.Router();
 RubricRouter.post('/addrubric', addRubric);
 RubricRouter.get('/getrubrics', getRubrics);
 RubricRouter.put('/putrubric/:id', updateRubric);
+RubricRouter.delete('/deleterubric/:id', deleteRubric);
 
 export default RubricRouter;
 
