@@ -114,7 +114,8 @@ const searchRubric = async (req, res) => {
     {
       "$or": [
         { "rubricID": {$regex:req.params.key}},
-        { "topic": {$regex:req.params.key}}
+        { "topic": {$regex:req.params.key}},
+        { "type": {$regex:req.params.key}}
       ],
     }
   );
