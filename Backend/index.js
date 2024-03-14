@@ -4,6 +4,9 @@ import dotenv from 'dotenv'
 import { dbConfig } from './utils/dbConfig.js';
 import cors from 'cors';
 import userRouter from './routes/UserRoutes.js';
+import { assign } from 'nodemailer/lib/shared/index.js';
+import AssignMarkRouter from './routes/cordinatorRoutes/AssignMarkRouter.js';
+import AssignShedulerouter from './routes/cordinatorRoutes/AssignSheduleRouter.js';
 
 const port = process.env.PORT || 510;
 const app = express();
@@ -18,6 +21,8 @@ app.get('/', async (req,res)=>{
 
 //Admin Routes
 app.use('/user',userRouter);
+app.use('/assignMark',AssignMarkRouter);
+app.use('/assignShedule',AssignShedulerouter);
 
 
 dbConfig().then(()=>{
