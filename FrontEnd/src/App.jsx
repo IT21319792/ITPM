@@ -13,9 +13,13 @@ import MyResults from './pages/student/MyResults';
 import MyTeam from './pages/student/MyTeam';
 import Notifications from './pages/student/Notifications';
 import LandingPage from './pages/common/LandingPage';
-import StudentLogin from './components/StudentLogIn';
 import StudentSignUp from './components/StudentSignUp';
-import AdminLogin from './components/AdminLogIn';
+import Login from './components/LogIn';
+import Layout from './pages/common/Layout';
+import Notices from './pages/admin/Notices';
+import UserMNG from './pages/admin/UserMNG';
+import PublishAssignments from './pages/examinar/PublishAssignments';
+import Reports from './pages/supervisor/Reports';
 
 
 
@@ -30,17 +34,26 @@ function App() {
       <Routes>
 
 
+        {/* Common Routes  */}
+        <Route path='/' element={<LandingPage />} />
+        <Route path='studentsignup' element={<StudentSignUp />} />
+        <Route path='login' element={<Login />} />
+        <Route path='/dashboard' element={<Layout />} >
+
+
           {/* Admin Routes  */}
-          <Route path='adminDash' element={<AdminDash />} />
+          <Route path='/dashboard/adminDash' element={<AdminDash />} />
+          <Route path='/dashboard/notices' element={<Notices />} />
+          <Route path='/dashboard/userMNG' element={<UserMNG />} />
 
 
           {/* Student Routes  */}
-          <Route path='studentDash' element={<StudentDash />} />
-          <Route path='/assignments' element={<Assignments />} />
-          <Route path='/research' element={<Research/>} />
-          <Route path='/myResults' element={<MyResults/>} />
-          <Route path='/myTeam' element={<MyTeam/>} />
-          <Route path='/notifications' element={<Notifications/>} />
+          <Route path='/dashboard/studentDash' element={<StudentDash />} />
+          <Route path='/dashboard/assignments' element={<Assignments />} />
+          <Route path='/dashboard/research' element={<Research />} />
+          <Route path='/dashboard/myResults' element={<MyResults />} />
+          <Route path='/dashboard/myTeam' element={<MyTeam />} />
+          <Route path='/dashboard/notifications' element={<Notifications />} />
 
 
           {/* Co-ordinator Routes  */}
@@ -49,6 +62,7 @@ function App() {
 
           {/* Examinar Routes  */}
           <Route path='examinarDash' element={<ExaminarDash />} />
+          <Route path='/dashboard/publishAssignments' element={<PublishAssignments />} />
 
 
           {/* Project Member Routes  */}
@@ -57,19 +71,15 @@ function App() {
 
           {/* Supervisor Routes  */}
           <Route path='supervisorDash' element={<SupervisorDash />} />
-
-          {/* other Routes  */}
-          <Route path='/' element={<LandingPage />} />
-          <Route path='studentlogin' element={<StudentLogin />} />
-          <Route path='studentsignup' element={<StudentSignUp/>} />
-          <Route path='adminlogin' element={<AdminLogin />} />  
+          <Route path='/dashboard/reports' element={<Reports />} />
 
 
-       
+        </Route>
+
+        {/* other Routes  */}
 
 
 
-    
       </Routes>
 
 

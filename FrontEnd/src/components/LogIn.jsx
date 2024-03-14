@@ -2,8 +2,14 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import Cookies from 'js-cookie'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
-function AdminLogin() {
+function Login() {
+
+  const navigate=useNavigate()
+
   const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', contactNo: '', password: '', confirm_password: '' })
   
   const handleChange = (e) => {
@@ -16,9 +22,28 @@ function AdminLogin() {
   const handleSubmit = (e) => {
     e.preventDefault()
     axios.post('http://localhost:510/user/login', formData)
-    .then(()=>{
-      alert('User logged in successfully')
-      console.log('User logged in  successfully')//alert('User created successfully')
+    .then((res)=>{
+      Cookies.set('role', res.data.userRole);
+      Cookies.set('firstName', res.data.firstName)
+      if(res.data.userRole=='admin'){
+        navigate('/dashboard/adminDash')
+      }
+      else if(res.data.userRole=='student'){
+        navigate('/dashboard/studentDash')
+      }
+      else if(res.data.userRole=='examinar'){
+        navigate('/dashboard/examinarDash')
+      }
+      else if(res.data.userRole=='supervisor'){
+        navigate('/dashboard/supervisorDash')
+      }
+      else if(res.data.userRole=='member'){
+        navigate('/dashboard/pMemberDash')
+      }
+     
+
+      toast.success(`${res.data.userRole}, successfully Logged In!`)
+      console.log(res)//alert('User created successfully')
     })
     .catch((err)=>{
     console.log('Form data:', formData)
@@ -27,12 +52,13 @@ function AdminLogin() {
     })
   }
 
+
   return (
     
     <div className="bg-grey-lighter min-h-screen flex flex-col">
             <div className="container max-w-xl mx-auto flex-1 flex flex-col items-center justify-center px-2">
                 <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
-                    <h1 className="mb-8 text-3xl text-center">Admin Log In</h1>
+                    <h1 className="mb-8 text-3xl text-center">User Log In</h1>
                     <form onSubmit={handleSubmit} className="mb-4 md:flex md:flex-wrap md:justify-between" action="/signup/" method="post">
                    
                     <input 
@@ -84,4 +110,4 @@ function AdminLogin() {
   )
 }
 
-export default  AdminLogin;
+export default  Login;

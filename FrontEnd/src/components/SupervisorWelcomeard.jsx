@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import {toast} from 'react-toastify';
 
-const WelcomeCard = () => {
+const SupervisorWelcomeCard = () => {
   const navigate = useNavigate();
   const [currentTime, setCurrentTime] = useState(new Date());
   const [firstName, setFirstName] = useState('Loading');
@@ -51,7 +51,7 @@ const WelcomeCard = () => {
           Welcome, {firstName}
         </Typography>
         <Typography variant="subtitle1" component="div" className="mb-2 text-white">
-          {/* This is {userRole}  */} Student Dashboard
+          {/* This is {userRole}  */} Supervisor Dashboard
         </Typography>
         <Typography variant="body2" color="textSecondary" className="text-xs text-gray-400">
           {currentTime.toUTCString()}
@@ -65,5 +65,5 @@ const WelcomeCard = () => {
   );
 };
 
-export default WelcomeCard;
+export default SupervisorWelcomeCard;
 

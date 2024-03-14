@@ -46,7 +46,7 @@ export const AuthProvider = ({ children }) => {
     Cookies.remove('token', { path: '/' });
     Cookies.remove('pvt', { path: '/' });
     toast.warning('Logout Success!')
-    navigate('/')
+    navigate('/login')
   };
 
   return (
