@@ -6,17 +6,12 @@ import Sidebar from '../../components/Sidebar';
 
 function StudentDash() {
     return (
+        
         <>
-            <Sidebar /> {/* Move Sidebar to the left corner */}
-            
-            <div style={{ marginLeft: '240px' }}> {/* Adjust margin based on Sidebar width */}
-            
-                <TopNav />
-                <div style={{ marginTop: '10px', marginLeft:'10px'}}>
-                <WelcomeCard />
-                </div>
-                <BasicLineChart />
-            </div>
+        <WelcomeCard />
+        <h1>Student Dash</h1>
+        < BasicLineChart />
+        
         </>
     );
 }
