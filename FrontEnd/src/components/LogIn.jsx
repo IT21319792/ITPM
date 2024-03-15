@@ -40,6 +40,9 @@ function Login() {
       else if(res.data.userRole=='member'){
         navigate('/dashboard/pMemberDash')
       }
+      else if(res.data.userRole=='coordinator'){
+        navigate('/dashboard/coDash')
+      }
      
 
       toast.success(`${res.data.userRole}, successfully Logged In!`)

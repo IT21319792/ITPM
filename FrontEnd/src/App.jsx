@@ -63,7 +63,7 @@ function App() {
 
 
           {/* Co-ordinator Routes  */}
-          <Route path='coDash' element={<CoDash />} />
+          <Route path='/dashboard/coDash' element={<CoDash />} />
           <Route path='proMembers' element={<ProjectMemberMng/>} />
           <Route path='examiners' element={<ExaminerMng />} />
           <Route path='stdDetails' element={<StudentFinalMarks />} />

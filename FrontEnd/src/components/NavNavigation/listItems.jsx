@@ -191,3 +191,74 @@ export const memberListItems = (
   </React.Fragment>
 
 );
+
+{/*Co-ordinator Lists bucket for the sidebar navigations */}
+export const cordinatorListItems = (
+  <React.Fragment>
+    
+    <Link to={'/dashboard/coDash'}>
+      <ListItemButton>
+        <ListItemIcon>
+          <DashboardIcon />
+        </ListItemIcon>
+        <ListItemText primary="Dashboard" />
+      </ListItemButton>
+    </Link>
+
+    <Link to={'/dashboard/proMembers'}>
+      <ListItemButton>
+        <ListItemIcon>
+          <PeopleIcon />
+        </ListItemIcon>
+        <ListItemText primary="Project Members" />
+      </ListItemButton>
+    </Link>
+
+    <Link to={'/dashboard/examiners'}>
+      <ListItemButton>
+        <ListItemIcon>
+          <PeopleIcon />
+        </ListItemIcon>
+        <ListItemText primary="Examiners" />
+      </ListItemButton>
+    </Link>
+
+    <Link to={'/dashboard/stdDetails'}>
+      <ListItemButton>
+        <ListItemIcon>
+          <ScoreIcon />
+        </ListItemIcon>
+        <ListItemText primary="Student Details" />
+      </ListItemButton>
+    </Link>
+
+    <Link to={'/dashboard/assignmentDetails'}>
+      <ListItemButton>
+        <ListItemIcon>
+          <AssignmentIcon />
+        </ListItemIcon>
+        <ListItemText primary="Assignment Details" />
+      </ListItemButton>
+    </Link>
+
+    <Link to={'/dashboard/marking'}>
+      <ListItemButton>
+        <ListItemIcon>
+          <AssignmentIcon />
+        </ListItemIcon>
+        <ListItemText primary="Marking" />
+      </ListItemButton>
+    </Link>
+
+    <Link to={'/dashboard/home'}>
+      <ListItemButton>
+        <ListItemIcon>
+          <DashboardIcon />
+        </ListItemIcon>
+        <ListItemText primary="Home" />
+      </ListItemButton>
+    </Link>
+
+  
+  </React.Fragment>
+);
