@@ -5,6 +5,7 @@ import { dbConfig } from './utils/dbConfig.js';
 import cors from 'cors';
 import userRouter from './routes/UserRoutes.js';
 import RubricRouter from './routes/RubricRoutes.js';
+import MarkRouter from './routes/MarkRoutes.js';
 
 
 const PORT = process.env.PORT || 510;
@@ -22,6 +23,9 @@ app.get('/', async (req,res)=>{
 app.use('/user',userRouter);
 
 app.use('/rubric', RubricRouter);
+
+//Mark Routes
+app.use('/Mark', MarkRouter);
 
 dbConfig().then(()=>{
     app.listen(PORT,()=>{
