@@ -1,10 +1,16 @@
 import React from "react";
+import PMemberWelcomeard from '../../components/PMemberWelcomeCard';
 
 function PMemberDash () {
 
 
     return (
-        <h1>Project Member Dashboard</h1>
+        <>
+
+        <PMemberWelcomeard />
+
+        </>
+        
     )
 }
 export default PMemberDash;
