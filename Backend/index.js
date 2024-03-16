@@ -5,6 +5,7 @@ import { dbConfig } from './utils/dbConfig.js';
 import cors from 'cors';
 import userRouter from './routes/UserRoutes.js';
 import RubricRouter from './routes/RubricRoutes.js';
+import ScheduleRouter from './routes/SchedulePresentationRoutes.js';
 import MarkRouter from './routes/MarkRoutes.js';
 
 
@@ -21,8 +22,8 @@ app.get('/', async (req,res)=>{
 
 //Admin Routes
 app.use('/user',userRouter);
-
 app.use('/rubric', RubricRouter);
+app.use('/schedule', ScheduleRouter);
 
 //Mark Routes
 app.use('/Mark', MarkRouter);

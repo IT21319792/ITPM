@@ -1,13 +1,15 @@
 import React from "react";
-import TopNav from "../../components/TopNav";
+import SupervisorWelcomeCard from '../../components/SupervisorWelcomeard';
 
 function SupervisorDash () {
 
-
     return (
        
+        <>
         
-        <TopNav />
+        <SupervisorWelcomeCard />
+        
+        </>
         
        
     );
