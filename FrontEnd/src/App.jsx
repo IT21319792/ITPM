@@ -20,6 +20,7 @@ import Notices from './pages/admin/Notices';
 import UserMNG from './pages/admin/UserMNG';
 import PublishAssignments from './pages/examinar/PublishAssignments';
 import Reports from './pages/supervisor/Reports';
+import SchedulePresentation from './pages/projectMember/SchedulePresentation';
 
 
 
@@ -66,7 +67,11 @@ function App() {
 
 
           {/* Project Member Routes  */}
-          <Route path='pMemberDash' element={<PMemberDash />} />
+          <Route path='PMDashboard' element={<PMemberDash />} />
+          <Route path='PMDashboard/AddSchedule' element={<SchedulePresentation />} />
+          
+          
+
 
 
           {/* Supervisor Routes  */}
