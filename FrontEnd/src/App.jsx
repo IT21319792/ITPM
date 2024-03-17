@@ -4,7 +4,7 @@ import StudentDash from './pages/student/StudentDash';
 import AdminDash from './pages/admin/AdminDash';
 import CoDash from './pages/co-ordinator/CoDash';
 import ExaminarDash from './pages/examinar/ExaminarDash';
-import PMemberDash from './pages/projectMember/new2';
+import PMemberDash from './pages/projectMember/PMemberDash';
 import SupervisorDash from './pages/supervisor/SupervisorDash';
 import Assignments from './pages/student/Assignments';
 import Research from './pages/student/Research';
