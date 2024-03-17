@@ -1,11 +1,10 @@
 import { useState } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-
 import StudentDash from './pages/student/StudentDash';
 import AdminDash from './pages/admin/AdminDash';
 import CoDash from './pages/co-ordinator/CoDash';
 import ExaminarDash from './pages/examinar/ExaminarDash';
-import PMemberDash from './pages/projectMember/PMemberDash';
+import PMemberDash from './pages/projectMember/new2';
 import SupervisorDash from './pages/supervisor/SupervisorDash';
 import Assignments from './pages/student/Assignments';
 import Research from './pages/student/Research';
@@ -23,23 +22,17 @@ import Reports from './pages/supervisor/Reports';
 import SchedulePresentation from './pages/projectMember/SchedulePresentation';
 
 
-
-
-
-
 function App() {
 
   return (
     <BrowserRouter>
 
       <Routes>
-
-
         {/* Common Routes  */}
         <Route path='/' element={<LandingPage />} />
         <Route path='studentsignup' element={<StudentSignUp />} />
         <Route path='login' element={<Login />} />
-        <Route path='/dashboard' element={<Layout />} >
+        <Route path='/dashboard' element={<Layout/>} >
 
 
           {/* Admin Routes  */}
@@ -67,23 +60,19 @@ function App() {
 
 
           {/* Project Member Routes  */}
-          <Route path='PMDashboard' element={<PMemberDash />} />
-          <Route path='PMDashboard/AddSchedule' element={<SchedulePresentation />} />
+          <Route path='pMemberDash' element={<PMemberDash />} />
+          <Route path='/dashboard/pMemberDash/SchedulePresentation' element={<SchedulePresentation />} /> 
+
           
           
-
-
 
           {/* Supervisor Routes  */}
           <Route path='supervisorDash' element={<SupervisorDash />} />
           <Route path='/dashboard/reports' element={<Reports />} />
 
-
         </Route>
 
         {/* other Routes  */}
-
-
 
       </Routes>
 
