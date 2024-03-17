@@ -131,6 +131,15 @@ export const examinarListItems = (
       </ListItemButton>
     </Link>
 
+    <Link to={'/dashboard/test'}>
+      <ListItemButton>
+        <ListItemIcon>
+          <DashboardIcon />
+        </ListItemIcon>
+        <ListItemText primary="test" />
+      </ListItemButton>
+    </Link>
+
   
   </React.Fragment>
 
