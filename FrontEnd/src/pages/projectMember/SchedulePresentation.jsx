@@ -164,6 +164,12 @@ function SchedulePresentation() {
                     </p>
                 </div>
               </div>
+
+              <div className="col mt-5">
+                <div className="flex justify-end mr-7 align-items-center">
+                  <button type="button" className="btn btnAdd hover:bg-blue-500 bg-blue-700 text-white font-bold py-2 px-4 rounded" id="btnAdd " >Publish Schedule</button>
+                </div>
+              </div>
             </form>
           </div>
         </div>
