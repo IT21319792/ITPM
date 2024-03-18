@@ -1,69 +1,60 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 
 const PMemberWelcomeCard = () => {
   const navigate = useNavigate();
-  const [currentTime, setCurrentTime] = useState(new Date());
   const [firstName, setFirstName] = useState('Loading');
-  // const [userRole, setUserRole] = useState('Loading');
   const cardStyle = {
-    minWidth: 250,
-    background: 'linear-gradient(to bottom right, #293660, rgba(0, 0, 0, 0)), url(https://cutewallpaper.org/21/school-background-image/Back-To-School-Background-in-2019-School-fonts-Cartoon-.jpg) top right no-repeat',
-    backgroundSize: 'cover',
+    minWidth: 200,
+    background: '#0B7528',
     position: 'relative',
+    margin: '0 5px', // Equal margins on both sides
+    paddingLeft: 0, // Removed padding from the left side
   };
 
-  // Update the current time every second
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
+  // Retrieve first name from cookies on component mount
+  useState(() => {
     setFirstName(Cookies.get('firstName') || 'Backend eken Badu ennaha:(');
-    // setUserRole(Cookies.get('userRole') || 'Backend eken Badu ennaha:(');
-
-
-    // Clean up the interval when the component unmounts
-    return () => clearInterval(intervalId);
   }, []);
-
 
   //handle the logout function with deleting all cookies
   const handleLogout = () => {
-
     Cookies.remove('userRole', { path: '/' });
     Cookies.remove('token', { path: '/' });
     Cookies.remove('pvt', { path: '/' });
-    toast.warning('Logout Success!')
+    toast.warning('Logout Success!');
     navigate('/login');
   };
 
   return (
-    <Card sx={cardStyle} className='mb-3'>
-
-      <CardContent>
-        <Typography variant='h5' gutterBottom className="text-lg font-semibold">
-          Welcome, {firstName}
-        </Typography>
-        <Typography variant="subtitle1" component="div" className="mb-2 text-white">
-          {/* This is {userRole}  */} Project Member Dashboard
-        </Typography>
-        <Typography variant="body2" color="textSecondary" className="text-xs text-gray-400">
-          {currentTime.toUTCString()}
-        </Typography>
-      </CardContent>
-      <Button size="small" onClick={handleLogout} className="mt-4 bg-lightBlue-500 text-white hover:bg-lightBlue-600 hover:text-white">
-        Log out
-      </Button>
-
-    </Card>
+    <>
+      <Card sx={cardStyle}>
+        <CardContent>
+          <Typography variant='h6' gutterBottom className="text-lg font-semibold">
+            Welcome, {firstName} to Project Member Dashboard
+          </Typography>
+          <Button
+            variant="contained"
+            color="warning"
+            size="small"
+            onClick={handleLogout}
+            style={{ position: 'absolute', top: 18, right: 15 }}
+          >
+            Log out
+          </Button>
+        </CardContent>
+      </Card>
+      <Typography variant="body2" color="textSecondary" style={{ textAlign: 'right', marginRight: '15px' }}>
+        {new Date().toUTCString()} {/* Display current time */}
+      </Typography>
+    </>
   );
 };
 
 export default PMemberWelcomeCard;
-

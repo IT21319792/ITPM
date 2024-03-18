@@ -1,15 +1,20 @@
 import React from "react";  
+import CoordinatorWelcomeCard from "../../components/CoordinatorWelcomeCard";
 
 
 
 function CoDash () {
 
 
+
     return (
-        <>
-        <h1>This is Co-ordinator Dashboard</h1>
-        </>
-  
-    )
+        <div className="p-4">
+        <CoordinatorWelcomeCard />
+        
+        <p className="mt-2 text-gray-600">charts here</p>
+      </div>
+    
+     
+    );
 }
 export default CoDash;
