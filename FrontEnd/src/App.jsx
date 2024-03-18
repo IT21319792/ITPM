@@ -29,6 +29,9 @@ import ProjectMemberAdd from './pages/co-ordinator/ProjectMemberMng/ProjectMembe
 import PresentationDetails from './pages/co-ordinator/PresentationMng/PresentationDetails';
 import ProjectMemberAssign from './pages/co-ordinator/ProjectMemberMng/ProjectMemberAssign';
 import ExaminerPresentationMarks from './pages/examinar/examinerPresentationMarks';
+import ExaminerAdd from './pages/co-ordinator/ExaminerMng/ExaminerAdd';
+import SupervisorMng from './pages/co-ordinator/Supervisor Mng/SupervisorMng';
+import SupervisorAdd from './pages/co-ordinator/Supervisor Mng/SupervisorAdd';
 
 
 
@@ -45,7 +48,7 @@ function App() {
         <Route path='/' element={<LandingPage />} />
         <Route path='studentsignup' element={<StudentSignUp />} />
         <Route path='login' element={<Login />} />
-        <Route path='/dashboard' element={<Layout/>} >
+        <Route path='/dashboard' element={<Layout />} >
 
 
           {/* Admin Routes  */}
@@ -65,29 +68,32 @@ function App() {
 
           {/* Co-ordinator Routes  */}
           <Route path='/dashboard' element={<CoDash />} />
-          <Route path='/dashboard/proMembers' element={<ProjectMemberMng/>} />
-          <Route path ='/dashboard/addmember' element={<ProjectMemberAdd/>} />
-          <Route path='/dashboard/assignmember' element={<ProjectMemberAssign/>} />
+          <Route path='/dashboard/proMembers' element={<ProjectMemberMng />} />
+          <Route path='/dashboard/addmember' element={<ProjectMemberAdd />} />
+          <Route path='/dashboard/assignmember' element={<ProjectMemberAssign />} />
           <Route path='/dashboard/examiners' element={<ExaminerMng />} />
+          <Route path='/dashboard/addexaminer' element={<ExaminerAdd />} />
+          <Route path='/dashboard/supervisors' element={<SupervisorMng />} />
+          <Route path='/dashboard/addSupervisor' element={<SupervisorAdd />} />
           <Route path='/dashboard/stdDetails' element={<StudentFinalMarks />} />
           <Route path='/dashboard/assignmentDetails' element={<AssignmentDetails />} />
-          <Route path = '/dashboard/presentationDetails'element = {<PresentationDetails/>} /> 
-          <Route path='/dashboard/marking' element={<AddMarking/>} />
+          <Route path='/dashboard/presentationDetails' element={<PresentationDetails />} />
+          <Route path='/dashboard/marking' element={<AddMarking />} />
 
-        
-          
+
+
           {/* Examinar Routes  */}
           <Route path='examinarDash' element={<ExaminarDash />} />
-          {/* <Route path='/dashboard/marksAssignments' element={<ExaminerPresentationMarks />} /> */}
-          {/* <Route path='/dashboard/addMarks' element={<ExaminerPresentationMarks />} /> */}
+          <Route path='/dashboard/marksAssignments' element={<ExaminerPresentationMarks />} />
+          <Route path='/dashboard/addMarks' element={<ExaminerPresentationMarks />} />
 
 
           {/* Project Member Routes  */}
           <Route path='pMemberDash' element={<PMemberDash />} />
-          <Route path='/dashboard/pMemberDash/SchedulePresentation' element={<SchedulePresentation />} /> 
+          <Route path='/dashboard/pMemberDash/SchedulePresentation' element={<SchedulePresentation />} />
 
-          
-          
+
+
 
           {/* Supervisor Routes  */}
           <Route path='supervisorDash' element={<SupervisorDash />} />

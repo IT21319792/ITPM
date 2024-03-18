@@ -3,11 +3,11 @@ import CoordinatorWelcomeCard from '../../../components/CoordinatorWelcomeCard'
 import { Navigate, useNavigate } from 'react-router-dom'
 import axios from 'axios';
 
-function ProjectMemberMng() {
+function SupervisorMng() {
   const Navigate = useNavigate();
   
   const handlePage = () => {
-   Navigate('/dashboard/addexaminer');
+   Navigate('/dashboard/addSupervisor');
   }
   
   const handleAssignPage = (rowData) => {
@@ -27,8 +27,8 @@ function ProjectMemberMng() {
   useEffect(() => {
     axios.get('http://localhost:510/user')
       .then(res => {
-        const members = res.data.filter(user => user.role === "examinar");
-        setTableData(members);
+        const supervisor = res.data.filter(user => user.role === "supervisor");
+        setTableData(supervisor);
       })
       .catch(err => {
         console.log(err);
@@ -79,4 +79,4 @@ function ProjectMemberMng() {
   )
 }
 
-export default ProjectMemberMng;
+export default SupervisorMng;
