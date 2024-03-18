@@ -1,3 +1,4 @@
+
 import * as React from 'react';
 import BasicLineChart from '../../components/BasicLineChart';
 import TopNav from '../../components/TopNav';
@@ -8,13 +9,11 @@ import { adminListItems, studentListItems, examinarListItems, supervisorListItem
 import { useEffect } from 'react';
 import Cookies from 'js-cookie';
 
+
 export default function Layout() {
-
-    const userRole=Cookies.get('role');
-    const [navLinks,setNavlinks]=React.useState()
-   
-
-    useEffect(() => {
+  const userRole = Cookies.get("role");
+  const [navLinks, setNavlinks] = React.useState();
+  useEffect(() => {
         switch (userRole) {
           case "admin": //Admin
             setNavlinks(adminListItems);
@@ -43,17 +42,21 @@ export default function Layout() {
       }, []);
 
 
-    return (
-        <>
-            <Sidebar navLinks={navLinks}/>
-            
-            <div style={{ marginLeft: '240px' }}> {/* Adjust margin based on Sidebar width */}
-            
-                <TopNav />
-                <div style={{ marginTop: '10px', marginLeft:'10px'}}>
-                <Outlet />
-                </div>
-            </div>
-        </>
-    );
+  return (
+    <>
+      <Sidebar navLinks={navLinks} />
+
+
+      <div style={{ marginLeft: "240px" }}>
+        {" "}
+        {/* Adjust margin based on Sidebar width */}
+        <TopNav />
+        <div className="h-screen bg-lightWhite">
+          <Outlet />
+        </div>
+      </div>
+    </>
+  );
 }
+
+
