@@ -93,7 +93,7 @@ function SchedulePresentation() {
                      invalid:border-pink-500 invalid:text-pink-600
                      focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
                     />
-                    <p class="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
+                    <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
                       Please provide a title for schedule.
                     </p>
                 </div>
@@ -164,7 +164,7 @@ function SchedulePresentation() {
                     </p>
                 </div>
               </div>
-
+              {/* Button to publish schedule */}
               <div className="col mt-5">
                 <div className="flex justify-end mr-7 align-items-center">
                   <button type="button" className="btn btnAdd hover:bg-blue-500 bg-blue-700 text-white font-bold py-2 px-4 rounded" id="btnAdd " >Publish Schedule</button>
