@@ -29,12 +29,17 @@ export const Login = async (req, res) => {
         // }
         const id = isExist._id.toString();
         const token = createToken(id);
+        const { password: pass, ...rest } = isExist._doc;
+        const expirydare = new Date(Date.now() + 3600000);//1 hour
+        res.cookie('access_token', token, { httpOnly: true, expires: expirydare});
         
-        //await sendEmail('nimsaramahagedara@gmail.com', "TEST EMAIL", { name: 'NIMSARA MAHAGEDARA', description: 'TEST DESCRIPTION', }, "./template/emailtemplate.handlebars");
+        // await sendEmail('nimsaramahagedara@gmail.com', "TEST EMAIL", { name: 'NIMSARA MAHAGEDARA', description: 'TEST DESCRIPTION', }, "./template/emailtemplate.handlebars");
         res.status(200).json({
             token,
             userRole: isExist.role,
-            firstName: isExist.firstName
+            firstName: isExist.firstName,
+            rest
+            
         })
     } catch (error) {
         //console.log(error);
@@ -123,6 +128,14 @@ export const updateAccount = async (req, res) => {
 
         const updatedAccount = await UserModel.findByIdAndUpdate( id, Data );
         res.status(200).json({ message: 'Account Updated Successfully', subject: updatedAccount });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+export const getAllUsers = async (req, res) => {
+    try {
+        const users = await UserModel.find();
+        res.status(200).json(users);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
