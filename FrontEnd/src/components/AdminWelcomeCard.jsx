@@ -10,8 +10,8 @@ import {toast} from 'react-toastify';
 const AdminWelcomeCard = () => {
   const navigate = useNavigate();
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [firstName, setFirstName] = useState('Loading');
-  // const [userRole, setUserRole] = useState('Loading');
+  const [firstName, setFirstName] = useState();
+  const [userRole, setUserRole] = useState();
   const cardStyle = {
     minWidth: 250,
     background: 'linear-gradient(to bottom right, #293660, rgba(0, 0, 0, 0)), url(https://cutewallpaper.org/21/school-background-image/Back-To-School-Background-in-2019-School-fonts-Cartoon-.jpg) top right no-repeat',
@@ -24,8 +24,8 @@ const AdminWelcomeCard = () => {
     const intervalId = setInterval(() => {
       setCurrentTime(new Date());
     }, 1000);
-    setFirstName(Cookies.get('firstName') || 'Backend eken Badu ennaha:(');
-    // setUserRole(Cookies.get('userRole') || 'Backend eken Badu ennaha:(');
+    setFirstName(Cookies.get('firstName') );
+   setUserRole(Cookies.get('role'));
 
 
     // Clean up the interval when the component unmounts
@@ -51,7 +51,7 @@ const AdminWelcomeCard = () => {
           Welcome, {firstName}
         </Typography>
         <Typography variant="subtitle1" component="div" className="mb-2 text-white">
-          {/* This is {userRole}  */} Admin Dashboard
+           This is {userRole} Dashboard
         </Typography>
         <Typography variant="body2" color="textSecondary" className="text-xs text-gray-400">
           {currentTime.toUTCString()}

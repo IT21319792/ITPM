@@ -1,17 +1,11 @@
 
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import Cookies from 'js-cookie'
-import { useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
 
-function Login() {
-
-  const navigate=useNavigate()
-
+function StudentLogin() {
   const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', contactNo: '', password: '', confirm_password: '' })
-  
+  const navigate = useNavigate()
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -22,31 +16,10 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault()
     axios.post('http://localhost:510/user/login', formData)
-    .then((res)=>{
-      Cookies.set('role', res.data.userRole);
-      Cookies.set('firstName', res.data.firstName)
-      if(res.data.userRole=='admin'){
-        navigate('/dashboard/adminDash')
-      }
-      else if(res.data.userRole=='student'){
-        navigate('/dashboard/studentDash')
-      }
-      else if(res.data.userRole=='examinar'){
-        navigate('/dashboard/examinarDash')
-      }
-      else if(res.data.userRole=='supervisor'){
-        navigate('/dashboard/supervisorDash')
-      }
-      else if(res.data.userRole=='member'){
-        navigate('/dashboard/pMemberDash')
-      }
-      else if(res.data.userRole=='coordinator'){
-        navigate('/dashboard')
-      }
-     
-
-      toast.success(`${res.data.userRole}, successfully Logged In!`)
-      console.log(res)//alert('User created successfully')
+    .then(()=>{
+      alert('User logged in successfully')
+      console.log('User logged in  successfully')//alert('User created successfully')
+      navigate ('/studentDash')
     })
     .catch((err)=>{
     console.log('Error:', err)//alert('User creation failed')
@@ -54,13 +27,12 @@ function Login() {
     })
   }
 
-
   return (
     
     <div className="bg-grey-lighter min-h-screen flex flex-col">
             <div className="container max-w-xl mx-auto flex-1 flex flex-col items-center justify-center px-2">
                 <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
-                    <h1 className="mb-8 text-3xl text-center">User Log In</h1>
+                    <h1 className="mb-8 text-3xl text-center">Student Log In</h1>
                     <form onSubmit={handleSubmit} className="mb-4 md:flex md:flex-wrap md:justify-between" action="/signup/" method="post">
                    
                     <input 
@@ -99,23 +71,17 @@ function Login() {
                 </div>
 
                 <div className="text-grey-dark mt-6 flex gap-2">
-                    <p>Cannot Sign In ? </p>
+                    <p>Do not have an account? </p>
+                    <Link to="../studentsignup" >
+                    <h1 className="no-underline border-b border-blue text-blue-700" >
+                       Sign Up!
+                    </h1>
+                    </Link>
                     
-                    <span className="no-underline border-b border-blue text-blue-700" href="../login/">
-                       Contact Administrators!
-                    </span>
-                </div>
-
-                <div className="text-grey-dark mt-6 flex gap-2">
-                    <Link to='/'>
-                    <span className="no-underline border-b border-blue text-blue-700" href="../login/">
-                       Home
-                    </span>  
-                    </Link> 
                 </div>
             </div>
         </div>
   )
 }
 
-export default  Login;
+export default  StudentLogin;

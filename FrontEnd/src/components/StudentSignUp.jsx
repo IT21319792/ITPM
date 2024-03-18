@@ -1,11 +1,11 @@
 
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link,useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 function StudentSignUp() {
   const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', contactNo: '', password: '', confirm_password: '' })
-  
+  const navigate = useNavigate()
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -19,6 +19,7 @@ function StudentSignUp() {
     .then(()=>{
       alert('User created successfully')
       console.log('User created successfully')//alert('User created successfully')
+      navigate ('/studentlogin')
     })
     .catch((err)=>{
     console.log('Form data:', formData)
@@ -130,7 +131,7 @@ function StudentSignUp() {
 
                 <div className="text-grey-dark mt-6 flex gap-2">
                     <p>Already have an account? </p>
-                    <Link to="login" >
+                    <Link to="../studentlogin" >
                     <span className="no-underline border-b border-blue text-blue-700" href="../login/">
                         Log in
                     </span>

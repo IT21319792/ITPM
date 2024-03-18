@@ -122,7 +122,7 @@ export const examinarListItems = (
       </ListItemButton>
     </Link>
 
-    <Link to={'/dashboard/publishAssignments'}>
+    <Link to={'/dashboard/marksAssignments'}>
       <ListItemButton>
         <ListItemIcon>
           <AssignmentIcon />
@@ -190,4 +190,76 @@ export const memberListItems = (
   
   </React.Fragment>
 
+);
+
+{/*Co-ordinator Lists bucket for the sidebar navigations */}
+export const cordinatorListItems = (
+  <React.Fragment>
+    
+    <Link to={'/dashboard'}>
+      <ListItemButton>
+        <ListItemIcon>
+          <DashboardIcon />
+        </ListItemIcon>
+        <ListItemText primary="Dashboard" />
+      </ListItemButton>
+    </Link>
+
+    <Link to={'/dashboard/proMembers'}>
+      <ListItemButton>
+        <ListItemIcon>
+          <PeopleIcon />
+        </ListItemIcon>
+        <ListItemText primary="Project Members" />
+      </ListItemButton>
+    </Link>
+
+    <Link to={'/dashboard/examiners'}>
+      <ListItemButton>
+        <ListItemIcon>
+          <PeopleIcon />
+        </ListItemIcon>
+        <ListItemText primary="Examiners" />
+      </ListItemButton>
+    </Link>
+
+    <Link to={'/dashboard/stdDetails'}>
+      <ListItemButton>
+        <ListItemIcon>
+          <ScoreIcon />
+        </ListItemIcon>
+        <ListItemText primary="Student Details" />
+      </ListItemButton>
+    </Link>
+
+    <Link to={'/dashboard/assignmentDetails'}>
+      <ListItemButton>
+        <ListItemIcon>
+          <AssignmentIcon />
+        </ListItemIcon>
+        <ListItemText primary="Assignment Details" />
+      </ListItemButton>
+    </Link>
+
+    <Link to={'/dashboard/presentationDetails'}>
+      <ListItemButton>
+        <ListItemIcon>
+          <AssignmentIcon />
+        </ListItemIcon>
+        <ListItemText primary="Presentation Details" />
+      </ListItemButton>
+    </Link>
+
+    <Link to={'/dashboard/marking'}>
+      <ListItemButton>
+        <ListItemIcon>
+          <AssignmentIcon />
+        </ListItemIcon>
+        <ListItemText primary="Marking" />
+      </ListItemButton>
+    </Link>
+
+
+  
+  </React.Fragment>
 );
