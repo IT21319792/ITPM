@@ -4,7 +4,7 @@ import "../../styles/SchedulePresentation.css";
 function SchedulePresentation() {
   return (
     <div className="main_container w-full h-full">
-      <div className="item fw-bold">
+      <div className="item fw-bold text-center">
         <h5 className="pageName">Schedule Presentation</h5>
       </div>
 
