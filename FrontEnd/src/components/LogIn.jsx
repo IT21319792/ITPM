@@ -41,7 +41,7 @@ function Login() {
         navigate('/dashboard/pMemberDash')
       }
       else if(res.data.userRole=='coordinator'){
-        navigate('/dashboard/coDash')
+        navigate('/dashboard')
       }
      
 

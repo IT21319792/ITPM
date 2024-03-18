@@ -122,7 +122,7 @@ export const examinarListItems = (
       </ListItemButton>
     </Link>
 
-    <Link to={'/dashboard/publishAssignments'}>
+    <Link to={'/dashboard/marksAssignments'}>
       <ListItemButton>
         <ListItemIcon>
           <AssignmentIcon />
@@ -196,7 +196,7 @@ export const memberListItems = (
 export const cordinatorListItems = (
   <React.Fragment>
     
-    <Link to={'/dashboard/coDash'}>
+    <Link to={'/dashboard'}>
       <ListItemButton>
         <ListItemIcon>
           <DashboardIcon />
@@ -241,6 +241,15 @@ export const cordinatorListItems = (
       </ListItemButton>
     </Link>
 
+    <Link to={'/dashboard/presentationDetails'}>
+      <ListItemButton>
+        <ListItemIcon>
+          <AssignmentIcon />
+        </ListItemIcon>
+        <ListItemText primary="Presentation Details" />
+      </ListItemButton>
+    </Link>
+
     <Link to={'/dashboard/marking'}>
       <ListItemButton>
         <ListItemIcon>
@@ -250,14 +259,6 @@ export const cordinatorListItems = (
       </ListItemButton>
     </Link>
 
-    <Link to={'/dashboard/home'}>
-      <ListItemButton>
-        <ListItemIcon>
-          <DashboardIcon />
-        </ListItemIcon>
-        <ListItemText primary="Home" />
-      </ListItemButton>
-    </Link>
 
   
   </React.Fragment>

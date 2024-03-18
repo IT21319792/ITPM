@@ -12,12 +12,15 @@ export default function Layout() {
 
     const userRole=Cookies.get('role');
     const [navLinks,setNavlinks]=React.useState()
-    
+   
 
     useEffect(() => {
         switch (userRole) {
           case "admin": //Admin
             setNavlinks(adminListItems);
+            break;
+          case "coordinator": //Coordinator
+            setNavlinks(cordinatorListItems);
             break;
           case "student": //Student
             setNavlinks(studentListItems);
@@ -30,9 +33,6 @@ export default function Layout() {
             break;
           case "member": //Project Member
             setNavlinks(memberListItems);
-            break;
-          case "co-ordinator": //Co-ordinator
-            setNavlinks(cordinatorListItems);
             break;
           
           default:          
@@ -57,4 +57,3 @@ export default function Layout() {
         </>
     );
 }
-

@@ -1,13 +1,13 @@
 import React from 'react'
 import CoordinatorWelcomeCard from '../../../components/CoordinatorWelcomeCard'
 
-function AssignmentDetails() {
+function PresentationDetails() {
   return (
 
       <div className="p-4">
         <CoordinatorWelcomeCard/>
        
-        <p className="mt-2 text-gray-600">Assignmentss</p>
+        <p className="mt-2 text-gray-600">Presentation details</p>
 
        
       </div>
@@ -16,4 +16,4 @@ function AssignmentDetails() {
   )
 }
 
-export default AssignmentDetails
+export default PresentationDetails

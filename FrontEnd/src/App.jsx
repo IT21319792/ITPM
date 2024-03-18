@@ -26,6 +26,10 @@ import ExaminerMng from './pages/co-ordinator/ExaminerMng/ExaminerMng';
 import StudentFinalMarks from './pages/co-ordinator/StdDetailsMng/StudentFinalMarks';
 import AssignmentDetails from './pages/co-ordinator/AssignmentMng/AssignmentDetails';
 import AddMarking from './pages/co-ordinator/Markings/AddMarking';
+import ProjectMemberAdd from './pages/co-ordinator/ProjectMemberMng/ProjectMemberAdd';
+import PresentationDetails from './pages/co-ordinator/PresentationMng/PresentationDetails';
+import ProjectMemberAssign from './pages/co-ordinator/ProjectMemberMng/ProjectMemberAssign';
+import ExaminerPresentationMarks from './pages/examinar/examinerPresentationMarks';
 
 
 
@@ -63,18 +67,22 @@ function App() {
 
 
           {/* Co-ordinator Routes  */}
-          <Route path='/dashboard/coDash' element={<CoDash />} />
-          <Route path='proMembers' element={<ProjectMemberMng/>} />
-          <Route path='examiners' element={<ExaminerMng />} />
-          <Route path='stdDetails' element={<StudentFinalMarks />} />
-          <Route path='assignmentDetails' element={<AssignmentDetails />} />
-          <Route path='marking' element={<AddMarking/>} />
-          <Route path='home' element={<CoDash />} />
+          <Route path='/dashboard' element={<CoDash />} />
+          <Route path='/dashboard/proMembers' element={<ProjectMemberMng/>} />
+          <Route path ='/dashboard/addmember' element={<ProjectMemberAdd/>} />
+          <Route path='/dashboard/assignmember' element={<ProjectMemberAssign/>} />
+          <Route path='/dashboard/examiners' element={<ExaminerMng />} />
+          <Route path='/dashboard/stdDetails' element={<StudentFinalMarks />} />
+          <Route path='/dashboard/assignmentDetails' element={<AssignmentDetails />} />
+          <Route path = '/dashboard/presentationDetails'element = {<PresentationDetails/>} /> 
+          <Route path='/dashboard/marking' element={<AddMarking/>} />
+
         
           
           {/* Examinar Routes  */}
           <Route path='examinarDash' element={<ExaminarDash />} />
-          <Route path='/dashboard/publishAssignments' element={<PublishAssignments />} />
+          {/* <Route path='/dashboard/marksAssignments' element={<ExaminerPresentationMarks />} /> */}
+          {/* <Route path='/dashboard/addMarks' element={<ExaminerPresentationMarks />} /> */}
 
 
           {/* Project Member Routes  */}

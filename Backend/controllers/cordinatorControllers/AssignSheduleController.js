@@ -1,4 +1,5 @@
 import PrMemberAssignShedule from '../../models/cordinatorModels/PrMemberAssignShedule.js';
+import PresentationMarksModel from '../../models/examinerModels/AddMark.js';
 
 //create- assigning pr member to shedule presentation
 export const assignShedule = async(req,res)=>{
@@ -120,6 +121,3 @@ export const searchAssignShedule = async(req,res)=>{
     }
 }
 
-
-// export all
-// export default {assignShedule, getAssignShedule, updateAssignedShedule, deleteAssignShedule, getOneAssignShedule};
