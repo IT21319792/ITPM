@@ -1,4 +1,3 @@
-
 import * as React from 'react';
 import BasicLineChart from '../../components/BasicLineChart';
 import TopNav from '../../components/TopNav';
@@ -9,11 +8,11 @@ import { adminListItems, studentListItems, examinarListItems, supervisorListItem
 import { useEffect } from 'react';
 import Cookies from 'js-cookie';
 
+    const userRole=Cookies.get('role');
+    const [navLinks,setNavlinks]=React.useState()
+   
 
-export default function Layout() {
-  const userRole = Cookies.get("role");
-  const [navLinks, setNavlinks] = React.useState();
-  useEffect(() => {
+    useEffect(() => {
         switch (userRole) {
           case "admin": //Admin
             setNavlinks(adminListItems);
@@ -45,8 +44,6 @@ export default function Layout() {
   return (
     <>
       <Sidebar navLinks={navLinks} />
-
-
       <div style={{ marginLeft: "240px" }}>
         {" "}
         {/* Adjust margin based on Sidebar width */}
