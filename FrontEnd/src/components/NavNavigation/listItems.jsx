@@ -187,6 +187,15 @@ export const memberListItems = (
       </ListItemButton>
     </Link>
 
+    <Link to={'/dashboard/publishAssignments'}>
+      <ListItemButton>
+        <ListItemIcon>
+          <AssignmentIcon />
+        </ListItemIcon>
+        <ListItemText primary="Assignemnts" />
+      </ListItemButton>
+    </Link>
+
   
   </React.Fragment>
 
