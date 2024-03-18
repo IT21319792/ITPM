@@ -54,6 +54,6 @@ import Cookies from 'js-cookie';
       </div>
     </>
   );
-}
+
 
 
