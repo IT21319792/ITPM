@@ -98,6 +98,28 @@ function SchedulePresentation() {
                     </p>
                 </div>
               </div>
+              <div className="grid grid-cols-1">
+                <div className="col">
+                  <label class="block text-sm font-medium text-slate-500" htmlFor="group ">Select Examiner 01 </label>
+                  <div class="relative h-10 w-72 min-w-[885px]">
+                    <select class="peer h-full w-full rounded-[7px] border border-blue-gray-200 bg-transparent px-3 py-2 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200  bg-white  border-slate-300 shadow-sm placeholder-slate-400
+                      focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+                     disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
+                     invalid:border-pink-500 invalid:text-pink-600
+                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500">
+                      <option selected="Select Examiner">Select Examiner </option>
+                      <option value="Ms. Indudini Thennakoon">Ms. Indudini Thennakoon</option>
+                      <option value="Mr. Boshitha Gunarathne">Mr. Boshitha Gunarathne</option>
+                      <option value="Mr. Deneth Pinsara">Mr. Deneth Pinsara</option>
+                      <option value="Ms. Rashmi Shehela">Ms. Rashmi Shehela</option>
+                      <option value="Mr. Madhusha Prasad">Mr. Madhusha Prasad</option>
+                    </select>
+                  </div>
+                    <p class="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
+                      Please select exmainer name
+                    </p>
+                </div>
+              </div>
               
             </form>
           </div>
