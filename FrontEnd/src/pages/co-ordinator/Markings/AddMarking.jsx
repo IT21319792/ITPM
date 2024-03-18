@@ -10,7 +10,6 @@ function AddMarking() {
     <p className="mt-2 text-gray-600">Marks Managemenet</p>
   </div>
 
-
   )
 }
 

@@ -9,8 +9,6 @@ function ExaminerMng() {
     
     <p className="mt-2 text-gray-600">examiner Managemenet</p>
   </div>
-
-
   )
 }
 

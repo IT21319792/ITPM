@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-
 import StudentDash from './pages/student/StudentDash';
 import AdminDash from './pages/admin/AdminDash';
 import CoDash from './pages/co-ordinator/CoDash';
@@ -13,7 +12,6 @@ import MyResults from './pages/student/MyResults';
 import MyTeam from './pages/student/MyTeam';
 import Notifications from './pages/student/Notifications';
 import LandingPage from './pages/common/LandingPage';
-
 import StudentSignUp from './components/StudentSignUp';
 import Login from './components/LogIn';
 import Layout from './pages/common/Layout';
@@ -21,6 +19,7 @@ import Notices from './pages/admin/Notices';
 import UserMNG from './pages/admin/UserMNG';
 import PublishAssignments from './pages/examinar/PublishAssignments';
 import Reports from './pages/supervisor/Reports';
+import SchedulePresentation from './pages/projectMember/SchedulePresentation';
 import ProjectMemberMng from './pages/co-ordinator/ProjectMemberMng/ProjectMemberMng';
 import ExaminerMng from './pages/co-ordinator/ExaminerMng/ExaminerMng';
 import StudentFinalMarks from './pages/co-ordinator/StdDetailsMng/StudentFinalMarks';
@@ -42,13 +41,11 @@ function App() {
     <BrowserRouter>
 
       <Routes>
-
-
         {/* Common Routes  */}
         <Route path='/' element={<LandingPage />} />
         <Route path='studentsignup' element={<StudentSignUp />} />
         <Route path='login' element={<Login />} />
-        <Route path='/dashboard' element={<Layout />} >
+        <Route path='/dashboard' element={<Layout/>} >
 
 
           {/* Admin Routes  */}
@@ -87,18 +84,18 @@ function App() {
 
           {/* Project Member Routes  */}
           <Route path='pMemberDash' element={<PMemberDash />} />
+          <Route path='/dashboard/pMemberDash/SchedulePresentation' element={<SchedulePresentation />} /> 
 
+          
+          
 
           {/* Supervisor Routes  */}
           <Route path='supervisorDash' element={<SupervisorDash />} />
           <Route path='/dashboard/reports' element={<Reports />} />
 
-
         </Route>
 
         {/* other Routes  */}
-
-
 
       </Routes>
 
