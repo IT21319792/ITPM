@@ -12,7 +12,6 @@ import MyResults from './pages/student/MyResults';
 import MyTeam from './pages/student/MyTeam';
 import Notifications from './pages/student/Notifications';
 import LandingPage from './pages/common/LandingPage';
-
 import StudentSignUp from './components/StudentSignUp';
 import Login from './components/LogIn';
 import Layout from './pages/common/Layout';

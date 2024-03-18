@@ -10,6 +10,8 @@ import ScheduleRouter from './routes/SchedulePresentationRoutes.js';
 import { assign } from 'nodemailer/lib/shared/index.js';
 import AssignMarkRouter from './routes/cordinatorRoutes/AssignMarkRouter.js';
 import AssignShedulerouter from './routes/cordinatorRoutes/AssignSheduleRouter.js';
+import AddMarkRouter from './routes/examinerRoutes/AddMarkRouter.js';
+
 
 const PORT = process.env.PORT || 510;
 const app = express();
@@ -28,7 +30,7 @@ app.use('/rubric', RubricRouter);
 app.use('/schedule', ScheduleRouter);
 app.use('/assignMark',AssignMarkRouter);
 app.use('/assignShedule',AssignShedulerouter);
-
+app.use('/presentation',AddMarkRouter)
 
 dbConfig().then(()=>{
     app.listen(PORT,()=>{
