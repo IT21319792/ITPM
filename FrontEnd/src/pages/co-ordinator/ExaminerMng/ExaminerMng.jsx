@@ -1,27 +1,15 @@
 import React from 'react'
 import CordinatorSidebar from '../../../components/CordinatorSidebar'
+import CoordinatorWelcomeCard from '../../../components/CoordinatorWelcomeCard'
 
 function ExaminerMng() {
   return (
-    <div className="flex h-screen  bg-gray-100 ">
-    <CordinatorSidebar/>
-   
-  
-  
-
-    <div className="flex flex-col flex-1 overflow-y-auto">
-      <div className="flex items-center justify-between h-16 bg-white border-b border-gray-200">
-        <div >
-          {/* Header Component */}
-        </div>
-
-      </div>
-      <div className="p-4">
-        <h1 className="text-2xl font-bold">Welcome Cordinator!</h1>
-        <p className="mt-2 text-gray-600">Examiner Managemenet</p>
-      </div>
-    </div>
+    <div className="p-4">
+    <CoordinatorWelcomeCard />
+    
+    <p className="mt-2 text-gray-600">examiner Managemenet</p>
   </div>
+
 
   )
 }
