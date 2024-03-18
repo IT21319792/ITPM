@@ -1,4 +1,4 @@
-import RubricModel from "../models/RubricModel.js";
+import RubricModel from "../../models/projectMemberModels/RubricModel.js";  
 
 // add new rubric
 const addRubric = async (req, res) => {
