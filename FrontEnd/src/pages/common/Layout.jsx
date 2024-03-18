@@ -8,11 +8,10 @@ import { adminListItems, studentListItems, examinarListItems, supervisorListItem
 import { useEffect } from 'react';
 import Cookies from 'js-cookie';
 
-    const userRole=Cookies.get('role');
-    const [navLinks,setNavlinks]=React.useState()
-   
-
-    useEffect(() => {
+export default function Layout() {
+  const userRole = Cookies.get("role");
+  const [navLinks, setNavlinks] = React.useState();
+  useEffect(() => {
         switch (userRole) {
           case "admin": //Admin
             setNavlinks(adminListItems);
