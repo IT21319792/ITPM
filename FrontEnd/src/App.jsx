@@ -78,8 +78,8 @@ function App() {
           
           {/* Examinar Routes  */}
           <Route path='examinarDash' element={<ExaminarDash />} />
-          {/* <Route path='/dashboard/marksAssignments' element={<ExaminerPresentationMarks />} /> */}
-          {/* <Route path='/dashboard/addMarks' element={<ExaminerPresentationMarks />} /> */}
+           <Route path='/dashboard/marksAssignments' element={<ExaminerPresentationMarks />} /> 
+           <Route path='/dashboard/addMarks' element={<ExaminerPresentationMarks />} /> 
 
 
           {/* Project Member Routes  */}

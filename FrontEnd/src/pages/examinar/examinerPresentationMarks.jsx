@@ -6,6 +6,7 @@ function ExaminerPresentationMarks() {
   const [rubricMarks, setRubricMarks] = useState([
     [{ mark: '', studentId: '' }, { mark: '', studentId: '' }, { mark: '', studentId: '' }],
     [{ mark: '', studentId: '' }, { mark: '', studentId: '' }, { mark: '', studentId: '' }],
+    [{ mark: '', studentId: '' }, { mark: '', studentId: '' }, { mark: '', studentId: '' }],
     [{ mark: '', studentId: '' }, { mark: '', studentId: '' }, { mark: '', studentId: '' }]
   ]);
 
