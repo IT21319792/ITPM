@@ -20,7 +20,15 @@ function SchedulePresentation(props) {
   }, []);
 
   const submitSchedule = () => {
-    
+    const newSchedule = {
+      "ScheduleID": ScheduleID,
+      "GroupID": GroupID,
+      "date": date,
+      "timeDuration": timeDuration,
+      "location": location,
+      "topic": topic,
+      "examiners": examiners
+    }
 
   } 
 
