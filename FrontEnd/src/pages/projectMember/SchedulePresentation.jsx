@@ -13,7 +13,12 @@ function SchedulePresentation(props) {
   const [topic, settopic] = useState("");
   const [examiners, setexaminers] = useState("");
 
-  
+  useEffect(() => {
+    Axios.get("http://localhost:3001/").then((response) => {
+      setScheduleList(response.data);
+    });
+  }, []);
+
 
   return (
     <div className="main_container w-full h-full">
