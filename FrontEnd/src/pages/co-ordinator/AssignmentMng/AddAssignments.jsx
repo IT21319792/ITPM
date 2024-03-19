@@ -1,21 +1,44 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 function AssignmentAdd() {
-  const [formData, setFormData] = useState({ title: '', type: '', deadline: '', description: '' });
+  const [formData, setFormData] = useState({ title: '', type: '', subType: '', deadline: '', description: '' });
+  const [showSubTypeDropdown, setShowSubTypeDropdown] = useState(false);
+  const [pdfBlob, setPdfBlob] = useState(null);
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const navigate = useNavigate();
+  const user = Cookies.get('firstName');
+  const role = Cookies.get('role');
+
+
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [name]: value,
+      user: user,
+      role: role,
     });
+
+    // Always show subtype dropdown if type is selected
+    if (name === 'type' && value !== '') {
+      setShowSubTypeDropdown(true);
+    }
   };
+
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:510/assignment/create', formData)
+    axios.post('http://localhost:510/assignment/add', formData)
       .then(() => {
         alert('Assignment added successfully');
+        setFormSubmitted(true); // Set formSubmitted to true after successful submission
+        setFormData({ title: '', type: '', subType: '', deadline: '', description: '' }); // Clear form data
+        setPdfBlob('path/to/placeholder.pdf');
         console.log('Assignment added successfully');
       })
       .catch((err) => {
@@ -24,6 +47,11 @@ function AssignmentAdd() {
         alert('Assignment adding failed');
         alert(err.response.data.message);
       });
+  };
+
+  //go back button
+  const handleGoBack = () => {
+    navigate('/dashboard/assignmentDetails');
   };
 
   return (
@@ -39,13 +67,47 @@ function AssignmentAdd() {
               placeholder="Assignment Title"
               onChange={handleChange}
             />
-            <input
-              type="text"
+            <select
               className="block border border-grey-light w-full p-3 rounded mb-4"
               name="type"
-              placeholder="Assignment Type"
               onChange={handleChange}
-            />
+              defaultValue=""
+            >
+              <option value="" disabled hidden>Choose Assignment Type</option>
+              <option value="presentation">Presentation</option>
+              <option value="report">Report Document</option>
+            </select>
+
+            {showSubTypeDropdown && (
+              <select
+                className="block border border-grey-light w-full p-3 rounded mb-4"
+                name="subType"
+                onChange={handleChange}
+                defaultValue=""
+              >
+                <option value="" disabled hidden>Choose Subtype</option>
+                {formData.type === "presentation" && (
+                  <>
+                    <option value="proposal">Proposal</option>
+                    <option value="progress1">Progress 1</option>
+                    <option value="progress2">Progress 2</option>
+                    <option value="final">Final</option>
+                  </>
+                )}
+                {formData.type === "report" && (
+                  <>
+                    <option value="topicAssessmentForm">Topic Assessment Form</option>
+                    <option value="projectCharter">Project Charter</option>
+                    <option value="statusDocument1">Status Document 1</option>
+                    <option value="logBook">Log Book</option>
+                    <option value="proposalDocument">Proposal Document</option>
+                    <option value="statusDocument2">Status Document 2</option>
+                    <option value="finalThesis">Final Thesis</option>
+                  </>
+                )}
+              </select>
+            )}
+
             <input
               type="date"
               className="block border border-grey-light w-full p-3 rounded mb-4"
@@ -66,7 +128,11 @@ function AssignmentAdd() {
               Add Assignment
             </button>
             <div>
-              <p className='text-red-600 text-center'></p>
+              {formSubmitted && (
+                <button onClick={handleGoBack} className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mt-2">
+                  Go Back
+                </button>
+              )}
             </div>
           </form>
         </div>

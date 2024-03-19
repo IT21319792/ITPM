@@ -22,7 +22,7 @@ import Reports from './pages/supervisor/Reports';
 import SchedulePresentation from './pages/projectMember/SchedulePresentation';
 import ProjectMemberMng from './pages/co-ordinator/ProjectMemberMng/ProjectMemberMng';
 import ExaminerMng from './pages/co-ordinator/ExaminerMng/ExaminerMng';
-import StudentFinalMarks from './pages/co-ordinator/StdDetailsMng/StudentFinalMarks';
+
 import AssignmentDetails from './pages/co-ordinator/AssignmentMng/AssignmentDetails';
 import AddMarking from './pages/co-ordinator/Markings/AddMarking';
 import ProjectMemberAdd from './pages/co-ordinator/ProjectMemberMng/ProjectMemberAdd';
@@ -32,6 +32,8 @@ import ExaminerPresentationMarks from './pages/examinar/examinerPresentationMark
 import ExaminerAdd from './pages/co-ordinator/ExaminerMng/ExaminerAdd';
 import SupervisorMng from './pages/co-ordinator/Supervisor Mng/SupervisorMng';
 import SupervisorAdd from './pages/co-ordinator/Supervisor Mng/SupervisorAdd';
+import StudentMng from './pages/co-ordinator/StdDetailsMng/StudentFinalMarks';
+import AssignmentAdd from './pages/co-ordinator/AssignmentMng/AddAssignments';
 
 
 
@@ -75,10 +77,11 @@ function App() {
           <Route path='/dashboard/addexaminer' element={<ExaminerAdd />} />
           <Route path='/dashboard/supervisors' element={<SupervisorMng />} />
           <Route path='/dashboard/addSupervisor' element={<SupervisorAdd />} />
-          <Route path='/dashboard/stdDetails' element={<StudentFinalMarks />} />
+          <Route path='/dashboard/stdDetails' element={<StudentMng />} />
           <Route path='/dashboard/assignmentDetails' element={<AssignmentDetails />} />
           <Route path='/dashboard/presentationDetails' element={<PresentationDetails />} />
           <Route path='/dashboard/marking' element={<AddMarking />} />
+          <Route path='/dashboard/addAssignments' element={<AssignmentAdd />} />
 
 
 

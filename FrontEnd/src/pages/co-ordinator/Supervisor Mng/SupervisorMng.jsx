@@ -7,7 +7,7 @@ function SupervisorMng() {
   const Navigate = useNavigate();
   
   const handlePage = () => {
-   Navigate('/dashboard/addSupervisor');
+    Navigate('/dashboard/addSupervisor');
   }
   
   const handleAssignPage = (rowData) => {
@@ -38,8 +38,8 @@ function SupervisorMng() {
   return (
     <div className="p-4">
       <CoordinatorWelcomeCard />
-      <p className="mt-2 text-gray-600">Project Member Management</p>
-      <div>
+      <p className="mt-2 text-gray-600">Supervisor Management</p>
+      <div className="overflow-x-auto bg-white px-6 py-8 rounded shadow-md text-black w-full">
         <table className="min-w-full text-left text-sm font-light">
           <thead className="border-b bg-white font-medium dark:border-neutral-500 dark:bg-neutral-600">
             <tr>
@@ -60,9 +60,9 @@ function SupervisorMng() {
                   <td className="px-6 py-4">{data.contactNo}</td>
                   <td className="px-6 py-4">{data.address}</td>
                   <td className="px-6 py-4">{data.email}</td>
-                  <td className="px-6 py-4">
+                  <td className="px-6 py-4 flex justify-center">
                     <button onClick={handleUpdate} className="bg-blue-500 rounded bg-primary px-3 pb-2 pt-2.5 ml-2">Edit</button>
-                    <button onClick={handleDelete} className="bg-red-500 inline-block rounded bg-primary px-3 pb-2 pt-2.5">Delete</button>
+                    <button onClick={handleDelete} className="bg-red-500 inline-block rounded bg-primary px-3 pb-2 pt-2.5 ml-2">Delete</button>
                   </td>
                 </tr>
               )
@@ -70,9 +70,9 @@ function SupervisorMng() {
           </tbody>
         </table>
       </div>
-      <div>
-        <button onClick={handlePage}  className="bg-blue-500 rounded bg-primary px-3 pb-2 pt-2.5 ml-2">
-          Add Member
+      <div className="px-4 py-2">
+        <button onClick={handlePage} className="bg-blue-600 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded mr-2">
+          Add Supervisor
         </button>
       </div>
     </div>
