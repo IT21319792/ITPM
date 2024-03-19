@@ -232,6 +232,15 @@ export const cordinatorListItems = (
       </ListItemButton>
     </Link>
 
+    <Link to={'/dashboard/supervisors'}>
+      <ListItemButton>
+        <ListItemIcon>
+          <PeopleIcon />
+        </ListItemIcon>
+        <ListItemText primary="supervisors" />
+      </ListItemButton>
+    </Link>
+
     <Link to={'/dashboard/stdDetails'}>
       <ListItemButton>
         <ListItemIcon>
@@ -246,7 +255,7 @@ export const cordinatorListItems = (
         <ListItemIcon>
           <AssignmentIcon />
         </ListItemIcon>
-        <ListItemText primary="Assignment Details" />
+        <ListItemText primary="Assignments" />
       </ListItemButton>
     </Link>
 
@@ -255,7 +264,7 @@ export const cordinatorListItems = (
         <ListItemIcon>
           <AssignmentIcon />
         </ListItemIcon>
-        <ListItemText primary="Presentation Details" />
+        <ListItemText primary="Presentation & Report Details" />
       </ListItemButton>
     </Link>
 
