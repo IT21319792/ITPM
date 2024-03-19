@@ -1,4 +1,4 @@
-import { verifyToken } from "../controllers/UserController.js";
+import { verifyToken } from "../controllers/projectMemberControllers/UserController.js";
 
 export const LoginValidator = (req, res, next) => {
     // Access the Authorization header

@@ -1,4 +1,4 @@
-import SchedulePresentationModel from "../models/SchedulePresentationModel.js";
+import SchedulePresentationModel from "../../models/projectMemberModels/SchedulePresentationModel.js";  
 
 // create new presentation schedule
 const createSchedule = async (req, res) => {
