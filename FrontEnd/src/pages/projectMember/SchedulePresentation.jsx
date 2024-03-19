@@ -19,6 +19,10 @@ function SchedulePresentation(props) {
     });
   }, []);
 
+  const submitSchedule = () => {
+    
+
+  } 
 
   return (
     <div className="main_container w-full h-full">
