@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/SchedulePresentation.css";
+import Axios from "axios";
 
-function SchedulePresentation() {
+
+function SchedulePresentation(props) {
+  
+
   return (
     <div className="main_container w-full h-full">
       <div className="item fw-bold text-center">
         <h5 className="pageName">Schedule Presentation</h5>
       </div>
-
       <div className="card p-5">
         <div className="smallcard row max-w-5xl mx-auto border rounded-md py-10 px-10">
           <div className="col-md-6">
