@@ -4,6 +4,15 @@ import Axios from "axios";
 
 
 function SchedulePresentation(props) {
+  const [scheduleList, setScheduleList] = useState([]);
+  const [ScheduleID, setScheduleID] = useState("");
+  const [GroupID, setGroupID] = useState("");
+  const [date, setDate] = useState("");
+  const [timeDuration, settimeDuration] = useState("");
+  const [location, setlocation] = useState("");
+  const [topic, settopic] = useState("");
+  const [examiners, setexaminers] = useState("");
+
   
 
   return (
