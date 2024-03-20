@@ -78,7 +78,7 @@ function ScheduledPresentations() {
                 <th scope="col"></th>
               </tr>
             </thead>
-            <tbody></tbody>
+            <tbody>{displayAllSchedules()}</tbody>
           </table>
         </div>
       </div>
