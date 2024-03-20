@@ -12,20 +12,49 @@ function SchedulePresentation(props) {
   const [timeDuration, settimeDuration] = useState("");
   const [location, setlocation] = useState("");
   const [topic, settopic] = useState("");
-  const [examiners, setexaminers] = useState("");
+  const [examinersList, setExaminersList] = useState([
+    "Ms. Indudini Thennakoon",
+    "Mr. Boshitha Gunarathne",
+    "Mr. Deneth Pinsara",
+    "Ms. Rashmi Shehela",
+    "Mr. Madhusha Prasad",
+  ]);
+  const [examiners, setexaminers] = useState([]);
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     getAllSchedule();
   }, []);
 
-  const getAllSchedule = () => {
-    Axios.get("http://localhost:3001/dashboard/pMemberDash/SchedulePresentation/getAll").then((response) => {
-      setScheduleList(response.data);
-    })
-  }
+  const getAllSchedule = async () => {
+    await Axios.get("http://localhost:510/schedule/getSchedules").then((response) => {
+      console.log(response.data.data);
+      setScheduleList(response.data.data);
+    });
+  };
 
+  const renderExaminers = () => {
+    return examinersList.map((examiner, index) => {
+      return (
+        <option key={index} value={examiner}>
+          {" "}
+          {examiner}{" "}
+        </option>
+      );
+    });
+  };
 
-  const submitSchedule = () => {
+  const onHandleExaminerChange = (e) => {
+    if (e.target.name === "examiners01") {
+      examiners[0] = e.target.value;
+    } else if (e.target.name === "examiners02") {
+      examiners[1] = e.target.value;
+    } else if (e.target.name === "examiners03") {
+      examiners[2] = e.target.value;
+    }
+  };
+
+  const submitSchedule = async () => {
     const newSchedule = {
       ScheduleID: ScheduleID,
       GroupID: GroupID,
@@ -50,31 +79,33 @@ function SchedulePresentation(props) {
       });
     } else {
       setErrors(error);
-      Axios.post("http://localhost:3001/dashboard/pMemberDash/SchedulePresentation/add", newSchedule).then(
-        (response) => {
-          if (response.data.message) {
-            Sweetalert2.fire({
-              toast: true,
-              position: "top-end",
-              showConfirmButton: false,
-              timer: 3000,
-              icon: "success",
-              title: `${response.data.message}`,
-            });
+      await Axios.post(
+        "http://localhost:510/schedule/createSchedule",
+        newSchedule
+      ).then((response) => {
+        console.log("data",response.data);
+        if (response.data.status === 200) {
+          Sweetalert2.fire({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            icon: "success",
+            title: `${response.data.message}`,
+          });
 
-            setScheduleList("");
-            setGroupID("");
-            setDate("");
-            settimeDuration("");
-            setlocation("");
-            settopic("");
-            setexaminers("");
-            getAllSchedule();
-          }
+          setScheduleList([]);
+          setGroupID("");
+          setDate("");
+          settimeDuration("");
+          setlocation("");
+          settopic("");
+          setexaminers([]);
+          getAllSchedule();
         }
-      )
+      });
     }
-  }
+  };
 
   return (
     <div className="main_container w-full h-full">
@@ -99,7 +130,12 @@ function SchedulePresentation(props) {
                       focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
                      disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
                      invalid:border-pink-500 invalid:text-pink-600
-                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500" value={GroupID} onChange={(e) => {setGroupID(e.target.value)}}>
+                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+                      value={GroupID}
+                      onChange={(e) => {
+                        setGroupID(e.target.value);
+                      }}
+                    >
                       <option defaultValue="Select Group">Select Group</option>
                       <option value="Group 01">Group 01</option>
                       <option value="Group 02">Group 02</option>
@@ -119,7 +155,11 @@ function SchedulePresentation(props) {
                       focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
                      disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
                      invalid:border-pink-500 invalid:text-pink-600
-                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500" value={date} onChange={(e) => {setDate(e.target.value)}}
+                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+                      value={date}
+                      onChange={(e) => {
+                        setDate(e.target.value);
+                      }}
                       min={new Date().toISOString().split("T")[0]}
                     />
                     <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
@@ -143,7 +183,11 @@ function SchedulePresentation(props) {
                       focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
                      disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
                      invalid:border-pink-500 invalid:text-pink-600
-                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500" value={location} onChange={(e) => {setlocation(e.target.value)}}
+                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+                    value={location}
+                    onChange={(e) => {
+                      setlocation(e.target.value);
+                    }}
                   />
                   <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
                     Please provide a location.
@@ -161,7 +205,11 @@ function SchedulePresentation(props) {
                       focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
                      disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
                      invalid:border-pink-500 invalid:text-pink-600
-                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500" value={timeDuration} onChange={(e) => {settimeDuration(e.target.value)}}
+                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+                      value={timeDuration}
+                      onChange={(e) => {
+                        settimeDuration(e.target.value);
+                      }}
                     />
                     <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
                       Please provide the time.
@@ -184,7 +232,11 @@ function SchedulePresentation(props) {
                       focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
                      disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
                      invalid:border-pink-500 invalid:text-pink-600
-                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500" value={topic} onChange={(e) => {settopic(e.target.value)}}  
+                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+                    value={topic}
+                    onChange={(e) => {
+                      settopic(e.target.value);
+                    }}
                   />
                   <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
                     Please provide a title for schedule.
@@ -205,26 +257,13 @@ function SchedulePresentation(props) {
                       focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
                      disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
                      invalid:border-pink-500 invalid:text-pink-600
-                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500" value={examiners} onChange={(e) => {setexaminers(e.target.value)}}
+                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+                      name="examiners01"
+                      onChange={(e) => {
+                        onHandleExaminerChange(e);
+                      }}
                     >
-                      <option defaultValue="Select Examiner">
-                        Select Examiner
-                      </option>
-                      <option value="Ms. Indudini Thennakoon">
-                        Ms. Indudini Thennakoon
-                      </option>
-                      <option value="Mr. Boshitha Gunarathne">
-                        Mr. Boshitha Gunarathne
-                      </option>
-                      <option value="Mr. Deneth Pinsara">
-                        Mr. Deneth Pinsara
-                      </option>
-                      <option value="Ms. Rashmi Shehela">
-                        Ms. Rashmi Shehela
-                      </option>
-                      <option value="Mr. Madhusha Prasad">
-                        Mr. Madhusha Prasad
-                      </option>
+                      {renderExaminers()}
                     </select>
                   </div>
                   <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
@@ -246,26 +285,13 @@ function SchedulePresentation(props) {
                       focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
                      disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
                      invalid:border-pink-500 invalid:text-pink-600
-                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500" value={GroupID} onChange={(e) => {setGroupID(e.target.value)}}>
-                    
-                      <option defaultValue="Select Examiner">
-                        Select Examiner
-                      </option>
-                      <option value="Ms. Indudini Thennakoon">
-                        Ms. Indudini Thennakoon
-                      </option>
-                      <option value="Mr. Boshitha Gunarathne">
-                        Mr. Boshitha Gunarathne
-                      </option>
-                      <option value="Mr. Deneth Pinsara">
-                        Mr. Deneth Pinsara
-                      </option>
-                      <option value="Ms. Rashmi Shehela">
-                        Ms. Rashmi Shehela
-                      </option>
-                      <option value="Mr. Madhusha Prasad">
-                        Mr. Madhusha Prasad
-                      </option>
+                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+                      name="examiners02"
+                      onChange={(e) => {
+                        onHandleExaminerChange(e);
+                      }}
+                    >
+                      {renderExaminers()}
                     </select>
                   </div>
                   <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
@@ -287,26 +313,13 @@ function SchedulePresentation(props) {
                       focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
                      disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
                      invalid:border-pink-500 invalid:text-pink-600
-                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500" value={GroupID} onChange={(e) => {setGroupID(e.target.value)}}>
-                    
-                      <option defaultValue="Select Examiner">
-                        Select Examiner
-                      </option>
-                      <option value="Ms. Indudini Thennakoon">
-                        Ms. Indudini Thennakoon
-                      </option>
-                      <option value="Mr. Boshitha Gunarathne">
-                        Mr. Boshitha Gunarathne
-                      </option>
-                      <option value="Mr. Deneth Pinsara">
-                        Mr. Deneth Pinsara
-                      </option>
-                      <option value="Ms. Rashmi Shehela">
-                        Ms. Rashmi Shehela
-                      </option>
-                      <option value="Mr. Madhusha Prasad">
-                        Mr. Madhusha Prasad
-                      </option>
+                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+                      name="examiners03"
+                      onChange={(e) => {
+                        onHandleExaminerChange(e);
+                      }}
+                    >
+                      {renderExaminers()}
                     </select>
                   </div>
                   <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
@@ -320,7 +333,10 @@ function SchedulePresentation(props) {
                   <button
                     type="button"
                     className="btn btnAdd hover:bg-blue-500 bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                    id="btnAdd " onClick={()=>{submitSchedule()}}
+                    id="btnAdd "
+                    onClick={() => {
+                      submitSchedule();
+                    }}
                   >
                     Publish Schedule
                   </button>
