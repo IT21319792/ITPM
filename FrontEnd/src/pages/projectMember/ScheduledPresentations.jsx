@@ -35,9 +35,9 @@ function ScheduledPresentations() {
         <td>{schedules.location}</td>
         <td>{schedules.timeDuration}</td>
         <td>{schedules.topic}</td>
-        <td>{schedules.examiner}</td>
-        <td>{schedules.examiner}</td>
-        <td>{schedules.examiner}</td>
+        <td>{schedules.examiners[0]}</td>
+        <td>{schedules.examiners[1]}</td>
+        <td>{schedules.examiners[2]}</td>
         <td>
           <button
             className="btn btn-default ml-7"
