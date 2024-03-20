@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/SchedulePresentation.css";
 import Axios from "axios";
+import { Link } from "react-router-dom";
 
 function ScheduledPresentations() {
   const [scheduleList, setScheduleList] = useState([]);
@@ -25,7 +26,6 @@ function ScheduledPresentations() {
     const date = new Date(dateString);
     return date.toLocaleDateString(); // Returns the date portion only
   };
-
 
   const displayAllSchedules = () => {
     return scheduleList.map((schedules) => (
@@ -80,11 +80,21 @@ function ScheduledPresentations() {
                 <th scope="col">Examiner 01</th>
                 <th scope="col">Examiner 02</th>
                 <th scope="col">Examiner 03</th>
-                <th scope="col"></th>
+                <th scope="col"/>
               </tr>
             </thead>
             <tbody>{displayAllSchedules()}</tbody>
           </table>
+        </div>
+        <div className="flex-column justify-content-center align-items-center h-100 mt-5">
+          <Link to="/dashboard/pMemberDash/SchedulePresentation">
+            <button
+              type="button"
+              className="btnSchedule bg-green-800 text-white font-bold rounded-md px-4 py-2 mb-3"
+            >
+              Schedule Presenation
+            </button>
+          </Link>
         </div>
       </div>
     </div>
