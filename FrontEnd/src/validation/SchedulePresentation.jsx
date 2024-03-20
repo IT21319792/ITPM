@@ -58,12 +58,10 @@ const validateSchedulePresentation = (data) => {
         errors.examiners = "Examiners are required";
     }
     
-    
-    
-    
-    
-    
-    
+    return {
+        errors,
+        isValid: Object.keys(errors).length === 0
+    };  
     
 };
 
