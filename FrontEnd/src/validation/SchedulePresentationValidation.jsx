@@ -1,6 +1,6 @@
 import validator from 'validator';
 
-const validateSchedulePresentation = (data) => {
+const SchedulePresentationValidation = (data) => {
     let errors = {};
     const{
         ScheduleID,
@@ -65,4 +65,4 @@ const validateSchedulePresentation = (data) => {
     
 };
 
-export default validateSchedulePresentation;
+export default SchedulePresentationValidation;
