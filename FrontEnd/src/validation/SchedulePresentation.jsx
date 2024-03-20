@@ -27,6 +27,10 @@ const validateSchedulePresentation = (data) => {
             errors.GroupID = "GroupID is required";
         }
 
+        if(validator.isEmpty(date)){
+            errors.date = "Date is required";
+        }
+
         
 
     
