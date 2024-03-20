@@ -34,6 +34,7 @@ import SupervisorMng from './pages/co-ordinator/Supervisor Mng/SupervisorMng';
 import SupervisorAdd from './pages/co-ordinator/Supervisor Mng/SupervisorAdd';
 import StudentMng from './pages/co-ordinator/StdDetailsMng/StudentFinalMarks';
 import AssignmentAdd from './pages/co-ordinator/AssignmentMng/AddAssignments';
+import StudentMarksTable from './pages/examinar/ExaminerViewMark';
 
 
 
@@ -89,6 +90,7 @@ function App() {
           <Route path='examinarDash' element={<ExaminarDash />} />
           <Route path='/dashboard/marksAssignments' element={<ExaminerPresentationMarks />} />
           <Route path='/dashboard/addMarks' element={<ExaminerPresentationMarks />} />
+          <Route path='/dashboard/marks' element={<StudentMarksTable />} />
 
 
           {/* Project Member Routes  */}

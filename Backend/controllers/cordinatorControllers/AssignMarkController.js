@@ -1,6 +1,6 @@
 import PrMember from '../../models/cordinatorModels/PrMemberAssignMarkings.js';
 
-// Create - Assigning PR member to add marking rubric
+// Create
 export const AssignMark = async (req, res) => {
     const data = req.body;
     const newAssignMarking = new PrMember(data);
@@ -14,7 +14,7 @@ export const AssignMark = async (req, res) => {
     }
 }
 
-// Get all details of assigned members for marking rubric
+// Get all details 
 export const getAssignMark = async (req, res) => {
     try {
         const allAssignMarks = await PrMember.find();
@@ -26,7 +26,7 @@ export const getAssignMark = async (req, res) => {
     }
 }
 
-// Update assigned member details for add marks
+// Update 
 export const updateAssignMark = async (req, res) => {
     const id = req.params.id;
     const data = req.body;
@@ -43,10 +43,9 @@ export const updateAssignMark = async (req, res) => {
     }
 }
 
-// Delete assigned member details for add marks
+// Delete 
 export const deleteAssignMarks = async (req, res) => {
     const id = req.params.id;
-    const data = req.body;
     const name = req.body.name;
     if (!id) {
         throw Error("Id can't be empty");
@@ -61,7 +60,7 @@ export const deleteAssignMarks = async (req, res) => {
     }
 }
 
-// Get one assigned member details for add marks
+// Get one 
 export const getOneAssignMark = async (req, res) => {
     const id = req.params.id;
     if (!id) {
@@ -77,5 +76,5 @@ export const getOneAssignMark = async (req, res) => {
     }
 }
 
-// Export all the functions
+// Export all 
 export default { AssignMark, getAssignMark, updateAssignMark, deleteAssignMarks, getOneAssignMark };

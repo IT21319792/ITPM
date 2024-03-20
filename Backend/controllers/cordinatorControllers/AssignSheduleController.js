@@ -1,123 +1,95 @@
 import PrMemberAssignShedule from '../../models/cordinatorModels/PrMemberAssignShedule.js';
-import PresentationMarksModel from '../../models/examinerModels/AddMark.js';
 
-//create- assigning pr member to shedule presentation
-export const assignShedule = async(req,res)=>{
-    const data = req.body;
-    const newAssignShedule = new PrMemberAssignShedule(data);
-    const name = req.body.memberName;
+// Create - Assigning PR member to schedule presentation
+
+export const assignShedule = async (req, res) => {
+    const { firstName, selectedAssignment, selectedSubType } = req.body;
+    const newAssignShedule = new PrMemberAssignShedule({
+        firstName: firstName,
+        selectedAssignment: selectedAssignment,
+        selectedSubType: selectedSubType
+    });
 
     try {
         await newAssignShedule.save();
-        res.status(200)
-        .json({message: 'Assigning Project member'+ name+  'to shedule presentation is successful'});
-        
-
+        res.status(200).json({ message: `Assigning Project member ${firstName} to schedule presentation is successful` });
     } catch (error) {
-        res.status(500)
-        .json({message: error.message});
-        
+        res.status(500).json({ message: error.message });
     }
 }
 
-//get all details of assigned members for presentation shedule
 
-export const getAssignShedule = async(req,res)=>{
+// Get all 
+export const getAssignShedule = async (req, res) => {
     try {
-        const allAssignShedules= await PrMemberAssignShedule.find();
-        res.status(200)
-        .json(allAssignShedules);
-
-        
+        const allAssignShedules = await PrMemberAssignShedule.find();
+        res.status(200).json(allAssignShedules);
     } catch (error) {
-        res.status(500)
-        .json ({message:error.message});
-        
+        res.status(500).json({ message: error.message });
     }
-
 }
 
-//update assigned member details for presentation shedule
+// Update assigned member
+export const updateAssignedShedule = async (req, res) => {
+    const { id } = req.params;
+    const { firstName, selectedAssignment, selectedSubType } = req.body;
 
-export const updateAssignedShedule = async(req,res)=>{
-    const id = req.params.id;
-    const data = req.body;
-    if(!id){
-        throw Error("Id can't be empty");
-    }
     try {
-        const updatedAssigenedShedule = await PrMemberAssignShedule.findByIdAndUpdate(id,data);
-        res.status(200)
-        .json({message: 'Assigned member details updated successfully',subject:updatedAssigenedShedule});
-
-        
+        const updatedAssigenedShedule = await PrMemberAssignShedule.findByIdAndUpdate(id, {
+            memberName: firstName,
+            presentationName: selectedAssignment,
+            subType: selectedSubType
+        }, { new: true }); // { new: true } ensures that the updated document is returned
+        if (!updatedAssigenedShedule) {
+            return res.status(404).json({ message: 'Assigned member not found' });
+        }
+        res.status(200).json({ message: 'Assigned member details updated successfully', subject: updatedAssigenedShedule });
     } catch (error) {
-        res.status(500)
-        .json({message:error.message});
-        
+        res.status(500).json({ message: error.message });
     }
-
 }
 
-//delete assigned member details for presentation shedule
-export const deleteAssignShedule = async(req,res)=>{
-    const id = req. params.id;
-    const data = req.body;
-    const name = req.body.memberName;
-    if(!id){
-        throw Error("Id can't be empty");
-    }
+// Delete assigned member details
+export const deleteAssignShedule = async (req, res) => {
+    const { id } = req.params;
+
     try {
-        const deletedAssignShedule = await PrMemberAssignShedule.findByIdAndDelete(id,data);
-        res.status(200)
-        .json({message: 'sheduled presentation of'+ name+ 'deleted successfully',subject:deletedAssignShedule});        
+        const deletedAssignShedule = await PrMemberAssignShedule.findByIdAndDelete(id);
+        if (!deletedAssignShedule) {
+            return res.status(404).json({ message: 'Scheduled presentation not found' });
+        }
+        res.status(200).json({ message: `Scheduled presentation deleted successfully`, subject: deletedAssignShedule });
     } catch (error) {
-        res.status(500)
-        .json({message:error.message}); 
-        
+        res.status(500).json({ message: error.message });
     }
-
 }
 
-//get one assigned member details for presentation shedule
-export const getOneAssignShedule = async(req,res)=>{
-    const id = req.params.id;
-    if(!id){
-        throw Error("Id can't be empty");
-    }
+// Get one assigned member details
+export const getOneAssignShedule = async (req, res) => {
+    const { id } = req.params;
+
     try {
         const oneAssignedShedule = await PrMemberAssignShedule.findById(id);
-        res.status(200)
-        .json(oneAssignedShedule);
-
-        
+        res.status(200).json(oneAssignedShedule);
     } catch (error) {
-        res.status(500)
-        .json({message:error.message});
+        res.status(500).json({ message: error.message });
     }
 }
 
-//search with any value
-export const searchAssignShedule = async(req,res)=>{
-    const {key} = req.params;
+// Search with any value
+export const searchAssignShedule = async (req, res) => {
+    const { key } = req.params;
+
     try {
-        const searchAssignShedule = await PrMemberAssignShedule.find(
-            {
-                $or:[
-                    {memberName:{$regex:key,$options:'i'}},
-                    {semester:{$regex:key,$options:'i'}},
-                    {presentationName:{$regex:key,$options:'i'}}
-                ]
-            }
-        )
-        res.status(200)
-        .json(searchAssignShedule);
-
-        
+        const searchAssignShedule = await PrMemberAssignShedule.find({
+            $or: [
+                { memberName: { $regex: key, $options: 'i' } },
+                { semester: { $regex: key, $options: 'i' } },
+                { presentationName: { $regex: key, $options: 'i' } }
+            ]
+        });
+        res.status(200).json(searchAssignShedule);
     } catch (error) {
-        res.status(500)
-        .json({message:error.message});
-        
+        res.status(500).json({ message: error.message });
     }
 }
-

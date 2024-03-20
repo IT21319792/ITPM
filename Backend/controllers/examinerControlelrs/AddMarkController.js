@@ -2,7 +2,7 @@ import PresentationMarksModel from '../../models/examinerModels/AddMark.js';
 import UserModel from '../../models/UserModel.js';
 
 
-// Controller function to add presentation marks for a student
+//add
 export const addPresentationMarks = async (req, res) => {
   try {
     const { presentationType, userId, marks, rubricIndex } = req.body;
@@ -47,19 +47,18 @@ export const addPresentationMarks = async (req, res) => {
 };
 
 
-
-// Controller function to get all presentation marks
+//get all presentation marks
 export const getAllPresentationMarks = async (req, res) => {
   try {
     // Fetch all presentation marks from the database
     const presentationMarks = await PresentationMarksModel.find().populate('userId');
 
-    // If there are no marks found, return a 404 status with a message
+    // If there are no marks found, return a 404 
     if (!presentationMarks || presentationMarks.length === 0) {
       return res.status(404).json({ message: 'No presentation marks found' });
     }
 
-    // Map presentation marks to include student names
+    // Map presentation marks to include student names hehe
     const marksWithNames = presentationMarks.map(mark => ({
       presentationType: mark.presentationType,
       studentName: mark.userId.firstName + ' ' + mark.userId.lastName,
@@ -72,7 +71,6 @@ export const getAllPresentationMarks = async (req, res) => {
     // If marks are found, return them with student names as a response
     res.status(200).json(marksWithNames);
   } catch (error) {
-    // If an error occurs, log the error and return a 500 status with an error message
     console.error('Error fetching presentation marks with names:', error);
     res.status(500).json({ message: 'Failed to fetch presentation marks with names' });
   }
@@ -96,7 +94,6 @@ export const searchPresentationMarks = async (req, res) => {
   }
 };
 
-// Controller file (presentationMarksController.js)
 
 
 export const getStudentsWithMarksStatus = async (req, res) => {

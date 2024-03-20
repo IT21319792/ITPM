@@ -59,7 +59,7 @@ function AssignmentView() {
                 <th className="px-4 py-2">Subtype</th>
                 <th className="px-4 py-2">Deadline</th>
                 <th className="px-4 py-2">Description</th>
-                <th className="px-4 py-2">User</th>
+                <th className="px-4 py-2">Created By</th>
                 <th className="px-4 py-2">Role</th>
                 <th className="px-4 py-2">Actions</th>
               </tr>

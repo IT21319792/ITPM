@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 function ExaminerPresentationMarks() {
-  const [presentationType, setPresentationType] = useState(''); // State to store presentation type
+  const [presentationType, setPresentationType] = useState(''); 
   const [rubricMarks, setRubricMarks] = useState([
     [{ mark: '', studentId: '' }, { mark: '', studentId: '' }, { mark: '', studentId: '' }],
     [{ mark: '', studentId: '' }, { mark: '', studentId: '' }, { mark: '', studentId: '' }],
@@ -20,7 +20,7 @@ function ExaminerPresentationMarks() {
   };
 
   const addMarksForStudent = (studentMarks) => {
-    // Send data to backend
+    
     axios.post('http://localhost:510/presentation/add', { presentationType, studentMarks })
       .then(() => {
         alert('Marks added successfully');
@@ -38,7 +38,7 @@ function ExaminerPresentationMarks() {
       <div className="container max-w-fit mx-auto flex-1 flex flex-col items-center justify-center px-8">
         <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
           <h1 className="mb-8 text-3xl text-center">Add Marks</h1>
-          {/* Dropdown to select presentation type */}
+ 
           <div className="mb-4">
             <label className="block text-sm font-bold mb-2">Presentation Type:</label>
             <select
@@ -53,7 +53,7 @@ function ExaminerPresentationMarks() {
               <option value="Presentation 4">Presentation 4</option>
             </select>
           </div>
-          {/* Form to enter marks for each student */}
+     
           <div className="flex flex-col">
             {rubricMarks.map((student, studentIndex) => (
               <div key={studentIndex} className="flex gap-2 w-full items-center">
@@ -68,7 +68,7 @@ function ExaminerPresentationMarks() {
                     onChange={(e) => handleChange(e, studentIndex, rubricIndex)}
                   />
                 ))}
-                {/* Button to add marks for current student */}
+               
                 <button
                   type="button"
                   className="bg-blue-500 text-white px-4 py-2 rounded"
