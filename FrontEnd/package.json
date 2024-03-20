@@ -35,6 +35,7 @@
     "recharts": "^2.12.2",
     "router": "^1.3.8",
     "styled-components": "^6.1.8",
+    "sweetalert2": "^11.10.6",
     "validator": "^13.11.0",
     "webpack": "^5.90.3",
     "webpack-cli": "^5.1.4",
