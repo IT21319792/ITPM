@@ -1,8 +1,120 @@
-import React from "react";
-import PMemberWelcomeard from "../../components/PMemberWelcomeCard";
-import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import Axios from "axios";
+import moment from "moment";
+ 
+function UpdateSchedule() {
+  const { id } = useParams();
+ 
+  const [scheduledPresentation, setScheduledPresentation] = useState({});
+  const [examinersList, setExaminersList] = useState([
+    "Select Examiner",
+    "Ms. Indudini Thennakoon",
+    "Mr. Boshitha Gunarathne",
+    "Mr. Deneth Pinsara",
+    "Ms. Rashmi Shehela",
+    "Mr. Madhusha Prasad",
+  ]);
+  const [examiners, setexaminers] = useState([]);
+ 
+  console.log(id);
+ 
+  useEffect(() => {
+    Axios.get("http://localhost:510/schedule/searchSchedule/" + id)
+      .then((res) => {
+        console.log(res.data.data);
+        setexaminers(res.data.data.examiners);
+        setScheduledPresentation(res.data.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+ 
+  const renderExaminersFirst = () => {
+    console.log("hkjhjkhk", examiners[0]);
+    return examinersList.map((examiner, index) => {
+      return (
+        <option
+          key={index}
+          value={examiner}
+          selected={examiners[0] === examiner ? true : false}
+        >
+          {" "}
+          {examiner}{" "}
+        </option>
+      );
+    });
+  };
+ 
+  const renderExaminersSecond = () => {
+    return examinersList.map((examiner, index) => {
+      return (
+        <option
+          key={index}
+          value={examiner}
+          selected={examiners[1] === examiner ? true : false}
+        >
+          {" "}
+          {examiner}{" "}
+        </option>
+      );
+    });
+  };
+ 
+  const renderExaminersThird = () => {
+    return examinersList.map((examiner, index) => {
+      return (
+        <option
+          key={index}
+          value={examiner}
+          selected={examiners[2] === examiner ? true : false}
+        >
+          {" "}
+          {examiner}{" "}
+        </option>
+      );
+    });
+  };
+ 
+  const onHandleExaminerChange = (e) => {
+    if (e.target.name === "examiners01") {
+      examiners[0] = e.target.value;
+      setScheduledPresentation({
+        ...scheduledPresentation,
+        examiners: examiners,
+      });
+    } else if (e.target.name === "examiners02") {
+      examiners[1] = e.target.value;
+      setScheduledPresentation({
+        ...scheduledPresentation,
+        examiners: examiners,
+      });
+    } else if (e.target.name === "examiners03") {
+      examiners[2] = e.target.value;
+      setScheduledPresentation({
+        ...scheduledPresentation,
+        examiners: examiners,
+      });
+    }
+  };
 
-function PMemberDash() {
+  const OnHandleChangeInputs = (e) => {
+    if (e.target.name === "examiners") {
+      setScheduledPresentation({
+        ...scheduledPresentation,
+        examiners: examiners,
+      });
+    } else {
+      setScheduledPresentation({
+        ...scheduledPresentation,
+        [e.target.name]: e.target.value,
+      });
+    }
+  };
+ 
+  const onSubmit = () => {
+    console.log(scheduledPresentation);
+ 
+  };
   return (
     <div className="main_container w-full h-full">
       <div className="item fw-bold text-center">
@@ -27,10 +139,8 @@ function PMemberDash() {
                      disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
                      invalid:border-pink-500 invalid:text-pink-600
                      focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
-                      value={GroupID}
-                      onChange={(e) => {
-                        setGroupID(e.target.value);
-                      }}
+                     name="GroupID"
+                      value={scheduledPresentation.GroupID} onChange={(e) => OnHandleChangeInputs(e)}
                     >
                       <option defaultValue="Select Group">Select Group</option>
                       <option value="Group 01">Group 01</option>
@@ -46,16 +156,22 @@ function PMemberDash() {
                       Select Date
                     </span>
                     <input
-                      type="date"
+                      type="text"
                       className="block min-w-[425px] px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
                       focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
                      disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
                      invalid:border-pink-500 invalid:text-pink-600
                      focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
-                      value={date}
-                      onChange={(e) => {
-                        setDate(e.target.value);
+                     name="date"
+                      onFocus={(e) => {
+                        e.currentTarget.type = "date";
                       }}
+                      value={moment(scheduledPresentation.date).format("YYYY-MM-DD")}
+
+                      onChange={(e) =>{setScheduledPresentation({"date": e.target.value})}
+                    }
+
+                      
                       min={new Date().toISOString().split("T")[0]}
                     />
                     <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
@@ -80,10 +196,10 @@ function PMemberDash() {
                      disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
                      invalid:border-pink-500 invalid:text-pink-600
                      focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
-                    value={location}
-                    onChange={(e) => {
-                      setlocation(e.target.value);
-                    }}
+
+                     name="location"
+                    value={scheduledPresentation.location} 
+                    onChange={(e) => OnHandleChangeInputs(e)}
                   />
                   <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
                     Please provide a location.
@@ -101,11 +217,9 @@ function PMemberDash() {
                       focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
                      disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
                      invalid:border-pink-500 invalid:text-pink-600
-                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
-                      value={timeDuration}
-                      onChange={(e) => {
-                        settimeDuration(e.target.value);
-                      }}
+                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500" name = "timeDuration"
+                      value={scheduledPresentation.timeDuration} 
+                      onChange={(e) => OnHandleChangeInputs(e)}
                     />
                     <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
                       Please provide the time.
@@ -128,11 +242,9 @@ function PMemberDash() {
                       focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
                      disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
                      invalid:border-pink-500 invalid:text-pink-600
-                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
-                    value={topic}
-                    onChange={(e) => {
-                      settopic(e.target.value);
-                    }}
+                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500" name="topic"
+                    value={scheduledPresentation.topic}
+                    onChange={(e) => OnHandleChangeInputs(e)}
                   />
                   <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
                     Please provide a title for schedule.
@@ -159,7 +271,7 @@ function PMemberDash() {
                         onHandleExaminerChange(e);
                       }}
                     >
-                      {renderExaminers()}
+                      {renderExaminersFirst()}
                     </select>
                   </div>
                   <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
@@ -187,7 +299,7 @@ function PMemberDash() {
                         onHandleExaminerChange(e);
                       }}
                     >
-                      {renderExaminers()}
+                      {renderExaminersSecond()}
                     </select>
                   </div>
                   <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
@@ -215,7 +327,7 @@ function PMemberDash() {
                         onHandleExaminerChange(e);
                       }}
                     >
-                      {renderExaminers()}
+                      {renderExaminersThird()}
                     </select>
                   </div>
                   <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
@@ -229,9 +341,8 @@ function PMemberDash() {
                   <button
                     type="button"
                     className="btn btnAdd hover:bg-blue-500 bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                    id="btnAdd "
-                    onClick={() => {
-                      submitSchedule();
+                    id="btnAdd " onClick={() => {
+                      onSubmit();
                     }}
                   >
                     Publish Schedule
@@ -245,4 +356,4 @@ function PMemberDash() {
     </div>
   );
 }
-export default PMemberDash;
+export default UpdateSchedule;
