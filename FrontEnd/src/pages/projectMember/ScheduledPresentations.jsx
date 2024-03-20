@@ -40,18 +40,22 @@ function ScheduledPresentations() {
         <td>{schedules.examiner}</td>
         <td>
           <button
-            type="button"
-            className="btn btnUpdate bg-blue-600 text-white font- px-6 py-2  mr-2"
-            id="btnUpdate"
+            className="btn btn-default ml-7"
+            
           >
-            Edit
+            <i
+              style={{ cursor: "pointer", color: "#1044A7" }}
+              className="fa-solid fa-pen me-3  d-inline"
+            />
           </button>
           <button
-            type="button"
-            className="btn btnDelete bg-red-800 text-white font-medium px-4 py-2 ml-2"
-            id="btnDelete"
+            className="btn btn-default ml-3"
+            
           >
-            Delete
+            <i
+              style={{ cursor: "pointer", color: "#ff0000"}}
+              className="fa-solid fa-trash-can d-inline me-2 text-danger d-inline"
+            />
           </button>
         </td>
       </tr>
