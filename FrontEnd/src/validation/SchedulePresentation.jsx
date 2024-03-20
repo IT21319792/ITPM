@@ -54,7 +54,7 @@ const SchedulePresentationValidation = (data) => {
         errors.topic = "Topic is required";
     }
 
-    if (validator.isEmpty(examiners)) {
+    if (examiners.length === 0) {
         errors.examiners = "Examiners are required";
     }
 
