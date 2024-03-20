@@ -21,7 +21,37 @@ function ScheduledPresentations() {
     }
   };
 
-  
+
+  const displayAllSchedules = () => {
+    return scheduleList.map((schedules) => (
+      <tr itemScope="row" key={schedules._id}>
+        <td>{schedules.GroupID}</td>
+        <td>{schedules.date}</td>
+        <td>{schedules.location}</td>
+        <td>{schedules.timeDuration}</td>
+        <td>{schedules.topic}</td>
+        <td>{schedules.examiner}</td>
+        <td>{schedules.examiner}</td>
+        <td>{schedules.examiner}</td>
+        <td>
+          <button
+            type="button"
+            className="btn btnUpdate bg-blue-600 text-white font- px-6 py-2  mr-2"
+            id="btnUpdate"
+          >
+            Edit
+          </button>
+          <button
+            type="button"
+            className="btn btnDelete bg-red-800 text-white font-medium px-4 py-2 ml-2"
+            id="btnDelete"
+          >
+            Delete
+          </button>
+        </td>
+      </tr>
+    ));
+  };
 
   return (
     <div className="main_container w-full h-full">
