@@ -35,6 +35,7 @@ import SupervisorAdd from './pages/co-ordinator/Supervisor Mng/SupervisorAdd';
 import StudentMng from './pages/co-ordinator/StdDetailsMng/StudentFinalMarks';
 import AssignmentAdd from './pages/co-ordinator/AssignmentMng/AddAssignments';
 import ScheduledPresentations from './pages/projectMember/ScheduledPresentations';
+import UpdateSchedule from './pages/projectMember/UpdateSchedule';
 
 
 
@@ -96,7 +97,7 @@ function App() {
           <Route path='pMemberDash' element={<PMemberDash />} />
           <Route path='/dashboard/pMemberDash/SchedulePresentation' element={<SchedulePresentation />} />
           <Route path='/dashboard/pMemberDash/ScheduledPresentations' element={<ScheduledPresentations />} />
-          <Route path='/dashboard/pMemberDash/ScheduledPresentations/UpdateSchedule' element={<ScheduledPresentations />} />
+          <Route path='/dashboard/pMemberDash/ScheduledPresentations/UpdateSchedule/:id' element={<UpdateSchedule />} />
 
 
 
