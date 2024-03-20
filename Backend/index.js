@@ -6,6 +6,7 @@ import cors from 'cors';
 import userRouter from './routes/UserRoutes.js';
 import RubricRouter from './routes/RubricRoutes.js';
 import ScheduleRouter from './routes/SchedulePresentationRoutes.js';
+import GroupRouter from './routes/GroupRoutes.js';
 
 
 const PORT = process.env.PORT || 510;
@@ -23,6 +24,7 @@ app.get('/', async (req,res)=>{
 app.use('/user',userRouter);
 app.use('/rubric', RubricRouter);
 app.use('/schedule', ScheduleRouter);
+app.use('/group' , GroupRouter);
 
 dbConfig().then(()=>{
     app.listen(PORT,()=>{
