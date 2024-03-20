@@ -5,9 +5,14 @@ import { dbConfig } from './utils/dbConfig.js';
 import cors from 'cors';
 import userRouter from './routes/UserRoutes.js';
 import RubricRouter from './routes/projectMemberRoutes/RubricRoutes.js';
-import ScheduleRouter from './routes/SchedulePresentationRoutes.js';
-import GroupRouter from './routes/GroupRoutes.js';
-import studentRouter from './routes/studentRoutes/StudentRoutes.js';
+import ScheduleRouter from './routes/projectMemberRoutes/SchedulePresentationRoutes.js';
+
+import { assign } from 'nodemailer/lib/shared/index.js';
+import AssignMarkRouter from './routes/cordinatorRoutes/AssignMarkRouter.js';
+import AssignShedulerouter from './routes/cordinatorRoutes/AssignSheduleRouter.js';
+import AddMarkRouter from './routes/examinerRoutes/AddMarkRouter.js';
+import AddAssignmentRouter from './routes/cordinatorRoutes/AddAssignmentRouter.js';
+import StudentRouter from './routes/studentRoutes/StudentRoutes.js';
 
 
 const PORT = process.env.PORT || 510;
@@ -25,8 +30,11 @@ app.get('/', async (req,res)=>{
 app.use('/user',userRouter);
 app.use('/rubric', RubricRouter);
 app.use('/schedule', ScheduleRouter);
-app.use('/group' , GroupRouter);
-app.use('/student', studentRouter)
+app.use('/assignMark',AssignMarkRouter);
+app.use('/assignShedule',AssignShedulerouter);
+app.use('/presentation',AddMarkRouter)
+app.use('/assignment',AddAssignmentRouter);
+app.use('/student', StudentRouter)
 
 dbConfig().then(()=>{
     app.listen(PORT,()=>{
@@ -35,4 +43,3 @@ dbConfig().then(()=>{
 }).catch((err)=>{
     console.log(err);
 })
-
