@@ -21,6 +21,15 @@ const validateSchedulePresentation = (data) => {
             if (scheduleIDPattern.test(ScheduleID) == false){
                 errors.ScheduleID = "ScheduleID should be in the format SPXXXX";
         }
+
+        
+        if(validator.isEmpty(GroupID)){
+            errors.GroupID = "GroupID is required";
+        }
+
+        
+
+    
     }
 
     
