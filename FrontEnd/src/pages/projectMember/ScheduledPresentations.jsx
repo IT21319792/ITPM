@@ -21,12 +21,17 @@ function ScheduledPresentations() {
     }
   };
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString(); // Returns the date portion only
+  };
+
 
   const displayAllSchedules = () => {
     return scheduleList.map((schedules) => (
       <tr itemScope="row" key={schedules._id}>
         <td>{schedules.GroupID}</td>
-        <td>{schedules.date}</td>
+        <td>{formatDate(schedules.date)}</td>
         <td>{schedules.location}</td>
         <td>{schedules.timeDuration}</td>
         <td>{schedules.topic}</td>
