@@ -31,10 +31,8 @@ const createSchedule = async (req, res) => {
     mongooseRes.save().then((result) => {
         res.status(200).json({
             message: "Presentation schedule added successfully",
-            result: {
-                data: result,
-                response: true,
-            },
+            result,
+            status: res.statusCode,
         });
     }).catch((err) => {
         res.status(500).json({
