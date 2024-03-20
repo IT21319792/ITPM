@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/SchedulePresentation.css";
 import Axios from "axios";
+import SchedulePresentationValidation from "../../validation/SchedulePresentationValidation";
 
 
 function SchedulePresentation(props) {
@@ -29,6 +30,8 @@ function SchedulePresentation(props) {
       "topic": topic,
       "examiners": examiners
     }
+
+    
 
   } 
 
