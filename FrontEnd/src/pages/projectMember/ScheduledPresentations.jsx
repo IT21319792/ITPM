@@ -3,7 +3,26 @@ import "../../styles/SchedulePresentation.css";
 import Axios from "axios";
 
 function ScheduledPresentations() {
+  const [scheduleList, setScheduleList] = useState([]);
+
+  useEffect(() => {
+    getAllSchedule();
+  }, []);
+
+  const getAllSchedule = async () => {
+    try {
+      const response = await Axios.get(
+        "http://localhost:510/schedule/getSchedules"
+      );
+      console.log(response.data.data);
+      setScheduleList(response.data.data);
+    } catch (error) {
+      console.error("Error fetching schedules:", error);
+    }
+  };
+
   
+
   return (
     <div className="main_container w-full h-full">
       <div className="item fw-bold text-center">
