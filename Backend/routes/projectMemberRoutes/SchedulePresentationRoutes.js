@@ -1,5 +1,6 @@
 import express from 'express';
-import  {createSchedule,getSchedules,updateSchedule,deleteSchedule,searchSchedule} from '../controllers/SchedulePresentationController.js';
+import  {createSchedule,getSchedules,updateSchedule,deleteSchedule,searchSchedule} from '../../controllers/projectMemberControllers/SchedulePresentationController.js';
+
 const SchduleRouter = express.Router();
 
 SchduleRouter.post('/createSchedule', createSchedule);

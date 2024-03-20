@@ -1,4 +1,4 @@
-import SchedulePresentationModel from "../models/SchedulePresentationModel.js";
+import SchedulePresentationModel from "../../models/projectMemberModels/SchedulePresentationModel.js";  
 
 // create new presentation schedule
 const createSchedule = async (req, res) => {
@@ -15,7 +15,9 @@ const createSchedule = async (req, res) => {
     const scheduleCount = result.length;
 
     // generate new schedule ID for presentation schedule
-    const newScheuleID = `P${scheduleCount + 1}`;
+
+    const newScheuleID = `SP${scheduleCount + 1}`;
+
 
     const mongooseRes = new SchedulePresentationModel({
         ScheduleID: newScheuleID,
@@ -31,10 +33,8 @@ const createSchedule = async (req, res) => {
     mongooseRes.save().then((result) => {
         res.status(200).json({
             message: "Presentation schedule added successfully",
-            result: {
-                data: result,
-                response: true,
-            },
+            result,
+            status: res.statusCode,
         });
     }).catch((err) => {
         res.status(500).json({

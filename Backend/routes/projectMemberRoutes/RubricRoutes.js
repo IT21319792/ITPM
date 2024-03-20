@@ -1,5 +1,5 @@
 import express from 'express';
-import  {addRubric,getRubrics,updateRubric,deleteRubric,searchRubric} from '../controllers/RubricController.js';
+import  {addRubric,getRubrics,updateRubric,deleteRubric,searchRubric} from '../../controllers/projectMemberControllers/RubricController.js';
 const RubricRouter = express.Router();
 
 RubricRouter.post('/addrubric', addRubric);

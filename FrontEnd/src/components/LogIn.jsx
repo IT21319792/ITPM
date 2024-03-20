@@ -40,13 +40,15 @@ function Login() {
       else if(res.data.userRole=='member'){
         navigate('/dashboard/pMemberDash')
       }
+      else if(res.data.userRole=='coordinator'){
+        navigate('/dashboard')
+      }
      
 
       toast.success(`${res.data.userRole}, successfully Logged In!`)
       console.log(res)//alert('User created successfully')
     })
     .catch((err)=>{
-    console.log('Form data:', formData)
     console.log('Error:', err)//alert('User creation failed')
     alert(err.response.data.message)
     })
@@ -97,13 +99,19 @@ function Login() {
                 </div>
 
                 <div className="text-grey-dark mt-6 flex gap-2">
-                    <p>Do not have an account? </p>
-                    <Link to="/create" >
-                    <span className="no-underline border-b border-blue text-blue-700" href="../login/">
-                       Sign Up!
-                    </span>
-                    </Link>
+                    <p>Cannot Sign In ? </p>
                     
+                    <span className="no-underline border-b border-blue text-blue-700" href="../login/">
+                       Contact Administrators!
+                    </span>
+                </div>
+
+                <div className="text-grey-dark mt-6 flex gap-2">
+                    <Link to='/'>
+                    <span className="no-underline border-b border-blue text-blue-700" href="../login/">
+                       Home
+                    </span>  
+                    </Link> 
                 </div>
             </div>
         </div>
