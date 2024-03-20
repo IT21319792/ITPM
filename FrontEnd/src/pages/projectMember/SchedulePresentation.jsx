@@ -15,10 +15,15 @@ function SchedulePresentation(props) {
   const [examiners, setexaminers] = useState("");
 
   useEffect(() => {
-    Axios.get("http://localhost:3001/").then((response) => {
-      setScheduleList(response.data);
-    });
+    getAllSchedule();
   }, []);
+
+  const getAllSchedule = () => {
+    Axios.get("http://localhost:3001/dashboard/pMemberDash/SchedulePresentation/getAll").then((response) => {
+      setScheduleList(response.data);
+    })
+  }
+
 
   const submitSchedule = () => {
     const newSchedule = {
@@ -45,7 +50,7 @@ function SchedulePresentation(props) {
       });
     } else {
       setErrors(error);
-      Axios.post("http://localhost:3001/schedule", newSchedule).then(
+      Axios.post("http://localhost:3001/dashboard/pMemberDash/SchedulePresentation/add", newSchedule).then(
         (response) => {
           if (response.data.message) {
             Sweetalert2.fire({
@@ -64,6 +69,7 @@ function SchedulePresentation(props) {
             setlocation("");
             settopic("");
             setexaminers("");
+            getAllSchedule();
           }
         }
       )
@@ -314,7 +320,7 @@ function SchedulePresentation(props) {
                   <button
                     type="button"
                     className="btn btnAdd hover:bg-blue-500 bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                    id="btnAdd "
+                    id="btnAdd " onClick={()=>{submitSchedule()}}
                   >
                     Publish Schedule
                   </button>
