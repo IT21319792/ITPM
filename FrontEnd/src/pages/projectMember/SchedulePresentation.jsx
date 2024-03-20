@@ -13,6 +13,7 @@ function SchedulePresentation(props) {
   const [location, setlocation] = useState("");
   const [topic, settopic] = useState("");
   const [examinersList, setExaminersList] = useState([
+    "Select Examiner",
     "Ms. Indudini Thennakoon",
     "Mr. Boshitha Gunarathne",
     "Mr. Deneth Pinsara",
