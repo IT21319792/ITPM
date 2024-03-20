@@ -41,6 +41,16 @@ const validateSchedulePresentation = (data) => {
             errors.timeDuration = 'Please provide a valid time duration (e.g., 08:30 AM - 09:00 AM';
         }
     }
+    if(validator.isEmpty(location)){
+        errors.location = "Location is required";
+    }else {
+        const pattern = /^[a-zA-Z0-9\s,.'-]{4,}$/;
+        if (pattern.test(location) === false) {
+            errors.location = 'Please provide a valid location';
+        }
+    }
+    
+    
     
     
 };
