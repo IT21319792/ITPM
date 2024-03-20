@@ -3,11 +3,11 @@ import CoordinatorWelcomeCard from '../../../components/CoordinatorWelcomeCard'
 import { Navigate, useNavigate } from 'react-router-dom'
 import axios from 'axios';
 
-function StudentMng() {
+function SupervisorMng() {
   const Navigate = useNavigate();
   
   const handlePage = () => {
-   Navigate('/dashboard/addSupervisor');
+    Navigate('/dashboard/addSupervisor');
   }
   
   const handleAssignPage = (rowData) => {
@@ -27,8 +27,8 @@ function StudentMng() {
   useEffect(() => {
     axios.get('http://localhost:510/user')
       .then(res => {
-        const student = res.data.filter(user => user.role === "student");
-        setTableData(student);
+        const supervisor = res.data.filter(user => user.role === "supervisor");
+        setTableData(supervisor);
       })
       .catch(err => {
         console.log(err);
@@ -38,7 +38,7 @@ function StudentMng() {
   return (
     <div className="p-4">
       <CoordinatorWelcomeCard />
-      <p className="mt-2 text-gray-600">Student Management</p>
+      <p className="mt-2 text-gray-600">Supervisor Management</p>
       <div className="overflow-x-auto bg-white px-6 py-8 rounded shadow-md text-black w-full">
         <table className="min-w-full text-left text-sm font-light">
           <thead className="border-b bg-white font-medium dark:border-neutral-500 dark:bg-neutral-600">
@@ -72,11 +72,11 @@ function StudentMng() {
       </div>
       <div className="px-4 py-2">
         <button onClick={handlePage} className="bg-blue-600 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded mr-2">
-          Add Student
+          Add Supervisor
         </button>
       </div>
     </div>
   )
 }
 
-export default StudentMng;
+export default SupervisorMng;

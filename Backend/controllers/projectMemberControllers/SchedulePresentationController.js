@@ -17,6 +17,7 @@ const createSchedule = async (req, res) => {
     // generate new schedule ID for presentation schedule
     const newScheuleID = `SP${scheduleCount + 1}`;
 
+
     const mongooseRes = new SchedulePresentationModel({
         ScheduleID: newScheuleID,
         GroupID,
