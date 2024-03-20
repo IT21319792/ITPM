@@ -93,8 +93,7 @@ function SchedulePresentation(props) {
                       focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
                      disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
                      invalid:border-pink-500 invalid:text-pink-600
-                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
-                    >
+                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500" value={GroupID} onChange={(e) => {setGroupID(e.target.value)}}>
                       <option defaultValue="Select Group">Select Group</option>
                       <option value="Group 01">Group 01</option>
                       <option value="Group 02">Group 02</option>
