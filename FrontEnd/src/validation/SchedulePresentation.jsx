@@ -49,6 +49,12 @@ const validateSchedulePresentation = (data) => {
             errors.location = 'Please provide a valid location';
         }
     }
+
+    if(validator.isEmpty(topic)){
+        errors.topic = "Topic is required";
+    }
+    
+    
     
     
     
