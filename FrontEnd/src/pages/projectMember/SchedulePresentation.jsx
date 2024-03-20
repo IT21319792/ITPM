@@ -191,7 +191,7 @@ function SchedulePresentation(props) {
                     className="block text-sm font-medium text-slate-500"
                     htmlFor="group "
                   >
-                    Select Examiner 01{" "}
+                    Select Examiner 01
                   </label>
                   <div className="relative h-10 w-72 min-w-[885px]">
                     <select
@@ -199,10 +199,10 @@ function SchedulePresentation(props) {
                       focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
                      disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
                      invalid:border-pink-500 invalid:text-pink-600
-                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500" value={examiners} onChange={(e) => {setexaminers(e.target.value)}}
                     >
                       <option defaultValue="Select Examiner">
-                        Select Examiner{" "}
+                        Select Examiner
                       </option>
                       <option value="Ms. Indudini Thennakoon">
                         Ms. Indudini Thennakoon
@@ -232,7 +232,7 @@ function SchedulePresentation(props) {
                     className="block text-sm font-medium text-slate-500"
                     htmlFor="group "
                   >
-                    Select Examiner 02{" "}
+                    Select Examiner 02
                   </label>
                   <div className="relative h-10 w-72 min-w-[885px]">
                     <select
@@ -240,10 +240,10 @@ function SchedulePresentation(props) {
                       focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
                      disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
                      invalid:border-pink-500 invalid:text-pink-600
-                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
-                    >
+                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500" value={GroupID} onChange={(e) => {setGroupID(e.target.value)}}>
+                    
                       <option defaultValue="Select Examiner">
-                        Select Examiner{" "}
+                        Select Examiner
                       </option>
                       <option value="Ms. Indudini Thennakoon">
                         Ms. Indudini Thennakoon
@@ -273,7 +273,7 @@ function SchedulePresentation(props) {
                     className="block text-sm font-medium text-slate-500"
                     htmlFor="group "
                   >
-                    Select Examiner 03{" "}
+                    Select Examiner 03
                   </label>
                   <div className="relative h-10 w-72 min-w-[885px]">
                     <select
@@ -281,10 +281,10 @@ function SchedulePresentation(props) {
                       focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
                      disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
                      invalid:border-pink-500 invalid:text-pink-600
-                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
-                    >
+                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500" value={GroupID} onChange={(e) => {setGroupID(e.target.value)}}>
+                    
                       <option defaultValue="Select Examiner">
-                        Select Examiner{" "}
+                        Select Examiner
                       </option>
                       <option value="Ms. Indudini Thennakoon">
                         Ms. Indudini Thennakoon
