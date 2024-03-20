@@ -39,7 +39,7 @@ function ScheduledPresentations() {
         <td>{schedules.examiners[1]}</td>
         <td>{schedules.examiners[2]}</td>
         <td>
-        <Link to={`/dashboard/pMemberDash/ScheduledPresentations/UpdateSchedule/${schedules.id}`}>
+        <Link to={`/dashboard/pMemberDash/ScheduledPresentations/UpdateSchedule/${schedules._id}`}>
           <button
             className="btn btn-default ml-7"
             
