@@ -23,6 +23,7 @@ import SchedulePresentation from './pages/projectMember/SchedulePresentation';
 import ProjectMemberMng from './pages/co-ordinator/ProjectMemberMng/ProjectMemberMng';
 import ExaminerMng from './pages/co-ordinator/ExaminerMng/ExaminerMng';
 
+
 import AssignmentDetails from './pages/co-ordinator/AssignmentMng/AssignmentDetails';
 import AddMarking from './pages/co-ordinator/Markings/AddMarking';
 import ProjectMemberAdd from './pages/co-ordinator/ProjectMemberMng/ProjectMemberAdd';
@@ -34,6 +35,8 @@ import SupervisorMng from './pages/co-ordinator/Supervisor Mng/SupervisorMng';
 import SupervisorAdd from './pages/co-ordinator/Supervisor Mng/SupervisorAdd';
 import StudentMng from './pages/co-ordinator/StdDetailsMng/StudentFinalMarks';
 import AssignmentAdd from './pages/co-ordinator/AssignmentMng/AddAssignments';
+import ScheduledPresentations from './pages/projectMember/ScheduledPresentations';
+import UpdateSchedule from './pages/projectMember/UpdateSchedule';
 import StudentMarksTable from './pages/examinar/ExaminerViewMark';
 
 
@@ -96,6 +99,8 @@ function App() {
           {/* Project Member Routes  */}
           <Route path='pMemberDash' element={<PMemberDash />} />
           <Route path='/dashboard/pMemberDash/SchedulePresentation' element={<SchedulePresentation />} />
+          <Route path='/dashboard/pMemberDash/ScheduledPresentations' element={<ScheduledPresentations />} />
+          <Route path='/dashboard/pMemberDash/ScheduledPresentations/UpdateSchedule/:id' element={<UpdateSchedule />} />
 
 
 
