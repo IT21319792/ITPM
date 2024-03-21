@@ -42,6 +42,7 @@ function ProjectMemberMng() {
                 <table className="min-w-full text-left text-sm font-light">
                     <thead className="border-b bg-white font-medium dark:border-neutral-500 dark:bg-neutral-600">
                         <tr>
+                            <th scope="col" className="px-6 py-4">Group Name</th>
                             <th scope="col" className="px-6 py-4">First Name</th>
                             <th scope="col" className="px-6 py-4">Last Name</th>
                             <th scope="col" className="px-6 py-4">Email</th>
@@ -53,6 +54,7 @@ function ProjectMemberMng() {
                     <tbody>
                         {studentData.map((data, index) => (
                             <tr key={index} className="border- dark:border-neutral-500">
+                                <td className="whitespace-nowrap px-6 py-4 font-medium transition duration-300 ease-in-out hover:bg-neutral-100  dark:hover:bg-neutral-600">{data.groupName}</td>
                                 <td className="whitespace-nowrap px-6 py-4 font-medium transition duration-300 ease-in-out hover:bg-neutral-100  dark:hover:bg-neutral-600">{data.firstName}</td>
                                 <td className="whitespace-nowrap px-6 py-4 font-medium transition duration-300 ease-in-out hover:bg-neutral-100  dark:hover:bg-neutral-600">{data.lastName}</td>
                                 <td className="whitespace-nowrap px-6 py-4 font-medium transition duration-300 ease-in-out hover:bg-neutral-100  dark:hover:bg-neutral-600">{data.email}</td>

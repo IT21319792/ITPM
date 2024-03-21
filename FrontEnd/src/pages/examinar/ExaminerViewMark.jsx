@@ -1,41 +1,53 @@
-import React from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
-function StudentMarksTable() {
-    const location = useLocation();
-    const rowData = location.state?.rowData;
+function MarksTable() {
+    const [marks, setMarks] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    // Simulated data for testing
-    const simulatedMarksData = [
-        { subject: 'Math', marks: 90 },
-        { subject: 'Science', marks: 85 },
-        { subject: 'History', marks: 88 },
-        // Add more subjects and marks as needed
-    ];
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('http://localhost:510/api/presentation/marks');
+                setMarks(response.data);
+                setLoading(false);
+            } catch (error) {
+                console.error('Error fetching marks:', error);
+                setLoading(false);
+            }
+        };
 
-    if (!rowData || !Array.isArray(rowData.marks)) {
-        return (
-            <div className="p-4">
-                <p>Error: Unable to fetch student data or marks.</p>
-            </div>
-        );
+        fetchData();
+    }, []);
+
+    if (loading) {
+        return <p>Loading...</p>;
     }
 
     return (
-        <div className="p-4">
-            <h1 className="text-2xl font-semibold mb-4">Student Marks: {rowData.firstName} {rowData.lastName}</h1>
-            <table className="min-w-full text-left text-sm font-light">
-                <thead className="border-b bg-white font-medium dark:border-neutral-500 dark:bg-neutral-600">
+        <div className="overflow-x-auto">
+            <table className="min-w-full text-left text-sm font-light border-collapse">
+                <thead className="border-b bg-white font-medium">
                     <tr>
-                        <th scope="col" className="px-6 py-4">Subject</th>
-                        <th scope="col" className="px-6 py-4">Marks</th>
+                        <th className="px-6 py-3">Presentation Type</th>
+                        <th className="px-6 py-3">User ID</th>
+                        <th className="px-6 py-3">Mark 1</th>
+                        <th className="px-6 py-3">Mark 2</th>
+                        <th className="px-6 py-3">Mark 3</th>
+                        <th className="px-6 py-3">Rubric Index</th>
+                        <th className="px-6 py-3">Date</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {rowData.marks.map((mark, index) => (
-                        <tr key={index} className="border- dark:border-neutral-500">
-                            <td className="whitespace-nowrap px-6 py-4 font-medium">{mark.subject}</td>
-                            <td className="whitespace-nowrap px-6 py-4 font-medium">{mark.marks}</td>
+                    {marks.map((mark, index) => (
+                        <tr key={index} className="border-b hover:bg-gray-100">
+                            <td className="px-6 py-4">{mark.presentationType}</td>
+                            <td className="px-6 py-4">{mark.userId}</td>
+                            {mark.marks.map((singleMark, markIndex) => (
+                                <td key={markIndex} className="px-6 py-4">{singleMark}</td>
+                            ))}
+                            <td className="px-6 py-4">{mark.rubricIndex}</td>
+                            <td className="px-6 py-4">{new Date(mark.createdAt).toLocaleDateString()}</td>
                         </tr>
                     ))}
                 </tbody>
@@ -44,4 +56,4 @@ function StudentMarksTable() {
     );
 }
 
-export default StudentMarksTable;
+export default MarksTable;
