@@ -159,53 +159,45 @@ function Rubrics() {
   };
 
   const renderPresentationList = () => {
-    return presentationList.map((presentation) => {
-      return presentation.criteriaDetails.map((criteria, index) => {
-        return (
-          <tr
-            key={presentation._id + index}
-            className="bg-white border-b hover:bg-gray-50"
+    return presentationList.map((presentation, index) => {
+      return (
+        <tr key={index} className="bg-white border-b hover:bg-gray-50">
+          <td
+            scope="row"
+            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
           >
-            <td
-              scope="row"
-              className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-            >
-              {criteria.criteria}
-            </td>
-            <td
-              scope="row"
-              className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-            >
-              {presentation.type}
-            </td>
-            <td
-              scope="row"
-              className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-            >
-              <Link
-                // to={`/dashboard/pMemberDash/ScheduledPresentations/UpdateSchedule/${schedules._id}`}
-                to={"/"}
-              >
-                <button className="btn btn-default ml-7">
-                  <i
-                    style={{ cursor: "pointer", color: "#1044A7" }}
-                    className="fa-solid fa-pen me-3  d-inline"
-                  />
-                </button>
-              </Link>
-              <button
-                className="btn btn-default ml-3"
-                onClick={() => deleteRubric(presentation)}
-              >
+            {presentation.topic}
+          </td>
+          <td
+            scope="row"
+            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+          >
+            {presentation.type}
+          </td>
+          <td
+            scope="row"
+            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+          >
+            <Link to={`/dashboard/updateMarkingRubric/${presentation._id}`}>
+              <button className="btn btn-default ml-7">
                 <i
-                  style={{ cursor: "pointer", color: "#ff0000" }}
-                  className="fa-solid fa-trash-can d-inline me-2 text-danger d-inline"
+                  style={{ cursor: "pointer", color: "#1044A7" }}
+                  className="fa-solid fa-pen me-3  d-inline"
                 />
               </button>
-            </td>
-          </tr>
-        );
-      });
+            </Link>
+            <button
+              className="btn btn-default ml-3"
+              onClick={() => deleteRubric(presentation)}
+            >
+              <i
+                style={{ cursor: "pointer", color: "#ff0000" }}
+                className="fa-solid fa-trash-can d-inline me-2 text-danger d-inline"
+              />
+            </button>
+          </td>
+        </tr>
+      );
     });
   };
 
