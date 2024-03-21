@@ -1,4 +1,4 @@
-import GroupModel from "../models/GroupModel.js";
+import GroupModel from "../../models/studentModels/GroupModel.js";
 
 // Create new Group
 export const createGroup = async (req, res) => {
@@ -9,6 +9,40 @@ export const createGroup = async (req, res) => {
         member4,
         groupLeader
     } = req.body;
+
+
+    //checkwhether the members added are already grouped or not
+    const isMember1Exist= await GroupModel.findOne({member1:member1});
+    const isMember2Exist= await GroupModel.findOne({member2:member2});
+    const isMember3Exist= await GroupModel.findOne({member3:member3});
+    const isMember4Exist= await GroupModel.findOne({member4:member4});
+
+    if(isMember1Exist){
+        res.status(500).json({
+            message:"This member1 is already grouped!"
+        })
+        return;
+    }
+    else if(isMember2Exist){
+        res.status(500).json({
+            message:"This member2 is already grouped!"
+        })
+        return;
+    }
+    else if(isMember3Exist){
+        res.status(500).json({
+            message:"This member3 is already grouped!"
+        })
+        return;
+    }
+    else if(isMember4Exist){
+        res.status(500).json({
+            message:"This member4 is already grouped!"
+        })
+        return;
+    }
+
+
 
     const result = await GroupModel.find();
     const groupCount = result.length;
@@ -36,7 +70,7 @@ export const createGroup = async (req, res) => {
         });
     }).catch((err) => {
         res.status(500).json({
-            message: "Error while creating new Group",
+            message: err.message,
             error: err,
         });
     });
