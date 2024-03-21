@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from "react";
-import "../../styles/SchedulePresentation.css";
+import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
 import Axios from "axios";
-import SchedulePresentationValidation from "../../validation/SchedulePresentation";
-import Sweetalert2 from "sweetalert2";
-
-function SchedulePresentation(props) {
-  const [scheduleList, setScheduleList] = useState([]);
-  const [ScheduleID, setScheduleID] = useState("");
-  const [GroupID, setGroupID] = useState("");
-  const [date, setDate] = useState("");
-  const [timeDuration, settimeDuration] = useState("");
-  const [location, setlocation] = useState("");
-  const [topic, settopic] = useState("");
+import moment from "moment";
+import SchedulePresentation from "../../validation/SchedulePresentation";
+ 
+function UpdateSchedule() {
+  const { id } = useParams();
+ 
+  const [scheduledPresentation, setScheduledPresentation] = useState({});
   const [examinersList, setExaminersList] = useState([
     "Select Examiner",
     "Ms. Indudini Thennakoon",
@@ -22,96 +18,155 @@ function SchedulePresentation(props) {
   ]);
   const [examiners, setexaminers] = useState([]);
   const [errors, setErrors] = useState({});
-
+ 
+  console.log(id);
+ 
   useEffect(() => {
-    getAllSchedule();
+    Axios.get("http://localhost:510/schedule/searchSchedule/" + id)
+      .then((res) => {
+        console.log(res.data.data);
+        setexaminers(res.data.data.examiners);
+        setScheduledPresentation(res.data.data);
+      })
+      .catch((err) => console.log(err));
   }, []);
-
-  const getAllSchedule = async () => {
-    await Axios.get("http://localhost:510/schedule/getSchedules").then((response) => {
-      console.log(response.data.data);
-      setScheduleList(response.data.data);
-    });
-  };
-
-  const renderExaminers = () => {
+ 
+  const renderExaminersFirst = () => {
+    console.log("hkjhjkhk", examiners[0]);
     return examinersList.map((examiner, index) => {
       return (
-        <option key={index} value={examiner}>
+        <option
+          key={index}
+          value={examiner}
+          selected={examiners[0] === examiner ? true : false}
+        >
           {" "}
           {examiner}{" "}
         </option>
       );
     });
   };
-
+ 
+  const renderExaminersSecond = () => {
+    return examinersList.map((examiner, index) => {
+      return (
+        <option
+          key={index}
+          value={examiner}
+          selected={examiners[1] === examiner ? true : false}
+        >
+          {" "}
+          {examiner}{" "}
+        </option>
+      );
+    });
+  };
+ 
+  const renderExaminersThird = () => {
+    return examinersList.map((examiner, index) => {
+      return (
+        <option
+          key={index}
+          value={examiner}
+          selected={examiners[2] === examiner ? true : false}
+        >
+          {" "}
+          {examiner}{" "}
+        </option>
+      );
+    });
+  };
+ 
   const onHandleExaminerChange = (e) => {
     if (e.target.name === "examiners01") {
       examiners[0] = e.target.value;
+      setScheduledPresentation({
+        ...scheduledPresentation,
+        examiners: examiners,
+      });
     } else if (e.target.name === "examiners02") {
       examiners[1] = e.target.value;
+      setScheduledPresentation({
+        ...scheduledPresentation,
+        examiners: examiners,
+      });
     } else if (e.target.name === "examiners03") {
       examiners[2] = e.target.value;
+      setScheduledPresentation({
+        ...scheduledPresentation,
+        examiners: examiners,
+      });
     }
   };
 
-  const submitSchedule = async () => {
-    const newSchedule = {
-      ScheduleID: ScheduleID,
-      GroupID: GroupID,
-      date: date,
-      timeDuration: timeDuration,
-      location: location,
-      topic: topic,
-      examiners: examiners,
-    };
-
-    const { error, isInvalid } = SchedulePresentationValidation(newSchedule);
-
-    if (isInvalid) {
-      setErrors(error);
-      Sweetalert2.fire({
-        toast: true,
-        position: "top-end",
-        showConfirmButton: false,
-        timer: 3000,
-        icon: "error",
-        title: "Please enter your details",
+  const OnHandleChangeInputs = (e) => {
+    if (e.target.name === "examiners") {
+      setScheduledPresentation({
+        ...scheduledPresentation,
+        examiners: examiners,
       });
     } else {
-      setErrors(error);
-      await Axios.post(
-        "http://localhost:510/schedule/createSchedule",
-        newSchedule
-      ).then((response) => {
-        console.log("data",response.data);
-        if (response.data.status === 200) {
+      setScheduledPresentation({
+        ...scheduledPresentation,
+        [e.target.name]: e.target.value,
+      });
+    }
+  };
+ 
+  const onUpdate = () => {
+  const newSchedule = {
+    "GroupID": scheduledPresentation.GroupID,
+    "date": scheduledPresentation.date,
+    "location": scheduledPresentation.location,
+    "timeDuration": scheduledPresentation.timeDuration,
+    "topic": scheduledPresentation.topic,
+    "examiners" : examiners,
+    
+  };
+
+ const { errors, isValid } = SchedulePresentation(newSchedule);
+
+if (!isValid) {
+  setErrors(errors);
+  Sweetalert2.fire({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    icon: 'error',
+    title: 'Please enter your details',
+  });
+} else {
+    setErrors(errors);
+    Axios.put("http://localhost:510/schedule/putSchedule/:id", newSchedule)
+      .then((response) => {
+        if (response.data.message) {
           Sweetalert2.fire({
             toast: true,
-            position: "top-end",
+            position: 'top-end',
             showConfirmButton: false,
             timer: 3000,
-            icon: "success",
+            icon: 'success',
             title: `${response.data.message}`,
           });
 
-          setScheduleList([]);
-          setGroupID("");
-          setDate("");
-          settimeDuration("");
-          setlocation("");
-          settopic("");
-          setexaminers([]);
-          getAllSchedule();
+          console.log(response.data); 
+
+          // Clear input fields after successful update
+          setScheduledPresentation({});
+          setExaminers([]);
         }
+      })
+      .catch((error) => {
+        console.error("Error updating schedule:", error);
       });
-    }
-  };
+  }
+};
 
   return (
     <div className="main_container w-full h-full">
       <div className="item fw-bold text-center">
-        <h5 className="pageName">Schedule Presentation</h5>
+        <h5 className="pageName">Update Scheduled Presentation</h5>
       </div>
       <div className="card p-5">
         <div className="smallcard row max-w-5xl mx-auto border rounded-md py-10 px-10">
@@ -132,10 +187,8 @@ function SchedulePresentation(props) {
                      disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
                      invalid:border-pink-500 invalid:text-pink-600
                      focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
-                      value={GroupID}
-                      onChange={(e) => {
-                        setGroupID(e.target.value);
-                      }}
+                     name="GroupID"
+                      value={scheduledPresentation.GroupID} onChange={(e) => OnHandleChangeInputs(e)}
                     >
                       <option defaultValue="Select Group">Select Group</option>
                       <option value="Group 01">Group 01</option>
@@ -148,25 +201,27 @@ function SchedulePresentation(props) {
                 <div className="col">
                   <label className="block">
                     <span className="block text-sm font-medium text-slate-500">
-                  <label className="block">
-                    <span className="block text-sm font-medium text-slate-500">
                       Select Date
                     </span>
                     <input
-                      type="date"
-                      className="block min-w-[425px] px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
+                      type="text"
                       className="block min-w-[425px] px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
                       focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
                      disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
                      invalid:border-pink-500 invalid:text-pink-600
                      focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
-                      value={date}
-                      onChange={(e) => {
-                        setDate(e.target.value);
+                     name="date"
+                      onFocus={(e) => {
+                        e.currentTarget.type = "date";
                       }}
+                      value={moment(scheduledPresentation.date).format("YYYY-MM-DD")}
+
+                      onChange={(e) =>{setScheduledPresentation({"date": e.target.value})}
+                    }
+
+                      
                       min={new Date().toISOString().split("T")[0]}
                     />
-                    <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
                     <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
                       Please provide a valid date.
                     </p>
@@ -189,10 +244,10 @@ function SchedulePresentation(props) {
                      disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
                      invalid:border-pink-500 invalid:text-pink-600
                      focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
-                    value={location}
-                    onChange={(e) => {
-                      setlocation(e.target.value);
-                    }}
+
+                     name="location"
+                    value={scheduledPresentation.location} 
+                    onChange={(e) => OnHandleChangeInputs(e)}
                   />
                   <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
                     Please provide a location.
@@ -210,11 +265,9 @@ function SchedulePresentation(props) {
                       focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
                      disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
                      invalid:border-pink-500 invalid:text-pink-600
-                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
-                      value={timeDuration}
-                      onChange={(e) => {
-                        settimeDuration(e.target.value);
-                      }}
+                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500" name = "timeDuration"
+                      value={scheduledPresentation.timeDuration} 
+                      onChange={(e) => OnHandleChangeInputs(e)}
                     />
                     <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
                       Please provide the time.
@@ -237,11 +290,9 @@ function SchedulePresentation(props) {
                       focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
                      disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
                      invalid:border-pink-500 invalid:text-pink-600
-                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
-                    value={topic}
-                    onChange={(e) => {
-                      settopic(e.target.value);
-                    }}
+                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500" name="topic"
+                    value={scheduledPresentation.topic}
+                    onChange={(e) => OnHandleChangeInputs(e)}
                   />
                   <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
                     Please provide a title for schedule.
@@ -268,7 +319,7 @@ function SchedulePresentation(props) {
                         onHandleExaminerChange(e);
                       }}
                     >
-                      {renderExaminers()}
+                      {renderExaminersFirst()}
                     </select>
                   </div>
                   <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
@@ -296,7 +347,7 @@ function SchedulePresentation(props) {
                         onHandleExaminerChange(e);
                       }}
                     >
-                      {renderExaminers()}
+                      {renderExaminersSecond()}
                     </select>
                   </div>
                   <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
@@ -324,7 +375,7 @@ function SchedulePresentation(props) {
                         onHandleExaminerChange(e);
                       }}
                     >
-                      {renderExaminers()}
+                      {renderExaminersThird()}
                     </select>
                   </div>
                   <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
@@ -338,12 +389,11 @@ function SchedulePresentation(props) {
                   <button
                     type="button"
                     className="btn btnAdd hover:bg-blue-500 bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                    id="btnAdd "
-                    onClick={() => {
-                      submitSchedule();
+                    id="btnAdd " onClick={() => {
+                      onUpdate();
                     }}
                   >
-                    Publish Schedule
+                    Update Schedule
                   </button>
                 </div>
               </div>
@@ -354,5 +404,4 @@ function SchedulePresentation(props) {
     </div>
   );
 }
-
-export default SchedulePresentation;
+export default UpdateSchedule;

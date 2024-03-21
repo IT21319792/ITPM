@@ -45,6 +45,53 @@ function AssignmentView() {
     }
   };
 
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import CoordinatorWelcomeCard from '../../../components/CoordinatorWelcomeCard';
+import { Navigate, useNavigate } from 'react-router-dom';
+
+function AssignmentView() {
+  const [assignments, setAssignments] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchAssignments();
+  }, []);
+
+
+  const AddAssignments = () => {
+    navigate('/dashboard/addAssignments');
+  }
+  const fetchAssignments = async () => {
+    try {
+      const response = await axios.get('http://localhost:510/assignment/');
+      setAssignments(response.data);
+    } catch (error) {
+      console.error('Error fetching assignments:', error);
+    }
+  };
+
+  const handleUpdate = async (id) => {
+    try {
+      const response = await axios.get(`http://localhost:510/assignment/get/${id}`);
+      console.log('Assignment:', response.data);
+      alert('Assignment updated successfully');
+    } catch (error) {
+      console.error('Error updating assignment:', error);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:510/assignment/delete/${id}`);
+      // After deletion, fetch the updated list of assignments
+      fetchAssignments();
+      alert('Assignment deleted successfully');
+    } catch (error) {
+      console.error('Error deleting assignment:', error);
+    }
+  };
+
   return (
     <div className="bg-grey-lighter min-h-screen flex flex-col bg-white p-4">
      <CoordinatorWelcomeCard />
@@ -59,7 +106,7 @@ function AssignmentView() {
                 <th className="px-4 py-2">Subtype</th>
                 <th className="px-4 py-2">Deadline</th>
                 <th className="px-4 py-2">Description</th>
-                <th className="px-4 py-2">Created By</th>
+                <th className="px-4 py-2">User</th>
                 <th className="px-4 py-2">Role</th>
                 <th className="px-4 py-2">Actions</th>
               </tr>
