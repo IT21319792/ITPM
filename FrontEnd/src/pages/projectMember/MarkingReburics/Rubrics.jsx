@@ -102,24 +102,25 @@ function Rubrics() {
   };
 
   const deleteRubric = (rubric) => {
-    Toast.fire({
-      icon: "warning",
-      title: "Are you sure you want to delete?",
-      confirmButtonColor: "#1044A7",
+    Sweetalert2.fire({
+      title: 'Are you sure?',
+      text: "You want to delete this!",
+      icon: 'warning',
       showCancelButton: true,
-      showConfirmButton: true,
-      confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "No, cancel!",
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
     }).then((result) => {
       if (result.isConfirmed) {
     axios
       .delete(`http://localhost:510/rubric/deleterubric/${rubric.rubricID}`)
       .then((response) => {
         if (response.data.result.status === 200) {
-          Toast.fire({
-            icon: "success",
-            title: `${response.data.message}`,
-          });
+          Sweetalert2.fire(
+            'Deleted!',
+            'Your record has been deleted.',
+            'success'
+        );
           if (!isReportClicked) {
             loadAllReports();
           } else {
