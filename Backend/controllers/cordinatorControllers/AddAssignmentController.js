@@ -74,10 +74,10 @@ export const searchAssignments = async (req, res) => {
 // Update an assignment by ID
 export const updateAssignment = async (req, res) => {
     const { id } = req.params;
-    const { title, type, subType, deadline, description } = req.body;
+    const { title, type, subType, deadline, description,user,role } = req.body;
 
     try {
-        const updatedAssignment = await AddAssignment.findByIdAndUpdate(id, { title, type, subType, deadline, description }, { new: true });
+        const updatedAssignment = await AddAssignment.findByIdAndUpdate(id, { title, type, subType, deadline, description,user,role }, { new: true });
         if (!updatedAssignment) {
             return res.status(404).json({ message: 'Assignment not found' });
         }

@@ -30,18 +30,19 @@ function ProjectMemberAdd() {
     errors.email = validateEmail(formData.email);
     errors.contactNo = validateContactNo(formData.contactNo);
     
+    
     const errorFields = Object.entries(errors)
       .filter(([field, error]) => error !== null)
       .map(([field, error]) => `${field} ${error}`);
     
-    // If there are errors, display them and return
+   
     if (errorFields.length > 0) {
       const errorMessage = errorFields.join(', ');
       toast.error(errorMessage);
       return;
     }
     
- 
+    
     axios.post('http://localhost:510/user/create', formData)
       .then(() => {
         toast.success('Project member added successfully');
@@ -50,7 +51,7 @@ function ProjectMemberAdd() {
       .catch((err) => {
         console.log('Form data:', formData);
         console.log('Error:', err);
-       toast.error('Error adding project member');
+        toast.error('Error adding project member');
         toast.error(err.response.data.message);
       });
   };
