@@ -1,4 +1,4 @@
-import SchedulePresentationModel from "../models/SchedulePresentationModel.js";
+import SchedulePresentationModel from "../../models/projectMemberModels/SchedulePresentationModel.js";  
 
 // create new presentation schedule
 const createSchedule = async (req, res) => {
@@ -116,7 +116,7 @@ const deleteSchedule = async (req, res) => {
 };
 
 
-// create search function to search by schedule ID , group ID,date , and location
+//  search 
 
 const searchSchedule = async (req, res) => {
     console.log(req.params.key)

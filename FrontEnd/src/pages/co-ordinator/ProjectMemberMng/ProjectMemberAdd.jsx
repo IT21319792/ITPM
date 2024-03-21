@@ -7,7 +7,7 @@ function ProjectMemberAdd() {
   const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', contactNo: '', password: '', confirm_password: '' })
 
   const role = 'member'
-  const password = '123456' 
+  const password = '1234' 
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -34,7 +34,7 @@ function ProjectMemberAdd() {
 
   return (
 
-    <div className="bg-grey-lighter min-h-screen flex flex-col">
+    <div className="bg-grey-lighter min-h-screen flex flex-col bg-white ">
       <div className="container max-w-xl mx-auto flex-1 flex flex-col items-center justify-center px-2">
         <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
           <h1 className="mb-8 text-3xl text-center">Add Users</h1>

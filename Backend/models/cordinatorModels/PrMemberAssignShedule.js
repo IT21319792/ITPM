@@ -1,28 +1,24 @@
-import mongoose from 'mongoose';  
-const Schema= mongoose.Schema;
+import mongoose from 'mongoose';
+
+const { Schema } = mongoose;
 
 const PrMemberAssignSheduleSchema = new Schema({
-
-  memberName:{
+  firstName: {
     type: String,
     required: true
   },
-  semester:{
-
+  selectedAssignment: {
     type: String,
+    enum: ['presentation'],
     required: true
   },
-  Type: {
+  selectedSubType: {
     type: String,
-    enum: ["AssignShedule"],
- },
- presentationName:{
-    type:String,
     required: true
- }
+  }
+});
 
-  
-    
-})
+
 const PrMemberAssignShedule = mongoose.model("p_member_assign_shedule", PrMemberAssignSheduleSchema);
+
 export default PrMemberAssignShedule;

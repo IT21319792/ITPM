@@ -4,14 +4,14 @@ import dotenv from 'dotenv'
 import { dbConfig } from './utils/dbConfig.js';
 import cors from 'cors';
 import userRouter from './routes/UserRoutes.js';
-import RubricRouter from './routes/RubricRoutes.js';
-import ScheduleRouter from './routes/SchedulePresentationRoutes.js';
-import MarkRouter from './routes/MarkRoutes.js';
+import RubricRouter from './routes/projectMemberRoutes/RubricRoutes.js';
+import ScheduleRouter from './routes/projectMemberRoutes/SchedulePresentationRoutes.js';
 
 import { assign } from 'nodemailer/lib/shared/index.js';
 import AssignMarkRouter from './routes/cordinatorRoutes/AssignMarkRouter.js';
 import AssignShedulerouter from './routes/cordinatorRoutes/AssignSheduleRouter.js';
 import AddMarkRouter from './routes/examinerRoutes/AddMarkRouter.js';
+import AddAssignmentRouter from './routes/cordinatorRoutes/AddAssignmentRouter.js';
 
 
 const PORT = process.env.PORT || 510;
@@ -32,9 +32,7 @@ app.use('/schedule', ScheduleRouter);
 app.use('/assignMark',AssignMarkRouter);
 app.use('/assignShedule',AssignShedulerouter);
 app.use('/presentation',AddMarkRouter)
-
-//Mark Routes
-app.use('/Mark', MarkRouter);
+app.use('/assignment',AddAssignmentRouter);
 
 dbConfig().then(()=>{
     app.listen(PORT,()=>{

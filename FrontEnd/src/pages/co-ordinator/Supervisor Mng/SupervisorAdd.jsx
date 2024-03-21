@@ -3,10 +3,10 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 
-function ExaminerAdd() {
+function SupervisorAdd() {
   const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', contactNo: '', password: '', confirm_password: '' })
 
-  const role = 'examinar'
+  const role = 'supervisor'
   const password = '1234' 
   const handleChange = (e) => {
     setFormData({
@@ -21,13 +21,13 @@ function ExaminerAdd() {
     e.preventDefault()
     axios.post('http://localhost:510/user/create', formData)
       .then(() => {
-        alert('Examiner added successfully')
-        console.log('Examiner added successfully')//alert('User created successfully')
+        alert('Suprvisor added successfully')
+        console.log('Supervisor added successfully')//alert('User created successfully')
       })
       .catch((err) => {
         console.log('Form data:', formData)
         console.log('Error:', err)
-        alert('Examiner adding failed')
+        alert('Supervisor adding failed')
         alert(err.response.data.message)
       })
   }
@@ -37,7 +37,7 @@ function ExaminerAdd() {
     <div className="bg-grey-lighter min-h-screen flex flex-col bg-white ">
       <div className="container max-w-xl mx-auto flex-1 flex flex-col items-center justify-center px-2">
         <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
-          <h1 className="mb-8 text-3xl text-center">Add Examiner</h1>
+          <h1 className="mb-8 text-3xl text-center">Add Supervisor</h1>
           <form onSubmit={handleSubmit} className="mb-4 md:flex md:flex-wrap md:justify-between" action="/signup/" method="post">
 
             <div className='flex gap-2 w-full'>
@@ -47,7 +47,7 @@ function ExaminerAdd() {
                 type="text"
                 className="block border border-grey-light w-full p-3 rounded mb-4"
                 name="firstName"
-                placeholder="Examiner First Name"
+                placeholder="Supervisor First Name"
                 id='firstName'
                 onChange={handleChange} />
 
@@ -55,7 +55,7 @@ function ExaminerAdd() {
                 type="text"
                 className="block border border-grey-light w-full p-3 rounded mb-4"
                 name="lastName"
-                placeholder="ExaminerLast Name"
+                placeholder="SupervisorLast Name"
                 id='lastName'
                 onChange={handleChange} />
 
@@ -120,4 +120,4 @@ function ExaminerAdd() {
   )
 }
 
-export default ExaminerAdd;
+export default SupervisorAdd;
