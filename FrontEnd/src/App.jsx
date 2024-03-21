@@ -37,6 +37,7 @@ import AssignmentAdd from './pages/co-ordinator/AssignmentMng/AddAssignments';
 import ScheduledPresentations from './pages/projectMember/ScheduledPresentations';
 import UpdateSchedule from './pages/projectMember/UpdateSchedule';
 import Rubrics from './pages/projectMember/MarkingReburics/Rubrics';
+import UpdateRubrics from "./pages/projectMember/MarkingReburics/UpdateRubrics";
 
 
 
@@ -101,7 +102,7 @@ function App() {
           <Route path='/dashboard/pMemberDash/ScheduledPresentations' element={<ScheduledPresentations />} />
           <Route path='/dashboard/pMemberDash/ScheduledPresentations/UpdateSchedule/:id' element={<UpdateSchedule />} />
           <Route path='/dashboard/markingRubric' element={<Rubrics />} />
-
+          <Route path="/dashboard/updateMarkingRubric/:id" element={<UpdateRubrics />}/>
 
 
 
