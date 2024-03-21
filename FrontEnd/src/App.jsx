@@ -38,6 +38,7 @@ import AssignmentAdd from './pages/co-ordinator/AssignmentMng/AddAssignments';
 import ScheduledPresentations from './pages/projectMember/ScheduledPresentations';
 import UpdateSchedule from './pages/projectMember/UpdateSchedule';
 import StudentMarksTable from './pages/examinar/ExaminerViewMark';
+import Rubrics from './pages/projectMember/MarkingReburics/Rubrics';
 
 
 
@@ -86,6 +87,7 @@ function App() {
           <Route path='/dashboard/presentationDetails' element={<PresentationDetails />} />
           <Route path='/dashboard/marking' element={<AddMarking />} />
           <Route path='/dashboard/addAssignments' element={<AssignmentAdd />} />
+          
 
 
 
@@ -101,6 +103,7 @@ function App() {
           <Route path='/dashboard/pMemberDash/SchedulePresentation' element={<SchedulePresentation />} />
           <Route path='/dashboard/pMemberDash/ScheduledPresentations' element={<ScheduledPresentations />} />
           <Route path='/dashboard/pMemberDash/ScheduledPresentations/UpdateSchedule/:id' element={<UpdateSchedule />} />
+          <Route path='/dashboard/markingRubric' element={<Rubrics />} />
 
 
 

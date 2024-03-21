@@ -178,12 +178,12 @@ export const memberListItems = (
       </ListItemButton>
     </Link>
 
-    <Link to={'/dashboard/reports'}>
+    <Link to={'/dashboard/markingRubric'}>
       <ListItemButton>
         <ListItemIcon>
           <AssignmentIcon />
         </ListItemIcon>
-        <ListItemText primary="Reports" />
+        <ListItemText primary="Marking" />
       </ListItemButton>
     </Link>
 
