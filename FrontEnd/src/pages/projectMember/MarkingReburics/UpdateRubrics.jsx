@@ -123,24 +123,25 @@ function UpdateRubrics() {
   };
 
   const deleteRubric = (rubric) => {
-    Toast.fire({
-      icon: "warning",
-      title: "Are you sure you want to delete?",
-      confirmButtonColor: "#1044A7",
-      showCancelButton: true,
-      showConfirmButton: true,
-      confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "No, cancel!",
+    Sweetalert2.fire({
+        title: 'Are you sure?',
+        text: "You want to delete this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!',
     }).then((result) => {
       if (result.isConfirmed) {
         axios
           .delete(`http://localhost:510/rubric/deleterubric/${rubric.rubricID}`)
           .then((response) => {
             if (response.data.result.status === 200) {
-              Toast.fire({
-                icon: "success",
-                title: `${response.data.message}`,
-              });
+                Sweetalert2.fire(
+                    'Deleted!',
+                    'Your record has been deleted.',
+                    'success'
+                );
               if (!isReportClicked) {
                 loadAllReports();
                 navigate("/dashboard/markingRubric");
@@ -445,7 +446,7 @@ function UpdateRubrics() {
               </div>
               <button
                 type="submit"
-                className="mb-4 text-white hover:bg-green-500 bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                className="mb-4 text-white hover:bg-blue-500 bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                 onClick={onSubmit}
               >
                 Update Marking Rubric
@@ -461,7 +462,7 @@ function UpdateRubrics() {
                   <tr>
                     <th scope="col" className="px-6 py-3">
                       <div className="flex items-center">
-                        Marking
+                        Marking Topic
                         <a href="#">
                           <svg
                             className="w-3 h-3 ms-1.5"

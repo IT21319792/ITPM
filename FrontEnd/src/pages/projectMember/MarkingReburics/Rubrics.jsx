@@ -430,7 +430,7 @@ function Rubrics() {
                   <tr>
                     <th scope="col" className="px-6 py-3">
                       <div className="flex items-center">
-                        Marking
+                        Marking Topic
                         <a href="#">
                           <svg
                             className="w-3 h-3 ms-1.5"
