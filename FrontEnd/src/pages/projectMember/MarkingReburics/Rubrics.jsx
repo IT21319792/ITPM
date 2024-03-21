@@ -15,6 +15,18 @@ function Rubrics() {
 
   const [presentationList, setPresentationList] = useState([]);
 
+  const Toast = Sweetalert2.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.onmouseenter = Sweetalert2.stopTimer;
+      toast.onmouseleave = Sweetalert2.resumeTimer;
+    },
+  });
+
   useEffect(() => {
     if (!isReportClicked) {
       loadAllReports();
@@ -68,10 +80,9 @@ function Rubrics() {
       .post("http://localhost:510/rubric/addrubric", newRubric)
       .then((response) => {
         if (response.data.result.status === 200) {
-          Sweetalert2.fire({
+          Toast.fire({
             icon: "success",
-            title: "Success",
-            text: `${response.data.message}`,
+            title: `${response.data.message}`,
           });
           if (!isReportClicked) {
             loadAllReports();
@@ -88,23 +99,26 @@ function Rubrics() {
 
   const checkReportRadioClicked = () => {
     setIsReportClicked(!isReportClicked);
-    if (isReportClicked) {
-      console.log("Report Clicked", isReportClicked);
-    } else {
-      console.log("Presentation Clicked", isReportClicked);
-    }
   };
 
   const deleteRubric = (rubric) => {
+    Toast.fire({
+      icon: "warning",
+      title: "Are you sure you want to delete?",
+      confirmButtonColor: "#1044A7",
+      showCancelButton: true,
+      showConfirmButton: true,
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "No, cancel!",
+    }).then((result) => {
+      if (result.isConfirmed) {
     axios
       .delete(`http://localhost:510/rubric/deleterubric/${rubric.rubricID}`)
       .then((response) => {
         if (response.data.result.status === 200) {
-          console.log(response.data);
-          Sweetalert2.fire({
+          Toast.fire({
             icon: "success",
-            title: "Success",
-            text: `${response.data.message}`,
+            title: `${response.data.message}`,
           });
           if (!isReportClicked) {
             loadAllReports();
@@ -113,6 +127,7 @@ function Rubrics() {
           }
         }
       });
+    }});
   };
 
   const renderReportList = () => {
@@ -274,9 +289,9 @@ function Rubrics() {
               <div className="mb-5">
                 <div
                   className={
-                    enteredRubrics.length == 0
-                      ? "mb-3 border pb-6 border-gray-200 px-4 rounded-lg hidden"
-                      : "mb-3 border pb-6 border-gray-200 px-4 rounded-lg block"
+                    enteredRubrics.length > 0
+                      ? "mb-3 border pb-6 border-gray-200 px-4 rounded-lg block"
+                      : "mb-3 border pb-6 border-gray-200 px-4 rounded-lg hidden"
                   }
                 >
                   {enteredRubrics.map((rubric, index) => (
