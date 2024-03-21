@@ -87,11 +87,13 @@ const updateSchedule = async (req, res) => {
     res.status(500).json({
       message: "Error while updating scheduled presentation",
       error: "Something went wrong",
+      status: res.statusCode,
     });
   } else {
     res.status(200).json({
       message: "Presentation schedule updated successfully",
       data: result,
+      status: res.statusCode,
     });
   }
 };
