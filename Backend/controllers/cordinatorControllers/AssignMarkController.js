@@ -7,11 +7,8 @@ export const AssignMark = async (req, res) => {
     const membername = req.body.name;
     try {
         await newAssignMarking.save();
-        res.status(200)
-            .json({ message: 'Assigning Project member ' + membername + ' to add marking rubric is successful' });
-            .json({ message: 'Assigning Project member ' + membername + ' to add marking rubric is successful' });
+        res.status(200).json({ message: 'Assigning Project member ' + membername + ' to add marking rubric is successful' });
     } catch (error) {
-        res.status(500).json({ message: error.message });
         res.status(500).json({ message: error.message });
     }
 }
@@ -20,14 +17,9 @@ export const AssignMark = async (req, res) => {
 export const getAssignMark = async (req, res) => {
     try {
         const allAssignMarks = await PrMember.find();
-        const allAssignMarks = await PrMember.find();
-        res.status(200)
-            .json(allAssignMarks);
-            .json(allAssignMarks);
+        res.status(200).json(allAssignMarks);
     } catch (error) {
-        res.status(500)
-            .json({ message: error.message });
-            .json({ message: error.message });
+        res.status(500).json({ message: error.message });
     }
 }
 
@@ -36,18 +28,13 @@ export const updateAssignMark = async (req, res) => {
     const id = req.params.id;
     const data = req.body;
     if (!id) {
-    if (!id) {
         throw Error("Id can't be empty");
     }
     try {
         const updatedAssignMark = await PrMember.findByIdAndUpdate(id, data);
-        const updatedAssignMark = await PrMember.findByIdAndUpdate(id, data);
-        res.status(200)
-            .json({ message: 'Assigned member details updated successfully', subject: updatedAssignMark });
-            .json({ message: 'Assigned member details updated successfully', subject: updatedAssignMark });
+        res.status(200).json({ message: 'Assigned member details updated successfully', subject: updatedAssignMark });
     } catch (error) {
-        res.status(500)
-            .json({ message: error.message });
+        res.status(500).json({ message: error.message });
     }
 }
 
@@ -60,11 +47,9 @@ export const deleteAssignMarks = async (req, res) => {
     }
     try {
         const DeletedAssignMark = await PrMember.findByIdAndDelete(id);
-        res.status(200)
-            .json({ message: name + ' member details deleted successfully', subject: DeletedAssignMark });
+        res.status(200).json({ message: name + ' member details deleted successfully', subject: DeletedAssignMark });
     } catch (error) {
-        res.status(500)
-            .json({ message: error.message });
+        res.status(500).json({ message: error.message });
     }
 }
 
@@ -76,14 +61,9 @@ export const getOneAssignMark = async (req, res) => {
     }
     try {
         const oneAssignMark = await PrMember.findById(id);
-        res.status(200)
-            .json(oneAssignMark);
-            .json(oneAssignMark);
+        res.status(200).json(oneAssignMark);
     } catch (error) {
-        res.status(500)
-            .json({ message: error.message });
-    }
-            .json({ message: error.message });
+        res.status(500).json({ message: error.message });
     }
 }
 
