@@ -8,7 +8,7 @@ function ExaminerPresentationMarks() {
   const [rubricMarks, setRubricMarks] = useState([]);
   const [rubricData, setRubricData] = useState(null);
   const [error, setError] = useState(null);
-  const { rowData } = useLocation().state;
+  const rowData = location.state ? location.state.rowData : null;
 
   useEffect(() => {
     if (presentationType) {
@@ -101,7 +101,7 @@ function ExaminerPresentationMarks() {
               </div>
             )}
             <div>
-              <h2 className="text-xl mb-4">{rowData.firstName}</h2>
+            <h2 className="text-xl mb-4">{rowData && rowData.firstName}</h2>
 
             </div>
           </div>

@@ -148,13 +148,10 @@ function SchedulePresentation(props) {
                 <div className="col">
                   <label className="block">
                     <span className="block text-sm font-medium text-slate-500">
-                  <label className="block">
-                    <span className="block text-sm font-medium text-slate-500">
                       Select Date
                     </span>
                     <input
                       type="date"
-                      className="block min-w-[425px] px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
                       className="block min-w-[425px] px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
                       focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
                      disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
@@ -166,7 +163,6 @@ function SchedulePresentation(props) {
                       }}
                       min={new Date().toISOString().split("T")[0]}
                     />
-                    <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
                     <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
                       Please provide a valid date.
                     </p>

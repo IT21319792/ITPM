@@ -23,6 +23,7 @@ import SchedulePresentation from './pages/projectMember/SchedulePresentation';
 import ProjectMemberMng from './pages/co-ordinator/ProjectMemberMng/ProjectMemberMng';
 import ExaminerMng from './pages/co-ordinator/ExaminerMng/ExaminerMng';
 
+
 import AssignmentDetails from './pages/co-ordinator/AssignmentMng/AssignmentDetails';
 import AddMarking from './pages/co-ordinator/Markings/AddMarking';
 import ProjectMemberAdd from './pages/co-ordinator/ProjectMemberMng/ProjectMemberAdd';
@@ -36,6 +37,7 @@ import StudentMng from './pages/co-ordinator/StdDetailsMng/StudentFinalMarks';
 import AssignmentAdd from './pages/co-ordinator/AssignmentMng/AddAssignments';
 import ScheduledPresentations from './pages/projectMember/ScheduledPresentations';
 import UpdateSchedule from './pages/projectMember/UpdateSchedule';
+import StudentMarksTable from './pages/examinar/ExaminerViewMark';
 
 
 
@@ -75,14 +77,7 @@ function App() {
           <Route path='/dashboard/proMembers' element={<ProjectMemberMng />} />
           <Route path='/dashboard/addmember' element={<ProjectMemberAdd />} />
           <Route path='/dashboard/assignmember' element={<ProjectMemberAssign />} />
-          <Route path='/dashboard/proMembers' element={<ProjectMemberMng />} />
-          <Route path='/dashboard/addmember' element={<ProjectMemberAdd />} />
-          <Route path='/dashboard/assignmember' element={<ProjectMemberAssign />} />
           <Route path='/dashboard/examiners' element={<ExaminerMng />} />
-          <Route path='/dashboard/addexaminer' element={<ExaminerAdd />} />
-          <Route path='/dashboard/supervisors' element={<SupervisorMng />} />
-          <Route path='/dashboard/addSupervisor' element={<SupervisorAdd />} />
-          <Route path='/dashboard/stdDetails' element={<StudentMng />} />
           <Route path='/dashboard/addexaminer' element={<ExaminerAdd />} />
           <Route path='/dashboard/supervisors' element={<SupervisorMng />} />
           <Route path='/dashboard/addSupervisor' element={<SupervisorAdd />} />
@@ -91,11 +86,6 @@ function App() {
           <Route path='/dashboard/presentationDetails' element={<PresentationDetails />} />
           <Route path='/dashboard/marking' element={<AddMarking />} />
           <Route path='/dashboard/addAssignments' element={<AssignmentAdd />} />
-          <Route path='/dashboard/presentationDetails' element={<PresentationDetails />} />
-          <Route path='/dashboard/marking' element={<AddMarking />} />
-          <Route path='/dashboard/addAssignments' element={<AssignmentAdd />} />
-
-
 
 
 
@@ -111,9 +101,6 @@ function App() {
           <Route path='/dashboard/pMemberDash/SchedulePresentation' element={<SchedulePresentation />} />
           <Route path='/dashboard/pMemberDash/ScheduledPresentations' element={<ScheduledPresentations />} />
           <Route path='/dashboard/pMemberDash/ScheduledPresentations/UpdateSchedule/:id' element={<UpdateSchedule />} />
-          <Route path='/dashboard/pMemberDash/SchedulePresentation' element={<SchedulePresentation />} />
-
-
 
 
 
