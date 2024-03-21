@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../../styles/SchedulePresentation.css";
 import Axios from "axios";
 import { Link } from "react-router-dom";
+import Sweetalert2 from "sweetalert2";
 
 function ScheduledPresentations() {
   const [scheduleList, setScheduleList] = useState([]);
@@ -51,7 +52,7 @@ function ScheduledPresentations() {
           </button>
           </Link>
           <button
-            className="btn btn-default ml-3"
+            className="btn btn-default ml-3" onClick={() => deleteSchedule(schedules)}
             
           >
             <i
@@ -63,6 +64,41 @@ function ScheduledPresentations() {
       </tr>
     ));
   };
+
+  const deleteSchedule = (schedule) => {
+    Sweetalert2.fire({
+        title: 'Are you sure?',
+        text: "You want to delete this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Axios.delete(`http://localhost:510/schedule/deleteSchedule/${schedule._id}`).then((response) => {
+                console.log(response)
+                if (response.data.result.response) {
+                    Sweetalert2.fire(
+                        'Deleted!',
+                        'Your record has been deleted.',
+                        'success'
+                    )
+                    getAllSchedule();
+                } else {
+                    Sweetalert2.fire(
+                        'Not Deleted!',
+                        'Something want wrong',
+                        'error'
+                    )
+                    getAllSchedule();
+                }
+            })
+
+        }
+    })
+
+}
 
   return (
     <div className="main_container w-full h-full">
