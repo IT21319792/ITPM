@@ -125,6 +125,15 @@ const searchRubricByTopic = async (req, res) => {
   });
 };
 
+const searchRubricByRubricID = async (req, res) => {
+  const data = req.params.key;
+  let result = await RubricModel.findById(data);
+  res.status(200).json({
+    message: "Rubric Search By RubricID details",
+    data: result,
+  });
+};
+
 export {
   addRubric,
   getRubrics,
