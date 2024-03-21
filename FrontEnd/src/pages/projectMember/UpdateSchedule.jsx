@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Axios from "axios";
 import moment from "moment";
+import SchedulePresentation from "../../validation/SchedulePresentation";
  
 function UpdateSchedule() {
   const { id } = useParams();
@@ -16,6 +17,7 @@ function UpdateSchedule() {
     "Mr. Madhusha Prasad",
   ]);
   const [examiners, setexaminers] = useState([]);
+  const [errors, setErrors] = useState({});
  
   console.log(id);
  
@@ -111,10 +113,56 @@ function UpdateSchedule() {
     }
   };
  
-  const onSubmit = () => {
-    console.log(scheduledPresentation);
- 
+  const onUpdate = () => {
+  const newSchedule = {
+    "GroupID": scheduledPresentation.GroupID,
+    "date": scheduledPresentation.date,
+    "location": scheduledPresentation.location,
+    "timeDuration": scheduledPresentation.timeDuration,
+    "topic": scheduledPresentation.topic,
+    "examiners" : examiners,
+    
   };
+
+ const { errors, isValid } = SchedulePresentation(newSchedule);
+
+if (!isValid) {
+  setErrors(errors);
+  Sweetalert2.fire({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    icon: 'error',
+    title: 'Please enter your details',
+  });
+} else {
+    setErrors(errors);
+    Axios.put("http://localhost:510/schedule/putSchedule/:id", newSchedule)
+      .then((response) => {
+        if (response.data.message) {
+          Sweetalert2.fire({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            icon: 'success',
+            title: `${response.data.message}`,
+          });
+
+          console.log(response.data); 
+
+          // Clear input fields after successful update
+          setScheduledPresentation({});
+          setExaminers([]);
+        }
+      })
+      .catch((error) => {
+        console.error("Error updating schedule:", error);
+      });
+  }
+};
+
   return (
     <div className="main_container w-full h-full">
       <div className="item fw-bold text-center">
@@ -342,7 +390,7 @@ function UpdateSchedule() {
                     type="button"
                     className="btn btnAdd hover:bg-blue-500 bg-blue-700 text-white font-bold py-2 px-4 rounded"
                     id="btnAdd " onClick={() => {
-                      onSubmit();
+                      onUpdate();
                     }}
                   >
                     Publish Schedule
