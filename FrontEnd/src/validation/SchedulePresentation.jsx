@@ -56,8 +56,8 @@ const SchedulePresentationValidation = (data) => {
     errors.topic = "Topic is required";
   }
 
-  if (examiners.length === 0) {
-    errors.examiners = "Examiners are required";
+  if (examiners.some(examiner => examiner === "Select Examiner")) {
+    errors.examiners = "Please select examiners";
   }
 
   return {
