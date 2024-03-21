@@ -56,35 +56,37 @@ const getRubrics = async (req, res) => {
 
 // create update function for rubric
 const updateRubric = async (req, res) => {
-  const { rubricID, topic, criteria, marks, type } = req.body;
+  const id = req.params.id;
+  const { rubricID, topic, type, criteriaDetails } = req.body;
 
-  const result = await RubricModel.findOneAndUpdate(
-    {
-      rubricID: rubricID,
-    },
+  console.log("id", id);
+  console.log("topic", topic);
+  console.log("type", type);
+  console.log("criteriaDetails", criteriaDetails);
+
+  const response = await RubricModel.findOneAndUpdate(
+    { rubricID: rubricID },
     {
       topic: topic,
-      criteria: criteria,
-      marks: marks,
       type: type,
+      criteriaDetails: criteriaDetails,
     }
   );
-
-  if (!result) {
-    res.status(500).json({
-      message: "Error while updating rubric",
-      error: "Something went wrong",
-    });
+  if (!response) {
+    res.status(500).send("Error while updating rubric");
   } else {
     res.status(200).json({
-      message: "Rubric updated successfully",
-      data: result,
+      message: "Rubric Updated successfully",
+      result: {
+        data: response,
+        response: true,
+        status: 200,
+      },
     });
   }
 };
 
 // delete rubric
-
 const deleteRubric = async (req, res) => {
   const id = req.params.id;
   console.log("id", id);
@@ -130,4 +132,5 @@ export {
   deleteRubric,
   searchRubricByTopic,
   searchRubricByType,
+  searchRubricByRubricID,
 };
