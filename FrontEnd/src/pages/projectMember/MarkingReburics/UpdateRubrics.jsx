@@ -292,7 +292,7 @@ function UpdateRubrics() {
           <div className="mt-5 mx-auto border rounded-md bg-white">
             <div className="flex items-center justify-center p-5">
               <h4 className="text-lg text-gray-90 font-bold">
-                Create Marking Rubrics
+                Update Marking Rubrics
               </h4>
             </div>
             <form className="max-w-sm mx-auto text-center" id="rubricsFrom">
