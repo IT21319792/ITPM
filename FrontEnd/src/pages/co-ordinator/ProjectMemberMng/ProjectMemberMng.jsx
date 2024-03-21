@@ -4,11 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import Modal from 'react-modal'; // Import the Modal component
 
 function ProjectMemberMng() {
   const navigate = useNavigate();
   const [tableData, setTableData] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
+  const [selectedUser, setSelectedUser] = useState(null); // State to store the selected user for pop up form
 
   useEffect(() => {
     async function fetchData() {
@@ -53,39 +55,37 @@ function ProjectMemberMng() {
     navigate('/dashboard/addmember');
   };
 
-// assign page eketa navvigating
-const handleAssignPage = (rowData) => {
-  if (rowData.assignedSchedule || rowData.assignedMarking) {
-    const toastId = toast.warn(
-      <div>
-        <p>This member is already assigned to both schedule and marking.</p>
-        <button onClick={() => handleProceed(rowData, toastId)} className="bg-blue-500 text-white rounded bg-primary px-3 pb-2 pt-2.5 ml-2">Proceed</button>
-        <button onClick={() => toast.dismiss(toastId)} className="bg-red-500 inline-block rounded text-white bg-primary px-3 pb-2 pt-2.5 ml-2">Cancel</button>
-      </div>,
-      {
-        closeOnClick: false,
-        draggable: false,
-        autoClose: false // Prevents auto-closing
-      }
-    );
-  } else {
+  const handleAssignPage = (rowData) => {
+    if (rowData.assignedSchedule || rowData.assignedMarking) {
+      const toastId = toast.warn(
+        <div>
+          <p>This member is already assigned to both schedule and marking.</p>
+          <button onClick={() => handleProceed(rowData, toastId)} className="bg-blue-500 text-white rounded bg-primary px-3 pb-2 pt-2.5 ml-2">Proceed</button>
+          <button onClick={() => toast.dismiss(toastId)} className="bg-red-500 inline-block rounded text-white bg-primary px-3 pb-2 pt-2.5 ml-2">Cancel</button>
+        </div>,
+        {
+          closeOnClick: false,
+          draggable: false,
+          autoClose: false // Prevents auto-closing
+        }
+      );
+    } else {
+      navigate('/dashboard/assignmember', { state: { rowData } });
+    }
+  };
+
+  const handleProceed = (rowData, toastId) => {
     navigate('/dashboard/assignmember', { state: { rowData } });
-  }
-};
-
-const handleProceed = (rowData, toastId) => {
-  navigate('/dashboard/assignmember', { state: { rowData } });
-  toast.dismiss(toastId); // Dismiss the toast message after proceeding
-};
-
-  const handleUpdate = () => {
-    //  update logic eka
+    toast.dismiss(toastId); // Dismiss the toast message after proceeding
+  };
+  const handleUpdate = (user) => {
+    setSelectedUser(user); // Set the selected user details
+    setIsModalOpen(true); // Open the modal
   };
 
   const handleDelete = () => {
     // delete logic
   };
-
   return (
     <div className="p-4">
       <CoordinatorWelcomeCard />
@@ -112,12 +112,9 @@ const handleProceed = (rowData, toastId) => {
                 <td className="px-6 py-4">{data.email}</td>
                 <td className="px-6 py-4">{data.assignedSchedule ? data.assignedSchedule.selectedAssignment : 'Not Assigned to any'}</td>
                 <td className="px-6 py-4">{data.assignedMarking ? data.assignedMarking.selectedAssignment : 'Not Assigned to any'}</td>
-
-
                 <td className="px-6 py-4 flex justify-center text-white">
-                  <button onClick={handleUpdate} className="bg-blue-500 rounded bg-primary px-3 pb-2 pt-2.5 ml-2">Update</button>
+                  <button onClick={() => handleUpdate(data)} className="bg-blue-500 rounded bg-primary px-3 pb-2 pt-2.5 ml-2">Update</button>
                   <button onClick={handleDelete} className="bg-red-500 inline-block rounded bg-primary px-3 pb-2 pt-2.5 ml-2">Delete</button>
-                  <div>
                   <ToastContainer />
                   <button
                     onClick={() => handleAssignPage(data)}
@@ -126,10 +123,6 @@ const handleProceed = (rowData, toastId) => {
                   >
                     Assign This Member
                   </button>
-
-                  </div>
-                 
-
                 </td>
               </tr>
             ))}
@@ -141,8 +134,83 @@ const handleProceed = (rowData, toastId) => {
           Add Member
         </button>
       </div>
+
+      {/* Modal for Update */}
+      {isModalOpen && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-500 bg-opacity-75">
+    <div className="bg-white p-8 rounded-md shadow-md">
+      <h2 className="text-xl mb-4">Update User</h2>
+      <form>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">First Name</label>
+          <input
+            type="text"
+            value={selectedUser.firstName}
+            onChange={(e) => setSelectedUser({ ...selectedUser, firstName: e.target.value })}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">Last Name</label>
+          <input
+            type="text"
+            value={selectedUser.lastName}
+            onChange={(e) => setSelectedUser({ ...selectedUser, lastName: e.target.value })}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">Contact Number</label>
+          <input
+            type="text"
+            value={selectedUser.contactNo}
+            onChange={(e) => setSelectedUser({ ...selectedUser, contactNo: e.target.value })}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">Email</label>
+          <input
+            type="email"
+            value={selectedUser.email}
+            onChange={(e) => setSelectedUser({ ...selectedUser, email: e.target.value })}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+        </div>
+        {/* Add more fields as needed */}
+        <div className="flex justify-end">
+          <button
+            type="button"
+            onClick={() => setIsModalOpen(false)}
+            className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2 focus:outline-none focus:shadow-outline"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            onClick={(e) => {
+              e.preventDefault();
+              // Handle form submission with updated user data
+              setIsModalOpen(false); // Close modal after submission
+            }}
+            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            Update
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+)}
+
+
+
+
     </div>
   );
+
+
+
 }
 
 export default ProjectMemberMng;
