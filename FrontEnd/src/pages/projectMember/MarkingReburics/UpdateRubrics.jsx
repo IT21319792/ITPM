@@ -460,9 +460,9 @@ function UpdateRubrics() {
               <table className="w-full text-sm text-left rtl:text-right text-gray-500">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-5">
                   <tr>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-10 py-3">
                       <div className="flex items-center">
-                        Marking Topic
+                        Name of the Marking Rubric
                         <a href="#">
                           <svg
                             className="w-3 h-3 ms-1.5"
