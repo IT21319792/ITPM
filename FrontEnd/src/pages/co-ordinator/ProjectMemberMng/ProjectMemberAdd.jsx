@@ -2,6 +2,8 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import { validateContactNo, validateEmail, validateFirstName, validateLastName } from '../../../validation/CordinatorValidations/PrjMemberAddValid'
+import { toast } from 'react-toastify'
 
 function ProjectMemberAdd() {
   const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', contactNo: '', password: '', confirm_password: '' })
@@ -17,20 +19,43 @@ function ProjectMemberAdd() {
     })
   }
 
+  //submission of form with validations
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
+    
+    // Validate form data
+    const errors = {};
+    errors.firstName = validateFirstName(formData.firstName);
+    errors.lastName = validateLastName(formData.lastName);
+    errors.email = validateEmail(formData.email);
+    errors.contactNo = validateContactNo(formData.contactNo);
+    
+    const errorFields = Object.entries(errors)
+      .filter(([field, error]) => error !== null)
+      .map(([field, error]) => `${field} ${error}`);
+    
+    // If there are errors, display them and return
+    if (errorFields.length > 0) {
+      const errorMessage = errorFields.join(', ');
+      toast.error(errorMessage);
+      return;
+    }
+    
+ 
     axios.post('http://localhost:510/user/create', formData)
       .then(() => {
-        alert('Project member added successfully')
-        console.log('Project member added successfully')//alert('User created successfully')
+        toast.success('Project member added successfully');
+        console.log('Project member added successfully');
       })
       .catch((err) => {
-        console.log('Form data:', formData)
-        console.log('Error:', err)
-        alert('Project member adding failed')
-        alert(err.response.data.message)
-      })
-  }
+        console.log('Form data:', formData);
+        console.log('Error:', err);
+       toast.error('Error adding project member');
+        toast.error(err.response.data.message);
+      });
+  };
+  
+
 
   return (
 

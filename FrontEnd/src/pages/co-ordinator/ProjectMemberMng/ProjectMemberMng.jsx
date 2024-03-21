@@ -112,9 +112,54 @@ function ProjectMemberMng() {
       toast.error(error.message);
     }
   };
-  const handleDelete = () => {
-    // delete logic
+// delete function
+  // const handleDelete = async (id) => {
+  //   try {
+
+      
+  //     const response = await axios.delete(`http://localhost:510/user/delete-account/${id}`);
+  
+  //     if (response.status === 200) {
+  //       console.log('User deleted successfully');
+  //       // Remove the deleted user from the table data
+  //       setTableData(prevData => prevData.filter(data => data._id !== id)); 
+  //       toast.success('User deleted successfully');
+  //     } else {
+  //       console.error('Failed to delete user:', response.data.message);
+  //       toast.error('Failed to delete user:', response.data.message);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error deleting user:', error.message);
+  //     toast.error('Error deleting user:', error.message);
+  //   }
+  // };
+  
+  const handleDelete = async (id) => {
+    const confirmation = window.confirm('Are you sure you want to delete this user?');
+  
+    if (confirmation) {
+      try {
+        const response = await axios.delete(`http://localhost:510/user/delete-account/${id}`);
+  
+        if (response.status === 200) {
+          console.log('User deleted successfully');
+          // Remove the deleted user from the table data
+          setTableData(prevData => prevData.filter(data => data._id !== id)); 
+          toast.success('User deleted successfully');
+        } else {
+          console.error('Failed to delete user:', response.data.message);
+          toast.error('Failed to delete user:', response.data.message);
+        }
+      } catch (error) {
+        console.error('Error deleting user:', error.message);
+        toast.error('Error deleting user:', error.message);
+      }
+    }
   };
+  
+  
+
+
   return (
     <div className="p-4">
       <CoordinatorWelcomeCard />
@@ -143,7 +188,8 @@ function ProjectMemberMng() {
                 <td className="px-6 py-4">{data.assignedMarking ? data.assignedMarking.selectedAssignment : 'Not Assigned to any'}</td>
                 <td className="px-6 py-4 flex justify-center text-white">
                   <button onClick={() => handleUpdate(data)} className="bg-blue-500 rounded bg-primary px-3 pb-2 pt-2.5 ml-2">Update</button>
-                  <button onClick={handleDelete} className="bg-red-500 inline-block rounded bg-primary px-3 pb-2 pt-2.5 ml-2">Delete</button>
+                  <button onClick={() => handleDelete(data._id)} className="bg-red-500 inline-block rounded bg-primary px-3 pb-2 pt-2.5 ml-2">Delete</button>
+
                   <ToastContainer />
                   <button
                     onClick={() => handleAssignPage(data)}
