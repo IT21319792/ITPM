@@ -6,6 +6,8 @@ import CoordinatorWelcomeCard from '../../../components/CoordinatorWelcomeCard';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
+import AssignmentPDF from '../utils/AssignmentPDF';
+import ReactDOMServer from 'react-dom/server';
 
 function AssignmentView() {
   const user = Cookies.get('firstName');
@@ -90,6 +92,29 @@ function AssignmentView() {
     }
   };
 
+  // Inside the AssignmentView component
+
+  const handleGeneratePDF = (assignment) => {
+    // Render the AssignmentPDFGenerator component to a string
+    const pdfContent = ReactDOMServer.renderToStaticMarkup(<AssignmentPDF assignment={assignment} />);
+  
+    // Open a new tab with the PDF content
+    const pdfWindow = window.open("");
+    pdfWindow.document.write(`
+      <html>
+        <head>
+          <title>Assignment PDF</title>
+          <style>
+            body { margin: 0; }
+          </style>
+        </head>
+        <body>
+          ${pdfContent}
+        </body>
+      </html>
+    `);
+  };
+
 
   return (
     <div className="bg-grey-lighter min-h-screen flex flex-col bg-white p-4">
@@ -128,6 +153,7 @@ function AssignmentView() {
                       Delete
                     </button>
                     <button onClick={() => handleUpdate(assignment)} className="bg-blue-500 rounded bg-primary px-3 pb-2 pt-2.5 ml-2">Update</button>
+                    <button onClick={() => handleGeneratePDF(assignment)}  className="bg-yellow-400 rounded bg-primary px-3 pb-2 pt-2.5 ml-2">Generate PDF</button>
                   </td>
 
                 </tr>

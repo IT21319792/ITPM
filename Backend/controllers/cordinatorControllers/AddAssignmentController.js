@@ -1,5 +1,6 @@
 import AddAssignment from "../../models/cordinatorModels/AddAssignmentModel.js";
 
+
 export const addAssignments = async (req, res) => {
     try {
         const { title, type, subType, deadline, description, user, role } = req.body;
@@ -102,4 +103,5 @@ export const deleteAssignment = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
 
