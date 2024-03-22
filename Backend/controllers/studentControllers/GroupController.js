@@ -78,7 +78,7 @@ export const createGroup = async (req, res) => {
     const groupCount = result.length;
 
     // generate new Group ID for the new Groups
-    const newGroupID = `GRP${groupCount + 2}`;
+    const newGroupID = `GRP${groupCount + 1}`;
 
     const mongooseRes = new GroupModel({
         groupID: newGroupID,
