@@ -443,8 +443,7 @@ function UpdateSchedule() {
                     className="btn btnAdd hover:bg-blue-500 bg-blue-700 text-white font-bold py-2 px-4 rounded"
                     id="btnAdd "
                     onClick={() => {
-                      onUpdate();
-                    }}
+                      onUpdate();}}
                   >
                     Update Schedule
                   </button>
