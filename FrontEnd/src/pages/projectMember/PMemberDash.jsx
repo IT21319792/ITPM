@@ -22,7 +22,7 @@ function PMemberDash() {
                 type="button"
                 className="btnSchedule bg-green-800 text-white font-bold rounded-md px-4 py-2 ml-20 mr-20"
             >
-               Schedueled List  
+               Scheduled List  
             </button>
         </Link>
     </div>
