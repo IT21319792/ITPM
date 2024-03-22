@@ -3,8 +3,11 @@ import { FaMinusCircle, FaPlusCircle } from "react-icons/fa";
 import axios from "axios";
 import Sweetalert2 from "sweetalert2";
 import { Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
-function Rubrics() {
+function UpdateRubrics() {
+  const { id } = useParams();
+
   const [enteredRubrics, setEnteredRubrics] = useState([]);
 
   const [rubric, setRubric] = useState({});
@@ -14,6 +17,8 @@ function Rubrics() {
   const [reportList, setReportList] = useState([]);
 
   const [presentationList, setPresentationList] = useState([]);
+
+  const navigate = useNavigate();
 
   const Toast = Sweetalert2.mixin({
     toast: true,
@@ -26,6 +31,18 @@ function Rubrics() {
       toast.onmouseleave = Sweetalert2.resumeTimer;
     },
   });
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:510/rubric/searchrubricbyid/" + id)
+      .then((response) => {
+        setRubric({
+          rubricID: response.data.data.rubricID,
+          topic: response.data.data.topic,
+        });
+        setEnteredRubrics(response.data.data.criteriaDetails);
+      });
+  }, [id]);
 
   useEffect(() => {
     if (!isReportClicked) {
@@ -51,7 +68,7 @@ function Rubrics() {
       });
   };
 
-  const handleOnChnage = (e) => {
+  const handleOnChange = (e) => {
     setRubric({ ...rubric, [e.target.id]: e.target.value });
   };
 
@@ -71,13 +88,15 @@ function Rubrics() {
     });
 
     const newRubric = {
+      rubricID: rubric.rubricID,
+      _id: id,
       topic: rubric.topic,
       criteriaDetails: filteredEnteredRubrics,
       type: rubric.type,
     };
 
     axios
-      .post("http://localhost:510/rubric/addrubric", newRubric)
+      .put("http://localhost:510/rubric/putrubric/" + id, newRubric)
       .then((response) => {
         if (response.data.result.status === 200) {
           Toast.fire({
@@ -88,9 +107,11 @@ function Rubrics() {
             loadAllReports();
             document.querySelector("#rubricsFrom").reset();
             setRubric({});
+            navigate("/dashboard/markingRubric");
           } else {
             loadAllPresentations();
             document.querySelector("#rubricsFrom").reset();
+            navigate("/dashboard/markingRubric");
             setRubric({});
           }
         }
@@ -103,35 +124,39 @@ function Rubrics() {
 
   const deleteRubric = (rubric) => {
     Sweetalert2.fire({
-      title: 'Are you sure?',
-      text: "You want to delete this!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!',
+        title: 'Are you sure?',
+        text: "You want to delete this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!',
     }).then((result) => {
       if (result.isConfirmed) {
-    axios
-      .delete(`http://localhost:510/rubric/deleterubric/${rubric.rubricID}`)
-      .then((response) => {
-        if (response.data.result.status === 200) {
-          Sweetalert2.fire(
-            'Deleted!',
-            'Your record has been deleted.',
-            'success'
-        );
-          if (!isReportClicked) {
-            loadAllReports();
-          } else {
-            loadAllPresentations();
-          }
-        }
-      });
-    }});
+        axios
+          .delete(`http://localhost:510/rubric/deleterubric/${rubric.rubricID}`)
+          .then((response) => {
+            if (response.data.result.status === 200) {
+                Sweetalert2.fire(
+                    'Deleted!',
+                    'Your record has been deleted.',
+                    'success'
+                );
+              if (!isReportClicked) {
+                loadAllReports();
+                navigate("/dashboard/markingRubric");
+              } else {
+                loadAllPresentations();
+                navigate("/dashboard/markingRubric");
+              }
+            }
+          });
+      }
+    });
   };
 
   const renderReportList = () => {
+    console.log(reportList);
     return reportList.map((report, index) => {
       return (
         <tr key={index} className="bg-white border-b hover:bg-gray-50">
@@ -267,7 +292,7 @@ function Rubrics() {
           <div className="mt-5 mx-auto border rounded-md bg-white">
             <div className="flex items-center justify-center p-5">
               <h4 className="text-lg text-gray-90 font-bold">
-                Create Marking Rubrics
+                Update Marking Rubrics
               </h4>
             </div>
             <form className="max-w-sm mx-auto text-center" id="rubricsFrom">
@@ -281,8 +306,9 @@ function Rubrics() {
                     id="topic"
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg block w-full p-2.5   "
                     placeholder="Enter Topic"
+                    value={rubric.topic}
                     required
-                    onChange={handleOnChnage}
+                    onChange={handleOnChange}
                   />
                 </div>
               </div>
@@ -325,11 +351,14 @@ function Rubrics() {
                           <input
                             id="enteredCriteria"
                             placeholder={rubric.criteria}
+                            value={rubric.criteria}
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                            disabled
-                            readOnly
                             required
                             type="text"
+                            onChange={(e) => {
+                              enteredRubrics[index].criteria = e.target.value;
+                              setEnteredRubrics([...enteredRubrics]);
+                            }}
                           />
                         </div>
                       </div>
@@ -344,11 +373,14 @@ function Rubrics() {
                           <input
                             id="enteredMarks"
                             placeholder={rubric.marks}
+                            value={rubric.marks}
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                            disabled
-                            readOnly
                             required
                             type="text"
+                            onChange={(e) => {
+                              enteredRubrics[index].marks = e.target.value;
+                              setEnteredRubrics([...enteredRubrics]);
+                            }}
                           />
                         </div>
                       </div>
@@ -385,7 +417,7 @@ function Rubrics() {
                   placeholder="Enter Marking Criteria"
                   className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5   "
                   required
-                  onChange={handleOnChnage}
+                  onChange={handleOnChange}
                   onFocus={(e) => {
                     e.preventDefault();
                     e.target.value = "";
@@ -405,7 +437,7 @@ function Rubrics() {
                   placeholder="Enter Marks"
                   className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   required
-                  onChange={handleOnChnage}
+                  onChange={handleOnChange}
                   onFocus={(e) => {
                     e.preventDefault();
                     e.target.value = "";
@@ -414,10 +446,10 @@ function Rubrics() {
               </div>
               <button
                 type="submit"
-                className="mb-4 text-white hover:bg-green-500 bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                className="mb-4 text-white hover:bg-blue-500 bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                 onClick={onSubmit}
               >
-                Create Marking Rubric
+                Update Marking Rubric
               </button>
             </form>
           </div>
@@ -428,7 +460,7 @@ function Rubrics() {
               <table className="w-full text-sm text-left rtl:text-right text-gray-500">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-5">
                   <tr>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-10 py-3">
                       <div className="flex items-center">
                         Name of the Marking Rubric
                         <a href="#">
@@ -477,4 +509,4 @@ function Rubrics() {
   );
 }
 
-export default Rubrics;
+export default UpdateRubrics;
