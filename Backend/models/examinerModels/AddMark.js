@@ -1,24 +1,31 @@
 import mongoose from 'mongoose';
 
-const PresentationMarksSchema = new mongoose.Schema({
+const ExaminerPresentationMarksSchema = new mongoose.Schema({
   presentationType: {
     type: String,
     required: true
   },
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'users',
-    required: true
-  },
-  marks: [{
-    type: Number,
-    required: true
-  }],
-  rubricIndex: {
-    type: Number,
-    required: true
-  }
+  students: [
+    {
+      firstName: {
+        type: String,
+        required: true
+      },
+      marks: [
+        {
+          rubricID: {
+            type: Number,
+            required: true
+          },
+          mark: {
+            type: Number,
+            required: true
+          }
+        }
+      ]
+    }
+  ]
 }, { timestamps: true });
 
-const PresentationMarksModel = mongoose.model('presentation_marks', PresentationMarksSchema);
-export default PresentationMarksModel;
+const ExaminerPresentationMarksModel = mongoose.model('ExaminerPresentationMarks', ExaminerPresentationMarksSchema);
+export default ExaminerPresentationMarksModel;

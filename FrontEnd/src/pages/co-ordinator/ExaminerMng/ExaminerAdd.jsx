@@ -2,6 +2,8 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import { validateContactNo, validateEmail, validateFirstName, validateLastName } from '../../../validation/CordinatorValidations/PrjMemberAddValid'
+import { toast } from 'react-toastify'
 
 function ExaminerAdd() {
   const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', contactNo: '', password: '', confirm_password: '' })
@@ -18,19 +20,40 @@ function ExaminerAdd() {
   }
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
+  
+    // Validate form data
+    const errors = {};
+    errors.firstName = validateFirstName(formData.firstName);
+    errors.lastName = validateLastName(formData.lastName);
+    errors.email = validateEmail(formData.email);
+    errors.contactNo = validateContactNo(formData.contactNo);
+  
+    // Filter out fields with errors
+    const errorFields = Object.entries(errors)
+      .filter(([field, error]) => error !== null)
+      .map(([field, error]) => `${field} ${error}`);
+  
+    // If there are errors, display them and return
+    if (errorFields.length > 0) {
+      toast.error(errorFields.join('\n'));
+      return;
+    }
+  
+    // If validation passes, proceed with form submission
     axios.post('http://localhost:510/user/create', formData)
       .then(() => {
-        alert('Examiner added successfully')
-        console.log('Examiner added successfully')//alert('User created successfully')
+        toast.success('Examiner added successfully');
+        console.log('Examiner added successfully');
       })
       .catch((err) => {
-        console.log('Form data:', formData)
-        console.log('Error:', err)
-        alert('Examiner adding failed')
-        alert(err.response.data.message)
-      })
-  }
+        console.log('Form data:', formData);
+        console.log('Error:', err);
+       toast.error('Error adding examiner');
+       toast.error(err.response.data.message);  
+      });
+  };
+  
 
   return (
 

@@ -23,6 +23,7 @@ import SchedulePresentation from './pages/projectMember/SchedulePresentation';
 import ProjectMemberMng from './pages/co-ordinator/ProjectMemberMng/ProjectMemberMng';
 import ExaminerMng from './pages/co-ordinator/ExaminerMng/ExaminerMng';
 
+
 import AssignmentDetails from './pages/co-ordinator/AssignmentMng/AssignmentDetails';
 import AddMarking from './pages/co-ordinator/Markings/AddMarking';
 import ProjectMemberAdd from './pages/co-ordinator/ProjectMemberMng/ProjectMemberAdd';
@@ -36,6 +37,7 @@ import StudentMng from './pages/co-ordinator/StdDetailsMng/StudentFinalMarks';
 import AssignmentAdd from './pages/co-ordinator/AssignmentMng/AddAssignments';
 import ScheduledPresentations from './pages/projectMember/ScheduledPresentations';
 import UpdateSchedule from './pages/projectMember/UpdateSchedule';
+import StudentMarksTable from './pages/examinar/ExaminerViewMark';
 import Rubrics from './pages/projectMember/MarkingReburics/Rubrics';
 import UpdateRubrics from "./pages/projectMember/MarkingReburics/UpdateRubrics";
 
@@ -94,6 +96,7 @@ function App() {
           <Route path='examinarDash' element={<ExaminarDash />} />
           <Route path='/dashboard/marksAssignments' element={<ExaminerPresentationMarks />} />
           <Route path='/dashboard/addMarks' element={<ExaminerPresentationMarks />} />
+          <Route path='/dashboard/marks' element={<StudentMarksTable />} />
 
 
           {/* Project Member Routes  */}

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import CoordinatorWelcomeCard from '../../components/CoordinatorWelcomeCard';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 function ProjectMemberMng() {
     const Navigate = useNavigate();
+    const location = useLocation(); 
 
     const [studentData, setStudentData] = useState([]);
 
@@ -23,8 +24,12 @@ function ProjectMemberMng() {
         Navigate('/dashboard/addMarks', { state: { rowData: rowData } });
     }
 
+    const handleViewMarks = (rowData) => {
+        Navigate('/dashboard/marks', { state: { rowData: rowData } });
+    }
+
     const handleUpdate = () => {
-        // Handle update functionality
+   
     }
 
     return (
@@ -37,28 +42,36 @@ function ProjectMemberMng() {
                 <table className="min-w-full text-left text-sm font-light">
                     <thead className="border-b bg-white font-medium dark:border-neutral-500 dark:bg-neutral-600">
                         <tr>
+                            <th scope="col" className="px-6 py-4">Group Name</th>
                             <th scope="col" className="px-6 py-4">First Name</th>
                             <th scope="col" className="px-6 py-4">Last Name</th>
                             <th scope="col" className="px-6 py-4">Email</th>
                             <th scope="col" className="px-6 py-4">Status</th>
+                            <th scope="col" className="px-6 py-4">Marks</th>
                             <th scope="col" className="px-6 py-4">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {studentData.map((data, index) => (
                             <tr key={index} className="border- dark:border-neutral-500">
+                                <td className="whitespace-nowrap px-6 py-4 font-medium transition duration-300 ease-in-out hover:bg-neutral-100  dark:hover:bg-neutral-600">{data.groupName}</td>
                                 <td className="whitespace-nowrap px-6 py-4 font-medium transition duration-300 ease-in-out hover:bg-neutral-100  dark:hover:bg-neutral-600">{data.firstName}</td>
                                 <td className="whitespace-nowrap px-6 py-4 font-medium transition duration-300 ease-in-out hover:bg-neutral-100  dark:hover:bg-neutral-600">{data.lastName}</td>
                                 <td className="whitespace-nowrap px-6 py-4 font-medium transition duration-300 ease-in-out hover:bg-neutral-100  dark:hover:bg-neutral-600">{data.email}</td>
                                 <td className="whitespace-nowrap px-6 py-4 font-medium transition duration-300 ease-in-out hover:bg-neutral-100  dark:hover:bg-neutral-600">{data.hasMarks ? 'Marks Added' : 'No Marks'}</td>
+                                <td className="whitespace-nowrap px-6 py-4 font-medium">
+                                    {data.hasMarks ? (
+                                        <button onClick={() => handleViewMarks(data)} className="rounded px-3 pb-2 pt-2.5 bg-yellow-500 text-white hover:bg-yellow-600">View Marks</button>
+                                    ) : (
+                                        <span>No Marks</span>
+                                    )}
+                                </td>
                                 <td className="whitespace-nowrap px-6 py-4 font-medium">
                                     <button onClick={handleUpdate} className={`rounded px-3 pb-2 pt-2.5 ml-2 ${data.hasMarks ? 'bg-gray-500 text-gray-400 cursor-not-allowed' : 'bg-blue-500 text-white hover:bg-blue-600'}`} disabled={data.hasMarks}>Update</button>
                                     <button onClick={() => handleAddMarks(data)} className={`rounded px-3 pb-2 pt-2.5 ${data.hasMarks ? 'bg-gray-500 text-gray-400 cursor-not-allowed' : 'bg-green-700 text-white hover:bg-green-800'}`} disabled={data.hasMarks}>Add Marks</button>
                                 </td>
                             </tr>
                         ))}
-
-
                     </tbody>
                 </table>
             </div>
