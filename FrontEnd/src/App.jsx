@@ -37,10 +37,12 @@ import StudentMng from './pages/co-ordinator/StdDetailsMng/StudentFinalMarks';
 import AssignmentAdd from './pages/co-ordinator/AssignmentMng/AddAssignments';
 import ScheduledPresentations from './pages/projectMember/ScheduledPresentations';
 import UpdateSchedule from './pages/projectMember/UpdateSchedule';
+import StudentLogin from './components/StudentLogIn';
 import StudentMarksTable from './pages/examinar/ExaminerViewMark';
 import Rubrics from './pages/projectMember/MarkingReburics/Rubrics';
 import UpdateRubrics from "./pages/projectMember/MarkingReburics/UpdateRubrics";
 import ViewRubrics from "./pages/projectMember/MarkingReburics/ViewRubrics";
+
 
 
 
@@ -56,6 +58,7 @@ function App() {
         <Route path='/' element={<LandingPage />} />
         <Route path='studentsignup' element={<StudentSignUp />} />
         <Route path='login' element={<Login />} />
+        <Route path='s-login' element={<StudentLogin />} />
         <Route path='/dashboard' element={<Layout />} >
 
 
@@ -72,6 +75,7 @@ function App() {
           <Route path='/dashboard/myResults' element={<MyResults />} />
           <Route path='/dashboard/myTeam' element={<MyTeam />} />
           <Route path='/dashboard/notifications' element={<Notifications />} />
+          
 
 
           {/* Co-ordinator Routes  */}
