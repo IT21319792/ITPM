@@ -5,7 +5,23 @@ import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
 
 export default function ViewRubrics() {
-  
+  const { id } = useParams();
+
+  const [rubric, setRubric] = useState({});
+  const [totalMarks, setTotalMarks] = useState(0);
+  const [enteredRubrics, setEnteredRubrics] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:510/rubric/searchrubricbyid/" + id)
+      .then((response) => {
+        setRubric(response.data.data);
+        setEnteredRubrics(response.data.data.criteriaDetails);
+      });
+  }, [id]);
+
+ 
+
   return (
     <div className="main_container w-full h-full" id="print">
       <div className="item fw-bold text-left">
