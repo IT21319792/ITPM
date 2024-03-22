@@ -44,6 +44,27 @@ export default function ViewRubrics() {
     });
   };
 
+  const generatePDF = () => {
+    const doc = new jsPDF("p", "pt", "a4");
+
+    doc.text(305, 30, "Marking Rubrics Report", "center");
+    doc.text(305, 60, rubric.topic, "center");
+    doc.text(50, 80, "Type: " + rubric.type);
+
+    const head = [["Criteria", "Marks"]];
+    const elements = enteredRubrics.map((item) => [item.criteria, item.marks]);
+
+    elements.push(["Total Marks", totalMarks]);
+
+    autoTable(doc, {
+      head: head,
+      body: elements,
+      startY: 95,
+      margin: { top: 10 },
+    });
+    doc.save("marking-rubrics.pdf");
+  };
+
   
 
   return (
