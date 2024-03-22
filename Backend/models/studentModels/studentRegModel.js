@@ -30,7 +30,13 @@ const StudentSchema = new mongoose.Schema({
         type: String,
         enum: ["semester1", "semester2"],
     },
-}, { timestamps: true });
+    role: {
+        type: String,
+        enum: ["student"],
+    },
+},
+
+{ timestamps: true });
 
 //Encrypt the password before saving the document
 StudentSchema.pre("save", async function (next) {

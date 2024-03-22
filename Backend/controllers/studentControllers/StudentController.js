@@ -3,52 +3,40 @@ import jwt from 'jsonwebtoken';
 import { sendEmail } from "../../utils/sendEmail.js";
 
 
-
-
-
-//PASS EMAIL ADDRESS HERE AND THIS WILL GENERATE A JWT TOKEN
-const createToken = (email) => {
-    return jwt.sign({ email }, process.env.SECRET_KEY,);
+//Student Login and generating token
+const createToken = (id) => {
+    return jwt.sign({ id }, process.env.SECRET_KEY, { expiresIn: '1h' });
 }
 
-export const verifyToken = (token) => {
-    return jwt.verify(token, process.env.SECRET_KEY);
-}
-
-
-
-
-
-
-//LOGIN FUNCTION: This will send the token and userRole
-//localhost:510/student/login
 export const StudentLogin = async (req, res) => {
     const { email, password } = req.body;
     try {
-        const isExist = await StudentRegModel.findOne({ email });
-        if (!isExist) {
-            throw Error('Email Not Exist !!');
+        const student = await StudentRegModel.findOne({ email });
+        if (!student) {
+            throw new Error('Invalid email or password');
+            
         }
 
-        // To Do: After implementing student account Create part, enable this method
-        if(! await isExist.isPasswordMatched(password)){
-            throw Error('Password Incorrect !!');
+        if (!await student.isPasswordMatched(password)) {
+            throw new Error('Incorrect password');
         }
-      
-        const id = isExist._id.toString();
-        const token = createToken(id);
+
+        const token = createToken(student._id.toString());
+        const expiryDate = new Date(Date.now() + 3600000); // 1 hour from now
+        res.cookie('access_token', token, { httpOnly: true, expires: expiryDate, secure: true });
         
+        const { password: pass, ...rest } = student._doc;
         res.status(200).json({
             token,
-            userRole: isExist.role,
-            firstName: isExist.firstName
-        })
+            userRole: student.role,
+            firstName: student.firstName,
+            ...rest
+        });
     } catch (error) {
+        console.log(email);
         res.status(401).json({ message: error.message });
     }
-
 }
-
 
 
 // Create new Student Account
@@ -61,7 +49,8 @@ export const CreateStudent = async (req, res) => {
         email,
         password,
         specialization,
-        semester
+        semester,
+        role
     } = req.body;
 
     try {
@@ -89,7 +78,8 @@ export const CreateStudent = async (req, res) => {
             email,
             password,
             specialization,
-            semester
+            semester,
+            role
         });
 
         console.log(mongooseRes);
@@ -120,6 +110,7 @@ export const getStudentDetails = async(req,res)=>{
         const isExist = await StudentRegModel.findById(id);
         if(!isExist){
             res.status(401).json({message:'User Not Exist'});
+            return;
         }
         res.status(200).json(isExist);
     } catch (error) {
@@ -128,21 +119,7 @@ export const getStudentDetails = async(req,res)=>{
     }
 }
 
-// export const sendNewEmail = async (req,res)=>{
-//     try{
-//         const data = req.body
-//         if(!data.sendTo || !data.description || !data.subject){
-//             throw Error ('All fields must be fillded..')
-//         }
-//         await sendEmail(data.sendTo, data.subject, { name: ``, description: data.description }, "./template/emailtemplate.handlebars");
-//         res.status(200).json({
-//             message: 'Email Sent successfully!'
-//         });
-//     }catch(error) {
-//         console.log();
-//         res.status(500).json({message:error.message});
-//     }
-// }
+
 
 
 //Delete Student Account
@@ -178,6 +155,35 @@ export const updateStudent = async (req, res) => {
             return res.status(404).json({ message: 'Student not found' });
         }
         res.status(200).json({ message: 'Account Updated Successfully', subject: updatedAccount });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+
+//Get same specialization and semester students
+export const getSameSemesterSpecializationStudents = async (req, res) => {
+    try {
+        // Get the logged-in student's ID from the request
+        const loggedInStudentId = req.loggedInId;
+
+        // Find the logged-in student's details
+        const loggedInStudent = await StudentRegModel.findById(loggedInStudentId);
+        if (!loggedInStudent) {
+            return res.status(404).json({ message: "Logged-in student not found" });
+        }
+
+        // Extract semester and specialization from the logged-in student's details
+        const { semester, specialization } = loggedInStudent;
+
+        // Find all students with the same semester and specialization
+        const studentsWithSameSemesterAndSpecialization = await StudentRegModel.find({
+            semester,
+            specialization
+        });
+
+        // Return the list of students
+        res.status(200).json({ students: studentsWithSameSemesterAndSpecialization });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

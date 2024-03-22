@@ -1,11 +1,17 @@
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
+import Button from '@mui/material/Button';
 
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import axios from 'axios'
 
 function StudentLogin() {
-  const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', contactNo: '', password: '', confirm_password: '' })
-  const navigate = useNavigate()
+
+  const navigate=useNavigate()
+
+  const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', contactNo: '', password: '', confirm_password: '', specialization: '', semester: '', role: '' })
+  
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -15,17 +21,27 @@ function StudentLogin() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    axios.post('http://localhost:510/user/login', formData)
-    .then(()=>{
-      alert('User logged in successfully')
-      console.log('User logged in  successfully')//alert('User created successfully')
-      navigate ('/studentDash')
+    axios.post('http://localhost:510/student/s-login', formData)
+    .then((res)=>{
+      Cookies.set('role', res.data.userRole);
+      Cookies.set('firstName', res.data.firstName)
+      Cookies.set('token', res.data.token)
+     
+      if(res.data.userRole=='student'){
+        navigate('/dashboard/studentDash')
+      }
+      
+     
+
+      toast.success(`${res.data.userRole}, successfully Logged In!`)
+      console.log(res)//alert('Student Logged In successfully')
     })
     .catch((err)=>{
-    console.log('Error:', err)//alert('User creation failed')
+    console.log('Error:', err)//alert('Student Logged In failed')
     alert(err.response.data.message)
     })
   }
+
 
   return (
     
@@ -71,13 +87,28 @@ function StudentLogin() {
                 </div>
 
                 <div className="text-grey-dark mt-6 flex gap-2">
-                    <p>Do not have an account? </p>
-                    <Link to="../studentsignup" >
-                    <h1 className="no-underline border-b border-blue text-blue-700" >
-                       Sign Up!
-                    </h1>
-                    </Link>
+                    <p>Cannot Sign In ? </p>
                     
+                    <span className="no-underline border-b border-blue text-blue-700" href="#">
+                       Contact Administrators!
+                    </span>
+
+                    <Button
+            variant="text"
+            color="primary"
+            sx={{ textDecoration: 'none', borderBottom: '1px solid blue', color: 'blue' }}
+            onClick={() => navigate('/login')}
+          >
+            User Login
+          </Button>
+                </div>
+
+                <div className="text-grey-dark mt-6 flex gap-2">
+                    <Link to='/'>
+                    <span className="no-underline border-b border-blue text-blue-700" href="/">
+                       Home
+                    </span>  
+                    </Link> 
                 </div>
             </div>
         </div>

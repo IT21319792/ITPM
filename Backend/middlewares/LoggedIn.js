@@ -9,9 +9,10 @@ export const LoginValidator = (req, res, next) => {
       const token = authorizationHeader.split(' ')[1];
      // console.log('Token:', token);
       const id = verifyToken(token);
+      console.log(id);
 
       // Pass the token to the next middleware or route handler
-      req.loggedInId = id.email; //this email have the document id, its not an email address
+      req.loggedInId = id.id; //this email have the document id, its not an email address
   
       next();
     } else {

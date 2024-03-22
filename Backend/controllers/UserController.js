@@ -2,6 +2,7 @@ import UserModel from "../models/UserModel.js";
 import jwt from 'jsonwebtoken';
 import { sendEmail } from "../utils/sendEmail.js";
 
+
 //PASS EMAIL ADDRESS HERE AND THIS WILL GENERATE A JWT TOKEN
 const createToken = (email) => {
     return jwt.sign({ email }, process.env.SECRET_KEY, { expiresIn: '1h' });//added expiration time

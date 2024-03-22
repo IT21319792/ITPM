@@ -13,6 +13,7 @@ import AssignShedulerouter from './routes/cordinatorRoutes/AssignSheduleRouter.j
 import AddMarkRouter from './routes/examinerRoutes/AddMarkRouter.js';
 import AddAssignmentRouter from './routes/cordinatorRoutes/AddAssignmentRouter.js';
 import StudentRouter from './routes/studentRoutes/StudentRoutes.js';
+import GroupRouter from './routes/studentRoutes/GroupRoutes.js';
 
 
 const PORT = process.env.PORT || 510;
@@ -34,7 +35,8 @@ app.use('/assignMark',AssignMarkRouter);
 app.use('/assignShedule',AssignShedulerouter);
 app.use('/presentation',AddMarkRouter)
 app.use('/assignment',AddAssignmentRouter);
-app.use('/student', StudentRouter)
+app.use('/student', StudentRouter);
+app.use('/group', GroupRouter);
 
 dbConfig().then(()=>{
     app.listen(PORT,()=>{
