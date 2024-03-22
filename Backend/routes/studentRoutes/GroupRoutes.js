@@ -2,6 +2,7 @@ import express from 'express';
 import { createGroup, getAllGroups, updateGroup, deleteGroup, searchGroup, getMyGroup, getAllGroupsWithDetails } from '../../controllers/studentControllers/GroupController.js';
 import { LoginValidator } from '../../middlewares/LoggedIn.js';
 
+
 const GroupRouter = express.Router();
 
 GroupRouter.get('/mygroup',LoginValidator, getMyGroup);
