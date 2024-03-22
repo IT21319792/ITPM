@@ -105,7 +105,7 @@ const deleteRubric = async (req, res) => {
   }
 };
 
-// create search function to search by rubric ID , topic name, and type
+// create search
 
 const searchRubricByType = async (req, res) => {
   const data = req.params.key;
