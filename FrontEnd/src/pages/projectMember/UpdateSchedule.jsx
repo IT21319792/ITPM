@@ -4,7 +4,8 @@ import Axios from "axios";
 import moment from "moment";
 import SchedulePresentationValidation from "../../validation/SchedulePresentation";
 import Sweetalert2 from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
+
 
 function UpdateSchedule() {
   const { id } = useParams();
@@ -438,12 +439,22 @@ function UpdateSchedule() {
               {/* Button to publish schedule */}
               <div className="col mt-5">
                 <div className="flex justify-end mr-7 align-items-center">
+                  <Link to="/dashboard/pMemberDash/SchedulePresentation">
+                    <button
+                      type="button"
+                      className="btn btnAdd hover:bg-green-700 bg-green-800 text-white font-bold py-2 px-4 rounded"
+                    >
+                      Create Schedule
+                    </button>
+                  </Link>
+
                   <button
                     type="button"
-                    className="btn btnAdd hover:bg-blue-500 bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    className="btn btnAdd hover:bg-blue-700 bg-blue-800 text-white font-bold py-2 ml-72 px-4 rounded mr-40"
                     id="btnAdd "
                     onClick={() => {
-                      onUpdate();}}
+                      onUpdate();
+                    }}
                   >
                     Update Schedule
                   </button>
