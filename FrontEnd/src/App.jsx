@@ -40,7 +40,7 @@ import UpdateSchedule from './pages/projectMember/UpdateSchedule';
 import StudentMarksTable from './pages/examinar/ExaminerViewMark';
 import Rubrics from './pages/projectMember/MarkingReburics/Rubrics';
 import UpdateRubrics from "./pages/projectMember/MarkingReburics/UpdateRubrics";
-
+import ViewRubrics from "./pages/projectMember/MarkingReburics/ViewRubrics";
 
 
 
@@ -106,7 +106,7 @@ function App() {
           <Route path='/dashboard/pMemberDash/ScheduledPresentations/UpdateSchedule/:id' element={<UpdateSchedule />} />
           <Route path='/dashboard/markingRubric' element={<Rubrics />} />
           <Route path="/dashboard/updateMarkingRubric/:id" element={<UpdateRubrics />}/>
-
+          <Route path="/dashboard/viewRubric/:id" element={<ViewRubrics />} />
 
 
           {/* Supervisor Routes  */}
