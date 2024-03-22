@@ -168,6 +168,14 @@ function Rubrics() {
                 className="fa-solid fa-trash-can d-inline me-2 text-danger d-inline"
               />
             </button>
+            <Link to={`/dashboard/viewRubric/${report._id}`}>
+              <button
+                className="btn btn-default ml-3"
+                // onClick={() => deleteRubric(presentation)}
+              >
+                <FaEye />
+              </button>
+            </Link>
           </td>
         </tr>
       );
@@ -211,6 +219,14 @@ function Rubrics() {
                 className="fa-solid fa-trash-can d-inline me-2 text-danger d-inline"
               />
             </button>
+            <Link to={`/dashboard/viewRubric/${presentation._id}`}>
+              <button
+                className="btn btn-default ml-3"
+                // onClick={() => deleteRubric(presentation)}
+              >
+                <FaEye />
+              </button>
+            </Link>
           </td>
         </tr>
       );
