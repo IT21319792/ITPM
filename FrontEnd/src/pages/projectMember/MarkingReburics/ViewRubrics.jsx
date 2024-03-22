@@ -20,7 +20,16 @@ export default function ViewRubrics() {
       });
   }, [id]);
 
- 
+  // Calculate total marks when enteredRubrics change
+  useEffect(() => {
+    let total = 0;
+    enteredRubrics.forEach((item) => {
+      total += parseInt(item.marks);
+    });
+    setTotalMarks(total);
+  }, [enteredRubrics]);
+
+  
 
   return (
     <div className="main_container w-full h-full" id="print">
