@@ -2,11 +2,14 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Axios from "axios";
 import moment from "moment";
-import SchedulePresentation from "../../validation/SchedulePresentation";
- 
+import SchedulePresentationValidation from "../../validation/SchedulePresentation";
+import Sweetalert2 from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+
 function UpdateSchedule() {
   const { id } = useParams();
- 
+  const navigate = useNavigate();
+
   const [scheduledPresentation, setScheduledPresentation] = useState({});
   const [examinersList, setExaminersList] = useState([
     "Select Examiner",
@@ -18,21 +21,17 @@ function UpdateSchedule() {
   ]);
   const [examiners, setexaminers] = useState([]);
   const [errors, setErrors] = useState({});
- 
-  console.log(id);
- 
+
   useEffect(() => {
     Axios.get("http://localhost:510/schedule/searchSchedule/" + id)
       .then((res) => {
-        console.log(res.data.data);
         setexaminers(res.data.data.examiners);
         setScheduledPresentation(res.data.data);
       })
       .catch((err) => console.log(err));
   }, []);
- 
+
   const renderExaminersFirst = () => {
-    console.log("hkjhjkhk", examiners[0]);
     return examinersList.map((examiner, index) => {
       return (
         <option
@@ -46,7 +45,7 @@ function UpdateSchedule() {
       );
     });
   };
- 
+
   const renderExaminersSecond = () => {
     return examinersList.map((examiner, index) => {
       return (
@@ -61,7 +60,7 @@ function UpdateSchedule() {
       );
     });
   };
- 
+
   const renderExaminersThird = () => {
     return examinersList.map((examiner, index) => {
       return (
@@ -76,7 +75,7 @@ function UpdateSchedule() {
       );
     });
   };
- 
+
   const onHandleExaminerChange = (e) => {
     if (e.target.name === "examiners01") {
       examiners[0] = e.target.value;
@@ -112,56 +111,56 @@ function UpdateSchedule() {
       });
     }
   };
- 
+
   const onUpdate = () => {
-  const newSchedule = {
-    "GroupID": scheduledPresentation.GroupID,
-    "date": scheduledPresentation.date,
-    "location": scheduledPresentation.location,
-    "timeDuration": scheduledPresentation.timeDuration,
-    "topic": scheduledPresentation.topic,
-    "examiners" : examiners,
-    
-  };
+    const newSchedule = {
+      ScheduleID: scheduledPresentation.ScheduleID,
+      GroupID: scheduledPresentation.GroupID,
+      date: scheduledPresentation.date,
+      location: scheduledPresentation.location,
+      timeDuration: scheduledPresentation.timeDuration,
+      topic: scheduledPresentation.topic,
+      examiners: examiners,
+    };
 
- const { errors, isValid } = SchedulePresentation(newSchedule);
+    console.log(newSchedule);
 
-if (!isValid) {
-  setErrors(errors);
-  Sweetalert2.fire({
-    toast: true,
-    position: 'top-end',
-    showConfirmButton: false,
-    timer: 3000,
-    icon: 'error',
-    title: 'Please enter your details',
-  });
-} else {
-    setErrors(errors);
-    Axios.put("http://localhost:510/schedule/putSchedule/:id", newSchedule)
-      .then((response) => {
-        if (response.data.message) {
-          Sweetalert2.fire({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000,
-            icon: 'success',
-            title: `${response.data.message}`,
-          });
+    const { errors, isValid } = SchedulePresentationValidation(newSchedule);
 
-          console.log(response.data); 
-
-          // Clear input fields after successful update
-          setScheduledPresentation({});
-          setExaminers([]);
-        }
-      })
-      .catch((error) => {
-        console.error("Error updating schedule:", error);
+    if (!isValid) {
+      setErrors(errors);
+      console.log(errors);
+      console.log("Error updating schedule");
+      Sweetalert2.fire({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        icon: "error",
+        title: "Please enter your details",
       });
-  }
-};
+    } else {
+      setErrors(errors);
+      Axios.put("http://localhost:510/schedule/putSchedule/:id", newSchedule)
+        .then((response) => {
+          if (response.data.status === 200) {
+            Sweetalert2.fire({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 3000,
+              icon: "success",
+              title: `${response.data.message}`,
+            });
+          }
+
+          navigate("/dashboard/pMemberDash/ScheduledPresentations");
+        })
+        .catch((error) => {
+          console.error("Error updating schedule:", error);
+        });
+    }
+  };
 
   return (
     <div className="main_container w-full h-full">
@@ -187,8 +186,9 @@ if (!isValid) {
                      disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
                      invalid:border-pink-500 invalid:text-pink-600
                      focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
-                     name="GroupID"
-                      value={scheduledPresentation.GroupID} onChange={(e) => OnHandleChangeInputs(e)}
+                      name="GroupID"
+                      value={scheduledPresentation.GroupID}
+                      onChange={(e) => OnHandleChangeInputs(e)}
                     >
                       <option defaultValue="Select Group">Select Group</option>
                       <option value="Group 01">Group 01</option>
@@ -196,6 +196,15 @@ if (!isValid) {
                       <option value="Group 03">Group 03</option>
                       <option value="Group 04">Group 04</option>
                     </select>
+                    <p
+                      className={
+                        errors.GroupID
+                          ? "mt-2 peer-invalid:visible text-pink-600 text-sm block"
+                          : "mt-2 invisible text-pink-600 text-sm hidden"
+                      }
+                    >
+                      {errors.GroupID ? errors.GroupID : ""}
+                    </p>
                   </div>
                 </div>
                 <div className="col">
@@ -210,20 +219,26 @@ if (!isValid) {
                      disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
                      invalid:border-pink-500 invalid:text-pink-600
                      focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
-                     name="date"
+                      name="date"
                       onFocus={(e) => {
                         e.currentTarget.type = "date";
                       }}
-                      value={moment(scheduledPresentation.date).format("YYYY-MM-DD")}
-
-                      onChange={(e) =>{setScheduledPresentation({"date": e.target.value})}
-                    }
-
-                      
+                      value={moment(scheduledPresentation.date).format(
+                        "YYYY-MM-DD"
+                      )}
+                      onChange={(e) => {
+                        setScheduledPresentation({ date: e.target.value });
+                      }}
                       min={new Date().toISOString().split("T")[0]}
                     />
-                    <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
-                      Please provide a valid date.
+                    <p
+                      className={
+                        errors.date
+                          ? "mt-2 peer-invalid:visible text-pink-600 text-sm block"
+                          : "mt-2 invisible text-pink-600 text-sm hidden"
+                      }
+                    >
+                      {errors.date ? errors.date : ""}
                     </p>
                   </label>
                 </div>
@@ -244,13 +259,18 @@ if (!isValid) {
                      disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
                      invalid:border-pink-500 invalid:text-pink-600
                      focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
-
-                     name="location"
-                    value={scheduledPresentation.location} 
+                    name="location"
+                    value={scheduledPresentation.location}
                     onChange={(e) => OnHandleChangeInputs(e)}
                   />
-                  <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
-                    Please provide a location.
+                  <p
+                    className={
+                      errors.location
+                        ? "mt-2 peer-invalid:visible text-pink-600 text-sm block"
+                        : "mt-2 invisible text-pink-600 text-sm hidden"
+                    }
+                  >
+                    {errors.location ? errors.location : ""}
                   </p>
                 </div>
                 <div className="col">
@@ -265,12 +285,19 @@ if (!isValid) {
                       focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
                      disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
                      invalid:border-pink-500 invalid:text-pink-600
-                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500" name = "timeDuration"
-                      value={scheduledPresentation.timeDuration} 
+                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+                      name="timeDuration"
+                      value={scheduledPresentation.timeDuration}
                       onChange={(e) => OnHandleChangeInputs(e)}
                     />
-                    <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
-                      Please provide the time.
+                    <p
+                      className={
+                        errors.timeDuration
+                          ? "mt-2 peer-invalid:visible text-pink-600 text-sm block"
+                          : "mt-2 invisible text-pink-600 text-sm hidden"
+                      }
+                    >
+                      {errors.timeDuration ? errors.timeDuration : ""}
                     </p>
                   </label>
                 </div>
@@ -290,12 +317,19 @@ if (!isValid) {
                       focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
                      disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
                      invalid:border-pink-500 invalid:text-pink-600
-                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500" name="topic"
+                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+                    name="topic"
                     value={scheduledPresentation.topic}
                     onChange={(e) => OnHandleChangeInputs(e)}
                   />
-                  <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
-                    Please provide a title for schedule.
+                  <p
+                    className={
+                      errors.topic
+                        ? "mt-2 peer-invalid:visible text-pink-600 text-sm block"
+                        : "mt-2 invisible text-pink-600 text-sm hidden"
+                    }
+                  >
+                    {errors.topic ? errors.topic : ""}
                   </p>
                 </div>
               </div>
@@ -322,8 +356,14 @@ if (!isValid) {
                       {renderExaminersFirst()}
                     </select>
                   </div>
-                  <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
-                    Please select exmainer name
+                  <p
+                    className={
+                      errors.examiners
+                        ? "mt-2 peer-invalid:visible text-pink-600 text-sm block"
+                        : "mt-2 invisible text-pink-600 text-sm hidden"
+                    }
+                  >
+                    {errors.examiners ? errors.examiners : ""}
                   </p>
                 </div>
               </div>
@@ -350,8 +390,14 @@ if (!isValid) {
                       {renderExaminersSecond()}
                     </select>
                   </div>
-                  <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
-                    Please select exmainer name
+                  <p
+                    className={
+                      errors.examiners
+                        ? "mt-2 peer-invalid:visible text-pink-600 text-sm block"
+                        : "mt-2 invisible text-pink-600 text-sm hidden"
+                    }
+                  >
+                    {errors.examiners ? errors.examiners : ""}
                   </p>
                 </div>
               </div>
@@ -378,8 +424,14 @@ if (!isValid) {
                       {renderExaminersThird()}
                     </select>
                   </div>
-                  <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
-                    Please select exmainer name
+                  <p
+                    className={
+                      errors.examiners
+                        ? "mt-2 peer-invalid:visible text-pink-600 text-sm block"
+                        : "mt-2 invisible text-pink-600 text-sm hidden"
+                    }
+                  >
+                    {errors.examiners ? errors.examiners : ""}
                   </p>
                 </div>
               </div>
@@ -389,9 +441,9 @@ if (!isValid) {
                   <button
                     type="button"
                     className="btn btnAdd hover:bg-blue-500 bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                    id="btnAdd " onClick={() => {
-                      onUpdate();
-                    }}
+                    id="btnAdd "
+                    onClick={() => {
+                      onUpdate();}}
                   >
                     Update Schedule
                   </button>
