@@ -29,6 +29,21 @@ export default function ViewRubrics() {
     setTotalMarks(total);
   }, [enteredRubrics]);
 
+  const renderReportList = () => {
+    return enteredRubrics.map((item, index) => {
+      return (
+        <tr className= "hover:bg-blue-50 cursor-pointer" key={index}>
+          <td className="px-6 py-4 whitespace-nowrap">
+            <div className="text-sm text-gray-600">{item.criteria}</div>
+          </td>
+          <td className="px-6 py-4 whitespace-nowrap">
+            <div className="text-sm text-gray-600">{item.marks}</div>
+          </td>
+        </tr>
+      );
+    });
+  };
+
   
 
   return (
