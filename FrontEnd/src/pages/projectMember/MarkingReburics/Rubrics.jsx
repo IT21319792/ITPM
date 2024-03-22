@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FaMinusCircle, FaPlusCircle } from "react-icons/fa";
+import { FaMinusCircle, FaPlusCircle, FaEye } from "react-icons/fa";
 import axios from "axios";
 import Sweetalert2 from "sweetalert2";
 import { Link } from "react-router-dom";
@@ -134,7 +134,7 @@ function Rubrics() {
   const renderReportList = () => {
     return reportList.map((report, index) => {
       return (
-        <tr key={index} className="bg-white border-b hover:bg-gray-50">
+        <tr key={index} className="bg-white border-b hover:bg-tableRowHoveryellow cursor-pointer">
           <td
             scope="row"
             className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
@@ -149,7 +149,7 @@ function Rubrics() {
           </td>
           <td
             scope="row"
-            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap flex flex-row justify-between items-center"
           >
             <Link to={`/dashboard/updateMarkingRubric/${report._id}`}>
               <button className="btn btn-default ml-7">
@@ -168,6 +168,14 @@ function Rubrics() {
                 className="fa-solid fa-trash-can d-inline me-2 text-danger d-inline"
               />
             </button>
+            <Link to={`/dashboard/viewRubric/${report._id}`}>
+              <button
+                className="btn btn-default ml-3"
+                // onClick={() => deleteRubric(presentation)}
+              >
+                <FaEye />
+              </button>
+            </Link>
           </td>
         </tr>
       );
@@ -177,7 +185,7 @@ function Rubrics() {
   const renderPresentationList = () => {
     return presentationList.map((presentation, index) => {
       return (
-        <tr key={index} className="bg-white border-b hover:bg-gray-50">
+        <tr key={index} className="bg-white border-b hover:bg-tableRowHoveryellow cursor-pointer">
           <td
             scope="row"
             className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
@@ -192,7 +200,7 @@ function Rubrics() {
           </td>
           <td
             scope="row"
-            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap flex flex-row justify-between items-center"
           >
             <Link to={`/dashboard/updateMarkingRubric/${presentation._id}`}>
               <button className="btn btn-default ml-7">
@@ -211,6 +219,14 @@ function Rubrics() {
                 className="fa-solid fa-trash-can d-inline me-2 text-danger d-inline"
               />
             </button>
+            <Link to={`/dashboard/viewRubric/${presentation._id}`}>
+              <button
+                className="btn btn-default ml-3"
+                // onClick={() => deleteRubric(presentation)}
+              >
+                <FaEye />
+              </button>
+            </Link>
           </td>
         </tr>
       );
@@ -273,7 +289,7 @@ function Rubrics() {
             <form className="max-w-sm mx-auto text-center" id="rubricsFrom">
               <div className="mb-5">
                 <div className="flex">
-                  <span className="inline-flex items-center px-3 text-sm text-white bg-blue-600 border border-e-0 border-gray-300 rounded-l-lg ">
+                  <span className="inline-flex items-center px-3 text-sm text-white bg-green-800 border border-e-0 border-gray-300 rounded-l-lg ">
                     Topic
                   </span>
                   <input
@@ -358,7 +374,7 @@ function Rubrics() {
                 <div className="flex justify-end items-end">
                   <button>
                     <FaPlusCircle
-                      className="text-green-600"
+                      className="text-blue-800"
                       onClick={(e) => {
                         e.preventDefault();
                         if (rubric.criteria && rubric.marks) {
@@ -430,7 +446,7 @@ function Rubrics() {
                   <tr>
                     <th scope="col" className="px-6 py-3">
                       <div className="flex items-center">
-                        Name of the Marking Rubric
+                        Marking
                         <a href="#">
                           <svg
                             className="w-3 h-3 ms-1.5"
