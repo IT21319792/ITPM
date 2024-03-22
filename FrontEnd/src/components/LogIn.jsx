@@ -76,12 +76,12 @@ function Login() {
               type="submit"
               className="w-full text-center bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
             >
-              Sign In
+              Log In
             </button>
           </form>
         </div>
         <div className="text-grey-dark mt-6 flex gap-2">
-          <p>Cannot Sign In? Contact Administrators!</p>
+          <p>Cannot Log In? Contact Administrators!</p>
           <Button
             variant="text"
             color="primary"

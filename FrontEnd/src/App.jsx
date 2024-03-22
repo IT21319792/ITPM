@@ -42,6 +42,7 @@ import StudentMarksTable from './pages/examinar/ExaminerViewMark';
 import Rubrics from './pages/projectMember/MarkingReburics/Rubrics';
 import UpdateRubrics from "./pages/projectMember/MarkingReburics/UpdateRubrics";
 import ViewRubrics from "./pages/projectMember/MarkingReburics/ViewRubrics";
+import AddStudents from './components/AddStudents';
 
 
 
@@ -57,9 +58,11 @@ function App() {
         {/* Common Routes  */}
         <Route path='/' element={<LandingPage />} />
         <Route path='studentsignup' element={<StudentSignUp />} />
+        <Route path='/addStudent' element={<AddStudents />} />
         <Route path='login' element={<Login />} />
         <Route path='s-login' element={<StudentLogin />} />
         <Route path='/dashboard' element={<Layout />} >
+          
 
 
           {/* Admin Routes  */}
