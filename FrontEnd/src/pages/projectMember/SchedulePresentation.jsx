@@ -143,7 +143,17 @@ function SchedulePresentation(props) {
                       <option value="Group 03">Group 03</option>
                       <option value="Group 04">Group 04</option>
                     </select>
+                    
                   </div>
+                  <p
+                      className={
+                        errors.GroupID
+                          ? "mt-2 peer-invalid:visible text-pink-600 text-sm block"
+                          : "mt-2 invisible text-pink-600 text-sm hidden"
+                      }
+                    >
+                      {errors.GroupID ? errors.GroupID : ""}
+                    </p>
                 </div>
                 <div className="col">
                   <label className="block">
@@ -163,8 +173,14 @@ function SchedulePresentation(props) {
                       }}
                       min={new Date().toISOString().split("T")[0]}
                     />
-                    <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
-                      Please provide a valid date.
+                    <p
+                      className={
+                        errors.date
+                          ? "mt-2 peer-invalid:visible text-pink-600 text-sm block"
+                          : "mt-2 invisible text-pink-600 text-sm hidden"
+                      }
+                    >
+                      {errors.date ? errors.date : ""}
                     </p>
                   </label>
                 </div>
@@ -190,9 +206,15 @@ function SchedulePresentation(props) {
                       setlocation(e.target.value);
                     }}
                   />
-                  <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
-                    Please provide a location.
-                  </p>
+                  <p
+                      className={
+                        errors.location
+                          ? "mt-2 peer-invalid:visible text-pink-600 text-sm block"
+                          : "mt-2 invisible text-pink-600 text-sm hidden"
+                      }
+                    >
+                      {errors.location ? errors.location : ""}
+                    </p>
                 </div>
                 <div className="col">
                   <label className="block">
@@ -212,8 +234,14 @@ function SchedulePresentation(props) {
                         settimeDuration(e.target.value);
                       }}
                     />
-                    <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
-                      Please provide the time.
+                    <p
+                      className={
+                        errors.timeDuration
+                          ? "mt-2 peer-invalid:visible text-pink-600 text-sm block"
+                          : "mt-2 invisible text-pink-600 text-sm hidden"
+                      }
+                    >
+                      {errors.timeDuration ? errors.timeDuration : ""}
                     </p>
                   </label>
                 </div>
@@ -239,9 +267,15 @@ function SchedulePresentation(props) {
                       settopic(e.target.value);
                     }}
                   />
-                  <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
-                    Please provide a title for schedule.
-                  </p>
+                  <p
+                      className={
+                        errors.topic
+                          ? "mt-2 peer-invalid:visible text-pink-600 text-sm block"
+                          : "mt-2 invisible text-pink-600 text-sm hidden"
+                      }
+                    >
+                      {errors.topic ? errors.topic : ""}
+                    </p>
                 </div>
               </div>
               <div className="grid grid-cols-1">
@@ -267,9 +301,15 @@ function SchedulePresentation(props) {
                       {renderExaminers()}
                     </select>
                   </div>
-                  <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
-                    Please select exmainer name
-                  </p>
+                  <p
+                      className={
+                        errors.examiners
+                          ? "mt-2 peer-invalid:visible text-pink-600 text-sm block"
+                          : "mt-2 invisible text-pink-600 text-sm hidden"
+                      }
+                    >
+                      {errors.examiners ? errors.examiners : ""}
+                    </p>
                 </div>
               </div>
               <div className="grid grid-cols-1">
@@ -295,9 +335,15 @@ function SchedulePresentation(props) {
                       {renderExaminers()}
                     </select>
                   </div>
-                  <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
-                    Please select exmainer name
-                  </p>
+                  <p
+                      className={
+                        errors.examiners
+                          ? "mt-2 peer-invalid:visible text-pink-600 text-sm block"
+                          : "mt-2 invisible text-pink-600 text-sm hidden"
+                      }
+                    >
+                      {errors.examiners ? errors.examiners : ""}
+                    </p>
                 </div>
               </div>
               <div className="grid grid-cols-1">
@@ -323,9 +369,15 @@ function SchedulePresentation(props) {
                       {renderExaminers()}
                     </select>
                   </div>
-                  <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
-                    Please select exmainer name
-                  </p>
+                  <p
+                      className={
+                        errors.examiners
+                          ? "mt-2 peer-invalid:visible text-pink-600 text-sm block"
+                          : "mt-2 invisible text-pink-600 text-sm hidden"
+                      }
+                    >
+                      {errors.examiners ? errors.examiners : ""}
+                    </p>
                 </div>
               </div>
               {/* Button to publish schedule */}
