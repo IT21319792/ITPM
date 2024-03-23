@@ -3,6 +3,7 @@ import "../../styles/SchedulePresentation.css";
 import Axios from "axios";
 import SchedulePresentationValidation from "../../validation/SchedulePresentation";
 import Sweetalert2 from "sweetalert2";
+import { useNavigate,Link } from "react-router-dom";
 
 function SchedulePresentation(props) {
   const [scheduleList, setScheduleList] = useState([]);
@@ -22,6 +23,7 @@ function SchedulePresentation(props) {
   ]);
   const [examiners, setexaminers] = useState([]);
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     getAllSchedule();
@@ -66,10 +68,10 @@ function SchedulePresentation(props) {
       examiners: examiners,
     };
 
-    const { error, isInvalid } = SchedulePresentationValidation(newSchedule);
+    const { errors, isInvalid } = SchedulePresentationValidation(newSchedule);
 
     if (isInvalid) {
-      setErrors(error);
+      setErrors(errors);
       Sweetalert2.fire({
         toast: true,
         position: "top-end",
@@ -79,7 +81,7 @@ function SchedulePresentation(props) {
         title: "Please enter your details",
       });
     } else {
-      setErrors(error);
+      setErrors(errors);
       await Axios.post(
         "http://localhost:510/schedule/createSchedule",
         newSchedule
@@ -104,6 +106,7 @@ function SchedulePresentation(props) {
           setexaminers([]);
           getAllSchedule();
         }
+        navigate("/dashboard/pMemberDash/ScheduledPresentations");
       });
     }
   };
