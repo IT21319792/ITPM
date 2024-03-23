@@ -203,7 +203,7 @@ function MyTeam() {
                   checked={myGroup.reason || reason}
                   onChange={() => setMyGroup(prevState => ({ ...prevState, reason: !prevState.reason }))}
                 />
-                <InputLabel id="checkbox">I have a reason</InputLabel>
+                <InputLabel id="checkbox">I have a reason to Prove Specialization and the Semester..</InputLabel>
               </Box>
             </DialogContent>
             <DialogActions>
