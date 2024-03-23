@@ -1,11 +1,13 @@
 import express from 'express';
-import {addPresentationMarks, getAllPresentationMarks,getStudentsWithMarksStatus} from '../../controllers/examinerControlelrs/AddMarkController.js';
+import { addPresentationMarks, deletePresentationMarks, getAllPresentationMarks, getPresentationMarkById, updatePresentationMarks } from '../../controllers/examinerControlelrs/AddMarkController.js';
 
 
 const AddMarkRouter = express.Router();
-AddMarkRouter.post('/add', addPresentationMarks);
+AddMarkRouter.post('/addMark', addPresentationMarks);
 AddMarkRouter.get('/', getAllPresentationMarks);
-AddMarkRouter.get('/search/:key', getAllPresentationMarks);
-AddMarkRouter.get('/marks/students', getStudentsWithMarksStatus);
+AddMarkRouter.get('/:id', getPresentationMarkById); 
+AddMarkRouter.put('/update/:id', updatePresentationMarks);
+AddMarkRouter.delete('/delete/:id', deletePresentationMarks);
+
 
 export default AddMarkRouter;

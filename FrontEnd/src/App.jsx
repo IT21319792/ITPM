@@ -18,7 +18,7 @@ import Layout from './pages/common/Layout';
 import Notices from './pages/admin/Notices';
 import UserMNG from './pages/admin/UserMNG';
 import PublishAssignments from './pages/examinar/PublishAssignments';
-import Reports from './pages/supervisor/Reports';
+
 import SchedulePresentation from './pages/projectMember/SchedulePresentation';
 import ProjectMemberMng from './pages/co-ordinator/ProjectMemberMng/ProjectMemberMng';
 import ExaminerMng from './pages/co-ordinator/ExaminerMng/ExaminerMng';
@@ -37,9 +37,10 @@ import StudentMng from './pages/co-ordinator/StdDetailsMng/StudentFinalMarks';
 import AssignmentAdd from './pages/co-ordinator/AssignmentMng/AddAssignments';
 import ScheduledPresentations from './pages/projectMember/ScheduledPresentations';
 import UpdateSchedule from './pages/projectMember/UpdateSchedule';
-import StudentMarksTable from './pages/examinar/ExaminerViewMark';
+import ExaminerUpdateMarks from './pages/examinar/ExaminerUpdateMark';
 import Rubrics from './pages/projectMember/MarkingReburics/Rubrics';
 import UpdateRubrics from "./pages/projectMember/MarkingReburics/UpdateRubrics";
+import SupervisorReportMarks from './pages/supervisor/Reports';
 
 
 
@@ -96,7 +97,8 @@ function App() {
           <Route path='examinarDash' element={<ExaminarDash />} />
           <Route path='/dashboard/marksAssignments' element={<ExaminerPresentationMarks />} />
           <Route path='/dashboard/addMarks' element={<ExaminerPresentationMarks />} />
-          <Route path='/dashboard/marks' element={<StudentMarksTable />} />
+          <Route path='/dashboard/update' element={<ExaminerUpdateMarks />} />
+         
 
 
           {/* Project Member Routes  */}
@@ -110,9 +112,9 @@ function App() {
 
 
           {/* Supervisor Routes  */}
-          <Route path='supervisorDash' element={<SupervisorDash />} />
-          <Route path='/dashboard/reports' element={<Reports />} />
-
+          {/* <Route path='/dashboard/reports' element={<SupervisorReportMarks />} /> */}
+          <Route path='/dashboard/supervisorDash' element={<SupervisorDash />} />//
+          <Route path='/dashboard/addReportMarks' element={<SupervisorReportMarks />} />
         </Route>
 
         {/* other Routes  */}
