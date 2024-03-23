@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Modal from 'react-modal'; 
+import Modal from 'react-modal';
+import Sweetalert from 'sweetalert2';
 
 
 function ProjectMemberMng() {
@@ -16,7 +17,7 @@ function ProjectMemberMng() {
     lastName: '',
     contactNo: '',
     email: ''
-  });; // State to store the selected user for pop up form
+  });;
 
 
   // get data from the backend (all 3 models) and update the table
@@ -28,6 +29,7 @@ function ProjectMemberMng() {
           axios.get('http://localhost:510/assignShedule'),
           axios.get('http://localhost:510/assignMark')
         ]);
+      
 
         console.log("userData:", userData);
         console.log("scheduleData:", scheduleData);
@@ -47,11 +49,11 @@ function ProjectMemberMng() {
           assignedMarking: markingMap.get(member.firstName) || null
         }));
 
-        console.log("Updated Table Data:", updatedTableData);
-
+        console.log("Updated Table Data:", updatedTableData);   
         setTableData(updatedTableData);
       } catch (error) {
         console.log("Error fetching data:", error);
+        toast.error('Failed to load members');
       }
     }
 
@@ -102,23 +104,38 @@ function ProjectMemberMng() {
         console.log('User updated successfully:', response.data.message);
         setTableData(prevData => prevData.map(data => data._id === selectedUser._id ? selectedUser : data)); // refresh nokara table eke adaala data eka witarak update wenawa
         setIsModalOpen(false); // Close modal after successful update
-        toast.success(response.data.message);
+        Sweetalert.fire({
+          title: 'Success',
+          text: 'User updated successfully',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        })
       } else {
         console.error('Failed to update user:', response.data.message);
-        toast.error(response.data.message);
+        Sweetalert.fire({
+          title: 'Error',
+          text: response.data.message,
+          icon: 'error',
+          confirmButtonText: 'OK'
+        })
       }
     } catch (error) {
       console.error('Error updating user:', error.message);
-      toast.error(error.message);
+      Sweetalert.fire({
+        title: 'Error',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'OK'
+      })
     }
   };
-// delete function
+  // delete function
   // const handleDelete = async (id) => {
   //   try {
 
-      
+
   //     const response = await axios.delete(`http://localhost:510/user/delete-account/${id}`);
-  
+
   //     if (response.status === 200) {
   //       console.log('User deleted successfully');
   //       // Remove the deleted user from the table data
@@ -133,31 +150,43 @@ function ProjectMemberMng() {
   //     toast.error('Error deleting user:', error.message);
   //   }
   // };
-  
-  const handleDelete = async (id) => {
-    const confirmation = window.confirm('Are you sure you want to delete this user?');
-  
-    if (confirmation) {
-      try {
-        const response = await axios.delete(`http://localhost:510/user/delete-account/${id}`);
-  
-        if (response.status === 200) {
-          console.log('User deleted successfully');
-          // Remove the deleted user from the table data
-          setTableData(prevData => prevData.filter(data => data._id !== id)); 
-          toast.success('User deleted successfully');
-        } else {
-          console.error('Failed to delete user:', response.data.message);
-          toast.error('Failed to delete user:', response.data.message);
-        }
-      } catch (error) {
-        console.error('Error deleting user:', error.message);
-        toast.error('Error deleting user:', error.message);
+
+
+
+  const handleDelete = (id) => {
+    Sweetalert.fire({
+      title: 'Are you sure?',
+      text: "You want to delete this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios.delete(`http://localhost:510/user/delete-account/${id}`).then((response) => {
+          console.log(response)
+          if (response.status === 200) {
+            setTableData(prevData => prevData.filter(data => data._id !== id));
+            Sweetalert.fire(
+              'Deleted!',
+              'Your record has been deleted.',
+              'success'
+            )
+          } else {
+            Sweetalert.fire(
+              'Not Deleted!',
+              'Something want wrong',
+              'error'
+            )
+
+          }
+        })
+
       }
-    }
-  };
-  
-  
+    })
+
+  }
 
 
   return (
@@ -252,7 +281,7 @@ function ProjectMemberMng() {
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
               </div>
-            
+
               <div className="flex justify-end">
                 <button
                   type="button"

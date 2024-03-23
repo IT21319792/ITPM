@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { validateContactNo,validateEmail, validateFirstName,validateLastName,} from '../../../validation/CordinatorValidations/PrjMemberAddValid'
 import { toast } from 'react-toastify'
+import Sweetalert from 'sweetalert2'
 
 function SupervisorAdd() {
   const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', contactNo: '', password: '', confirm_password: '' })
@@ -36,7 +37,12 @@ function SupervisorAdd() {
   
     // If there are errors, display them and return
     if (errorFields.length > 0) {
-     toast.error(errorFields.join('\n'));
+     Sweetalert.fire({
+        title: 'Error',
+        text: errorFields.join(', '),
+        icon: 'error',
+        confirmButtonText: 'OK'
+      })
       return;
     }
   
@@ -44,13 +50,24 @@ function SupervisorAdd() {
     axios.post('http://localhost:510/user/create', formData)
       .then(() => {
         toast.success('Supervisor added successfully');
+        Sweetalert.fire({
+          title: 'Success',
+          text: 'Supervisor added successfully',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        })
         console.log('Examiner added successfully');
       })
       .catch((err) => {
         console.log('Form data:', formData);
         console.log('Error:', err);
-       toast.error('Error adding examiner');
-        toast.error(err.response.data.message);
+        Sweetalert.fire({
+          title: 'Error',
+          text: 'Error adding examiner',
+          text: err.response.data.message,
+          icon: 'error',
+          confirmButtonText: 'OK'
+        })
       });
   };
   
