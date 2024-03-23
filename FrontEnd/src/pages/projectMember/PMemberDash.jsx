@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Axios from "axios";
+import ProjectMemberWelcomCard from "../../components/PMemberWelcomeCard";
 
 function PMemberDash() {
   const [assignedList, setAssignedList] = useState([]);
@@ -32,17 +33,13 @@ function PMemberDash() {
         </td>
         <td className="px-6 py-4 whitespace-nowrap">
           {/* create drop down button to show complet, On Hold, Pending */}
-            <select
-                className="border-2 rounded-lg"
-                name="status"
-                id="status"
-            >
-                <option value="completed" className="l">Completed</option>
-                <option value="onHold">On Hold</option>
-                <option value="pending">Pending</option>
-            </select>
-
-            
+          <select className=" bg-yellow-100 border-yellow-100 text-gray-700  rounded-lg p-2" name="status" id="status">
+            <option value="completed">
+              Completed
+            </option>
+            <option value="onHold">On Hold</option>
+            <option value="pending">Pending</option>
+          </select>
         </td>
       </tr>
     ));
@@ -50,14 +47,15 @@ function PMemberDash() {
 
   return (
     <div className="main_container w-full h-full" id="print">
-      <div className="item fw-bold text-left">
-        <h5 className="pageName">Assigned Tasks</h5>
-      </div>
+      <ProjectMemberWelcomCard />
       <div className="item p-5 bg-lightWhite">
+        <div className="pageName flex justify-center text-lg">
+          Assigned Tasks For Preject Members
+        </div>
         <div className="flex justify-between mb-5">
           <div className="w-full flex justify-center items-center mt-5 relative rounded-md overflow-x-auto shadow-md ml-10">
-            <table className="w-3/4 text-sm text-left rtl:text-right text-gray-500 ">
-              <thead className="text-xs text-white uppercase bg-blue-800 rounded-lg">
+            <table className="rounded-l-lg w-3/4 text-sm text-left rtl:text-right text-gray-500 " >
+              <thead className="text-xs text-white uppercaserounded-lg  bg-blue-800">
                 <tr>
                   <th scope="col" className="px-6 py-3">
                     Project Member Name
