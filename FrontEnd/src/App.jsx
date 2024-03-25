@@ -38,10 +38,11 @@ import AssignmentAdd from './pages/co-ordinator/AssignmentMng/AddAssignments';
 import ScheduledPresentations from './pages/projectMember/ScheduledPresentations';
 import UpdateSchedule from './pages/projectMember/UpdateSchedule';
 import StudentLogin from './components/StudentLogIn';
-import StudentMarksTable from './pages/examinar/ExaminerViewMark';
 import Rubrics from './pages/projectMember/MarkingReburics/Rubrics';
 import UpdateRubrics from "./pages/projectMember/MarkingReburics/UpdateRubrics";
 import ViewRubrics from "./pages/projectMember/MarkingReburics/ViewRubrics";
+import UpdateForm from './pages/examinar/ExaminerUpdateMark';
+import SupervisorReportMarks from './pages/supervisor/Reports';
 
 
 
@@ -93,14 +94,15 @@ function App() {
           <Route path='/dashboard/marking' element={<AddMarking />} />
           <Route path='/dashboard/addAssignments' element={<AssignmentAdd />} />
           
-
+          
+ 
 
 
           {/* Examinar Routes  */}
-          <Route path='examinarDash' element={<ExaminarDash />} />
+          <Route path='/dashboard/examinerDash' element={<ExaminarDash />} />
           <Route path='/dashboard/marksAssignments' element={<ExaminerPresentationMarks />} />
           <Route path='/dashboard/addMarks' element={<ExaminerPresentationMarks />} />
-          <Route path='/dashboard/marks' element={<StudentMarksTable />} />
+          <Route path='/dashboard/update' element={<UpdateForm />} />
 
 
           {/* Project Member Routes  */}
@@ -114,8 +116,9 @@ function App() {
 
 
           {/* Supervisor Routes  */}
-          <Route path='supervisorDash' element={<SupervisorDash />} />
-          <Route path='/dashboard/reports' element={<Reports />} />
+            {/* <Route path='/dashboard/reports' element={<SupervisorReportMarks />} /> */}
+            <Route path='/dashboard/supervisorDash' element={<SupervisorDash />} />//
+          <Route path='/dashboard/addReportMarks' element={<SupervisorReportMarks />} />
 
         </Route>
 
