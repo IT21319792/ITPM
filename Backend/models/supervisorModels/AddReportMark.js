@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const presentationSchema = new mongoose.Schema({
-  presentationType: {
+  reportType: {
     type: String,
     
   },
@@ -21,5 +21,5 @@ const presentationSchema = new mongoose.Schema({
 });
 
 // Create a model from the schema
-const PresentationMarkAddModel = mongoose.model('Presentation', presentationSchema);
-export default PresentationMarkAddModel;
+const ReportMarkAddModel = mongoose.model('ReportMark', presentationSchema);
+export default ReportMarkAddModel;
