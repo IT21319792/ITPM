@@ -30,7 +30,7 @@ function Login() {
         case 'student':
           navigate('/dashboard/studentDash');
           break;
-        case 'examiner':
+        case 'examinar':
           navigate('/dashboard/examinerDash');
           break;
         case 'supervisor':

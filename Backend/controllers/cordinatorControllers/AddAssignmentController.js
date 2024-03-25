@@ -103,5 +103,3 @@ export const deleteAssignment = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-
-
