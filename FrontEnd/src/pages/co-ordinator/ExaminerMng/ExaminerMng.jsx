@@ -5,6 +5,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Modal } from '@mui/material';
+import Sweetalert from 'sweetalert2';
 
 function ProjectMemberMng() {
   const Navigate = useNavigate();
@@ -27,9 +28,16 @@ function ProjectMemberMng() {
       .then(res => {
         const members = res.data.filter(user => user.role === "examinar");
         setTableData(members);
+        if (members.length === 0) {
+          toast.info('No examiners found');
+        }else{
+          toast.success('Examiners loaded successfully');
+        }
+        
       })
       .catch(err => {
         console.log(err);
+        toast.error('Failed to load examiners');
       });
   }, []);
 
@@ -48,40 +56,96 @@ function ProjectMemberMng() {
         if (response.status === 200) {
           console.log('User updated successfully:', response.data.message);
           setTableData(prevData => prevData.map(data => data._id === selectedUser._id ? selectedUser : data)); // refresh nokara table eke adaala data eka witarak update wenawa
+          Sweetalert.fire({ 
+            title: 'Success',
+            text: 'User updated successfully',
+            icon: 'success',
+            confirmButtonText: 'OK'
+          })
           setIsModalOpen(false); // Close modal after successful update
-          toast.success(response.data.message);
+         
         } else {
           console.error('Failed to update user:', response.data.message);
-          toast.error(response.data.message);
+          Sweetalert.fire({
+            title: 'Error',
+            text: 'Failed to update user',
+            text: response.data.message,
+            icon: 'error',
+            confirmButtonText: 'OK'
+          })
+
         }
       } catch (error) {
         console.error('Error updating user:', error.message);
-        toast.error(error.message);
+       Sweetalert.fire({
+          title: 'Error',
+          text: 'Error updating user',
+          text: error.message,
+          icon: 'error',
+          confirmButtonText: 'OK'
+        })
       }
     };
 
-    const handleDelete = async (id) => {
-      const confirmation = window.confirm('Are you sure you want to delete this user?');
+    // const handleDelete = async (id) => {
+    //   const confirmation = window.confirm('Are you sure you want to delete this user?');
     
-      if (confirmation) {
-        try {
-          const response = await axios.delete(`http://localhost:510/user/delete-account/${id}`);
+    //   if (confirmation) {
+    //     try {
+    //       const response = await axios.delete(`http://localhost:510/user/delete-account/${id}`);
     
+    //       if (response.status === 200) {
+    //         console.log('User deleted successfully');
+    //         // Remove the deleted user from the table data
+    //         setTableData(prevData => prevData.filter(data => data._id !== id)); 
+    //         toast.success('User deleted successfully');
+    //       } else {
+    //         console.error('Failed to delete user:', response.data.message);
+    //         toast.error('Failed to delete user:', response.data.message);
+    //       }
+    //     } catch (error) {
+    //       console.error('Error deleting user:', error.message);
+    //       toast.error('Error deleting user:', error.message);
+    //     }
+    //   }
+    // };
+
+    
+  const handleDelete = (id) => {
+    Sweetalert.fire({
+      title: 'Are you sure?',
+      text: "You want to delete this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios.delete(`http://localhost:510/user/delete-account/${id}`).then((response) => {
+          console.log(response)
           if (response.status === 200) {
-            console.log('User deleted successfully');
-            // Remove the deleted user from the table data
             setTableData(prevData => prevData.filter(data => data._id !== id)); 
-            toast.success('User deleted successfully');
+            Sweetalert.fire(
+              'Deleted!',
+              'Your record has been deleted.',
+              'success'
+            )
           } else {
-            console.error('Failed to delete user:', response.data.message);
-            toast.error('Failed to delete user:', response.data.message);
+            Sweetalert.fire(
+              'Not Deleted!',
+              'Something want wrong',
+              'error'
+            )
+
           }
-        } catch (error) {
-          console.error('Error deleting user:', error.message);
-          toast.error('Error deleting user:', error.message);
-        }
+        })
+
       }
-    };
+    })
+
+  }
+
 
   return (
     <div className="p-4">

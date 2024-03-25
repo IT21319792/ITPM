@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import CoordinatorWelcomeCard from '../../../components/CoordinatorWelcomeCard';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
-
+import { Navigate, useLocation } from 'react-router-dom';
+import Sweetalert from 'sweetalert2';
 function PresentationDetails() {
   const [assignments, setAssignments] = useState([]);
   const [formData, setFormData] = useState({ firstName: '', selectedOption: '', selectedAssignment: '', selectedSubType: '', semester: '', assignmentType: '', assignmentSubType: '' });
@@ -40,14 +40,30 @@ function PresentationDetails() {
         await axios.post('http://localhost:510/assignShedule/add', newFormData);
         console.log('Assigning member to assignment:', formData);
         alert('Member assigned to assignment successfully');
+        Sweetalert.fire({
+          title: 'Success',
+          text: 'Member assigned to assignment successfully',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        })
       } else if (formData.selectedOption === 'addMarkingRubric') {
         await axios.post('http://localhost:510/assignMark/add', newFormData);
         console.log('Assigning member to add marking rubric:', formData);
-        alert('Member assigned to add marking rubric successfully');
+        Sweetalert.fire({
+          title: 'Success',
+          text: 'Member assigned to add marking rubric successfully',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        })
       }
     } catch (error) {
       console.error('Error assigning member:', error);
-      alert('Error assigning member');
+      Sweetalert.fire({
+        title: 'Error',
+        text: 'Error assigning member',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      })
     }
   };
   
