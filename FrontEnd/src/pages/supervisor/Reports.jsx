@@ -86,6 +86,7 @@ function SupervisorReportMarks() {
                   <option value="report 2">report 2</option>
                   <option value="Final">Final</option>
                 </select>
+                {formerror.reportType && <p className='text-red-600'>{formerror.reportType}</p>}
               </div>
               <div className="w-full md:w-1/2 px-3">
                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="group">
@@ -104,7 +105,7 @@ function SupervisorReportMarks() {
                       <option key={group.groupID} value={group.groupID}>{group.groupID}</option>
                     ))}
                   </select>
-  
+                  {formerror.selectedGroup && <p className='text-red-600'>{formerror.selectedGroup}</p>}
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                     <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                       <path
@@ -127,6 +128,7 @@ function SupervisorReportMarks() {
                 onChange={(e) => setMark1(e.target.value)}
                 required
               />
+              {formerror.Mark1 && <p className='text-red-600'>{formerror.Mark1}</p>}
               <input
                 type="number"
                 className="block border border-grey-light w-full p-3 rounded mb-4"
@@ -136,6 +138,7 @@ function SupervisorReportMarks() {
                 onChange={(e) => setMark2(e.target.value)}
                 required
               />
+              {formerror.Mark2 && <p className='text-red-600'>{formerror.Mark2}</p>}
             </div>
             <div className='flex gap-2 w-full'>
               <input
@@ -147,6 +150,7 @@ function SupervisorReportMarks() {
                 onChange={(e) => setMark3(e.target.value)}
                 required
               />
+              {formerror.Mark3 && <p className='text-red-600'>{formerror.Mark3}</p>}
               <input
                 type="number"
                 className="block border border-grey-light w-full p-3 rounded mb-4"
@@ -156,6 +160,7 @@ function SupervisorReportMarks() {
                 onChange={(e) => setMark4(e.target.value)}
                 required
               />
+              {formerror.Mark4 && <p className='text-red-600'>{formerror.Mark4}</p>}
             </div>
             <button
               type="submit" className="w-full text-center bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
@@ -174,6 +179,8 @@ function SupervisorReportMarks() {
       </div>
     </div>
   );
+  
+  
   
 };
 

@@ -108,8 +108,8 @@ function ProjectMemberMng() {
                                                         <td key={index} className="border px-4 py-2">{mark.rubricID}</td>
                                                     ))}
                                                     <td className="border px-4 py-2">
-                                                        <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleDelete(student)}>Delete</button>
-                                                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2" onClick={() => handleUpdate(student)}>Update</button>
+                                                        <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleDelete(presentation)}>Delete</button>
+                                                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2" onClick={() => handleUpdate(presentation)}>Update</button>
                                                     </td>
                                                 </tr>
                                             ))
