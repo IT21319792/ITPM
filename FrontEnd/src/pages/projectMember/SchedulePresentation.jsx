@@ -385,7 +385,7 @@ function SchedulePresentation(props) {
                 <div className="flex justify-end mr-7 align-items-center">
                   <button
                     type="button"
-                    className="btn btnAdd hover:bg-blue-500 bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    className="btn btnAdd hover:bg-green-700 bg-green-800 text-white font-bold py-2 px-4 rounded"
                     id="btnAdd "
                     onClick={() => {
                       submitSchedule();

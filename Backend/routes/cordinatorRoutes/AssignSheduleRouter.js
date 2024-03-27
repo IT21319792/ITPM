@@ -12,4 +12,3 @@ AssignShedulerouter.get('/get/:id',getOneAssignShedule);
 AssignShedulerouter.get('/search/:key',searchAssignShedule);
 
 export default AssignShedulerouter;
-

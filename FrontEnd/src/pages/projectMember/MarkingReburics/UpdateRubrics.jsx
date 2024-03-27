@@ -159,7 +159,7 @@ function UpdateRubrics() {
     console.log(reportList);
     return reportList.map((report, index) => {
       return (
-        <tr key={index} className="bg-white border-b hover:bg-gray-50">
+        <tr key={index} className="bg-white border-b hover:bg-tableRowHoveryellow cursor-pointer">
           <td
             scope="row"
             className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
@@ -202,7 +202,7 @@ function UpdateRubrics() {
   const renderPresentationList = () => {
     return presentationList.map((presentation, index) => {
       return (
-        <tr key={index} className="bg-white border-b hover:bg-gray-50">
+        <tr key={index} className="bg-white border-b hover:bg-tableRowHoveryellow cursor-pointer">
           <td
             scope="row"
             className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
@@ -298,7 +298,7 @@ function UpdateRubrics() {
             <form className="max-w-sm mx-auto text-center" id="rubricsFrom">
               <div className="mb-5">
                 <div className="flex">
-                  <span className="inline-flex items-center px-3 text-sm text-white bg-blue-600 border border-e-0 border-gray-300 rounded-l-lg ">
+                  <span className="inline-flex items-center px-3 text-sm text-white bg-blue-800 border border-e-0 border-gray-300 rounded-l-lg ">
                     Topic
                   </span>
                   <input
@@ -390,7 +390,7 @@ function UpdateRubrics() {
                 <div className="flex justify-end items-end">
                   <button>
                     <FaPlusCircle
-                      className="text-green-600"
+                      className="text-green-800"
                       onClick={(e) => {
                         e.preventDefault();
                         if (rubric.criteria && rubric.marks) {
@@ -446,7 +446,7 @@ function UpdateRubrics() {
               </div>
               <button
                 type="submit"
-                className="mb-4 text-white hover:bg-blue-500 bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                className="mb-4 text-white hover:bg-blue-700 bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                 onClick={onSubmit}
               >
                 Update Marking Rubric

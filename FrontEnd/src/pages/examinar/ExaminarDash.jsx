@@ -1,82 +1,135 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import CoordinatorWelcomeCard from '../../components/CoordinatorWelcomeCard';
-import { useNavigate, useLocation } from 'react-router-dom';
+import Axios from 'axios';
+import PMemberWelcomeCard from '../../components/PMemberWelcomeCard';
+import { useNavigate } from 'react-router-dom';
+import Sweetalert2 from 'sweetalert2';
 
-function ProjectMemberMng() {
-    const Navigate = useNavigate();
-    const location = useLocation(); 
-
-    const [studentData, setStudentData] = useState([]);
+function ExaminarDash() {
+    const navigate = useNavigate();
+    const [presentationData, setpresentationData] = useState([]);
+    const [searchQuery, setSearchQuery] = useState(''); //search part
 
     useEffect(() => {
-        axios.get('http://localhost:510/presentation/marks/students')
+        Axios.get('http://localhost:510/presentation/')
             .then(res => {
                 console.log(res.data);
-                setStudentData(res.data);
+                setpresentationData(res.data);
             })
             .catch(err => {
                 console.log(err);
             });
     }, []);
 
-    const handleAddMarks = (rowData) => {
-        Navigate('/dashboard/addMarks', { state: { rowData: rowData } });
+    const handleAddMarks = () => {
+        navigate('/dashboard/addMarks');
     }
+    //search part
+    const handleSearch = (event) => {
+        setSearchQuery(event.target.value);
+    };
+    const filteredPresentationData = presentationData.filter(report =>
+        report.group.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
-    const handleViewMarks = (rowData) => {
-        Navigate('/dashboard/marks', { state: { rowData: rowData } });
-    }
+    const getAllSchedule = async () => {
+        try {
+            const response = await Axios.get('http://localhost:510/presentation/');
+            setpresentationData(response.data);
+        } catch (error) {
+            console.error('Error fetching presentation marks:', error);
+            // Handle error
+        }
+    };
+    const handleDelete = (rowData) => {
+        Sweetalert2.fire({
+            title: 'Are you sure?',
+            text: 'You want to delete this!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const response = await Axios.delete(`http://localhost:510/presentation/delete/${rowData._id}`);
+                    if (response.status === 200) {
+                        Sweetalert2.fire('Deleted!', 'Your record has been deleted.', 'success');
+                        setpresentationData(prevData => prevData.filter(student => student._id !== rowData._id));
+                        getAllSchedule(); // Assuming this function is defined somewhere
+                    } else {
 
-    const handleUpdate = () => {
-   
+                    }
+                } catch (error) {
+                    console.error('Error deleting presentation mark:', error);
+                    Sweetalert2.fire('Error!', 'Failed to delete the record', 'error');
+                }
+            }
+        });
+    };
+
+
+
+    const handleUpdate = (rowData) => {
+        navigate('/dashboard/update', { state: { rowData } });
     }
 
     return (
         <div className="p-4">
-            <CoordinatorWelcomeCard />
-            <p className="mt-2 text-gray-600">Project Member Management</p>
+            <PMemberWelcomeCard />
+            <input
+                type="text"
+                placeholder="Search by group..."
+                className="p-2 mb-4 border rounded"
+                value={searchQuery}
+                onChange={handleSearch}
+            />
+
 
             {/* Table */}
-            <div>
-                <table className="min-w-full text-left text-sm font-light">
-                    <thead className="border-b bg-white font-medium dark:border-neutral-500 dark:bg-neutral-600">
-                        <tr>
-                            <th scope="col" className="px-6 py-4">Group Name</th>
-                            <th scope="col" className="px-6 py-4">First Name</th>
-                            <th scope="col" className="px-6 py-4">Last Name</th>
-                            <th scope="col" className="px-6 py-4">Email</th>
-                            <th scope="col" className="px-6 py-4">Status</th>
-                            <th scope="col" className="px-6 py-4">Marks</th>
-                            <th scope="col" className="px-6 py-4">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {studentData.map((data, index) => (
-                            <tr key={index} className="border- dark:border-neutral-500">
-                                <td className="whitespace-nowrap px-6 py-4 font-medium transition duration-300 ease-in-out hover:bg-neutral-100  dark:hover:bg-neutral-600">{data.groupName}</td>
-                                <td className="whitespace-nowrap px-6 py-4 font-medium transition duration-300 ease-in-out hover:bg-neutral-100  dark:hover:bg-neutral-600">{data.firstName}</td>
-                                <td className="whitespace-nowrap px-6 py-4 font-medium transition duration-300 ease-in-out hover:bg-neutral-100  dark:hover:bg-neutral-600">{data.lastName}</td>
-                                <td className="whitespace-nowrap px-6 py-4 font-medium transition duration-300 ease-in-out hover:bg-neutral-100  dark:hover:bg-neutral-600">{data.email}</td>
-                                <td className="whitespace-nowrap px-6 py-4 font-medium transition duration-300 ease-in-out hover:bg-neutral-100  dark:hover:bg-neutral-600">{data.hasMarks ? 'Marks Added' : 'No Marks'}</td>
-                                <td className="whitespace-nowrap px-6 py-4 font-medium">
-                                    {data.hasMarks ? (
-                                        <button onClick={() => handleViewMarks(data)} className="rounded px-3 pb-2 pt-2.5 bg-yellow-500 text-white hover:bg-yellow-600">View Marks</button>
-                                    ) : (
-                                        <span>No Marks</span>
-                                    )}
-                                </td>
-                                <td className="whitespace-nowrap px-6 py-4 font-medium">
-                                    <button onClick={handleUpdate} className={`rounded px-3 pb-2 pt-2.5 ml-2 ${data.hasMarks ? 'bg-gray-500 text-gray-400 cursor-not-allowed' : 'bg-blue-500 text-white hover:bg-blue-600'}`} disabled={data.hasMarks}>Update</button>
-                                    <button onClick={() => handleAddMarks(data)} className={`rounded px-3 pb-2 pt-2.5 ${data.hasMarks ? 'bg-gray-500 text-gray-400 cursor-not-allowed' : 'bg-green-700 text-white hover:bg-green-800'}`} disabled={data.hasMarks}>Add Marks</button>
-                                </td>
-                            </tr>
+            <table className="table-auto w-full mt-4">
+                <thead>
+                    <tr>
+                        <th className="border px-4 py-2">Group</th>
+                        <th className="border px-4 py-2">Presentation Type</th>
+                        {presentationData.length > 0 && presentationData[0].groupMarks.map((mark, index) => (
+                            <th key={index} className="border px-4 py-2">{`Rubric ${index + 1} marks`}</th>
                         ))}
-                    </tbody>
-                </table>
+                        <th className="border px-4 py-2">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {filteredPresentationData.length > 0 ? (
+                                            filteredPresentationData.map((presentation, index) => (
+                                                <tr key={index}>
+                                                    <td className="border px-4 py-2">{presentation.group}</td>
+                                                    <td className="border px-4 py-2">{presentation.presentationType}</td>
+                                                    {presentation.groupMarks.map((mark, index) => (
+                                                        <td key={index} className="border px-4 py-2">{mark.rubricID}</td>
+                                                    ))}
+                                                    <td className="border px-4 py-2">
+                                                        <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleDelete(presentation)}>Delete</button>
+                                                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2" onClick={() => handleUpdate(presentation)}>Update</button>
+                                                    </td>
+                                                </tr>
+                                            ))
+                    ) : (
+                        <tr>
+                        <td colSpan="7" className="border px-4 py-2 text-center">
+                            No data found for: <span style={{ fontWeight: 'bold' }}>{searchQuery}</span>
+                        </td>
+
+                    </tr>
+                    )
+
+                    }
+                </tbody>
+            </table>
+            <div className='p-4'>
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mr-2 rounded" onClick={() => handleAddMarks()}>Add Marks</button>
             </div>
         </div>
     )
 }
 
-export default ProjectMemberMng;
+export default ExaminarDash;

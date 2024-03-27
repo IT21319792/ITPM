@@ -7,7 +7,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        lightWhite: "#F2F4F8"
+        lightWhite: "#F2F4F8",
+        tableRowHoveryellow : "rgba(224, 241, 30, 0.5)"
       },
     },
   },

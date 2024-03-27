@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { validateContactNo, validateEmail, validateFirstName, validateLastName } from '../../../validation/CordinatorValidations/PrjMemberAddValid'
 import { toast } from 'react-toastify'
+import Sweetalert from 'sweetalert2'
 
 function ProjectMemberAdd() {
   const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', contactNo: '', password: '', confirm_password: '' })
@@ -38,21 +39,36 @@ function ProjectMemberAdd() {
    
     if (errorFields.length > 0) {
       const errorMessage = errorFields.join(', ');
-      toast.error(errorMessage);
+      Sweetalert.fire({
+        title: 'Error',
+        text: errorMessage,
+        icon: 'error',
+        confirmButtonText: 'OK'
+      })
       return;
     }
     
     
     axios.post('http://localhost:510/user/create', formData)
       .then(() => {
-        toast.success('Project member added successfully');
+        Sweetalert.fire({
+          title: 'Success',
+          text: 'Project member added successfully',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        })
         console.log('Project member added successfully');
       })
       .catch((err) => {
         console.log('Form data:', formData);
         console.log('Error:', err);
-        toast.error('Error adding project member');
-        toast.error(err.response.data.message);
+        Sweetalert.fire({
+          title: 'Error',
+          text: 'Error adding project member',
+          text: err.response.data.message,
+          icon: 'error',
+          confirmButtonText: 'OK'
+        })
       });
   };
   
