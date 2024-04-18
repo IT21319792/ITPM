@@ -1,19 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Dialog, DialogContent, Button, IconButton, TextField } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { Link } from "react-router-dom";
+import axios from "axios";
+
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    backgroundColor: theme.palette.info.dark,
+    color: theme.palette.common.white,
+    fontSize: 14,
+    fontWeight: 'bold',
+}));
+
 
 const Assignments = () => {
     const [openDialog, setOpenDialog] = useState(false);
     const [selectedAssignment, setSelectedAssignment] = useState(null);
     const [comment, setComment] = useState('');
+    const [assignments, setAssignments] = useState([]);
+    const [file, setFile] = useState(null); // State to hold the uploaded file
 
-    const assignments = [
-        { id: 1, title: "Assignment 1", type: "Report", subType: "Project Proposal", deadline: "2024-03-25", description: "Need the project proposal report" },
-        { id: 2, title: "Assignment 2", type: "Report", subType: "Logbook", deadline: "2024-03-28", description: "Research and present findings" },
-        { id: 3, title: "Assignment 3", type: "Report", subType: "40% Report", deadline: "2024-03-28", description: "UI Document with Gannt chart" },
-    ];
+    useEffect(() => {
+        const fetchAssignments = async () => {
+            try {
+                const response = await axios.get("http://localhost:510/student/assignments");
+                setAssignments(response.data);
+            } catch (error) {
+                console.error("Error fetching assignments:", error);
+            }
+        };
+        fetchAssignments();
+    }, []);
 
     const handleViewDetails = (assignment) => {
         setSelectedAssignment(assignment);
@@ -26,30 +43,46 @@ const Assignments = () => {
         setComment('');
     };
 
-    const handleFileChange = (event) => {
-        // Handle file change logic here
+    const handleFile = (event) => {
+        const file = event.target.files[0];
+        setFile(file);
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        // Handle form submission logic here
+        try {
+            // Upload file to Cloudinary
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append("upload_preset", "692727433933717");
+            const cloudinaryResponse = await axios.post(`https://api.cloudinary.com/v1_1/dhnhq8l83/image/upload`, formData);
+    
+            // Extract necessary data from Cloudinary response
+            const fileUrl = cloudinaryResponse.data.secure_url;
+    
+            // Create submission object
+            const submissionData = {
+                assignmentId: selectedAssignment._id,
+                fileUrl: fileUrl,
+                comment: comment
+            };
+    
+            // Send submission data to backend to store in the database
+            await axios.post('http://localhost:510/submit-assignment', submissionData);
+    
+            // Close dialog and reset state
+            handleCloseDialog();
+        } catch (error) {
+            console.error("Error submitting assignment:", error);
+            // Handle error gracefully, show error message or retry logic
+        }
     };
-
-    const StyledTableCell = styled(TableCell)(({ theme }) => ({
-        backgroundColor: theme.palette.info.dark,
-        color: theme.palette.common.white,
-        fontSize: 14,
-        fontWeight: 'bold',
-        // borderLeftRadius: '16px', // Set corner radius to top left
-        // borderRightRadius: '16px', // Set corner radius to top right
-    }));
-
     return (
         <>
             <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
                 <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>Pending Assignments - {assignments.length}</h2>
             </div>
-            <div style={{ margin: '0 auto', maxWidth: '800px',borderLeftRadius: '16px',borderRightRadius: '16px' }}>
+            <div style={{ margin: '0 auto', maxWidth: '1000px',borderLeftRadius: '16px',borderRightRadius: '16px' }}>
             <TableContainer component={Paper} sx={{ borderRadius: '16px 16px 0 0' }}>
                     <Table aria-label="assignments table">
                         <TableHead>
@@ -64,7 +97,7 @@ const Assignments = () => {
                         </TableHead>
                         <TableBody>
                             {assignments.map((assignment) => (
-                                <TableRow key={assignment.id}>
+                                <TableRow key={assignment._id}>
                                     <TableCell>{assignment.title}</TableCell>
                                     <TableCell>{assignment.type}</TableCell>
                                     <TableCell>{assignment.subType}</TableCell>
@@ -82,6 +115,7 @@ const Assignments = () => {
                 </TableContainer>
             </div>
 
+            {/*View the assignment and Submission dialog here.. */}
             <Dialog open={openDialog} onClose={handleCloseDialog}>
                 <DialogContent style={{ maxWidth: '400px', margin: '0 auto' }}>
                     <h1 style={{ textAlign: 'center', marginBottom: '1rem' }}>Assignment Details</h1>
@@ -102,12 +136,10 @@ const Assignments = () => {
                             <div><strong>Description:</strong> {selectedAssignment ? selectedAssignment.description : ""}</div>
                         </Grid>
                         <form onSubmit={handleSubmit}>
-                            <input accept="image/*" id="file-upload" type="file" onChange={handleFileChange} style={{ display: 'none' }} />
+                            <input accept="image/*" id="file-upload" type="file" onChange={handleFile} />
                             <Grid style={{ marginTop: '1rem' }}>
                                 <label htmlFor="file-upload">
-                                    <Button variant="contained" component="span">
-                                        Upload
-                                    </Button>
+                                    
                                 </label>
                                 
                             </Grid>

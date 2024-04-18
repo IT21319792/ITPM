@@ -69,7 +69,7 @@ export const createGroup = async (req, res) => {
 
     if (isMember1Exist || isMember2Exist || isMember3Exist || isMember4Exist) {
         res.status(500).json({
-            message: "One or more member(s) is already grouped!"
+            message: "One or more member(s) is already in a another group!"
         });
         return;
     }
@@ -78,7 +78,7 @@ export const createGroup = async (req, res) => {
     const groupCount = result.length;
 
     // generate new Group ID for the new Groups
-    const newGroupID = `GRP${groupCount + 1}`;
+    const newGroupID = `GRP_${groupCount + 1}`;//add the semester to the groupID - GRP_(year)_(semester1/2)_regular
 
     const mongooseRes = new GroupModel({
         groupID: newGroupID,

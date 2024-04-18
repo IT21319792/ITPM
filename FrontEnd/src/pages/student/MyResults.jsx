@@ -18,7 +18,6 @@ const MyResults = () => {
     const results = [
         { id: 1, semester: "Semester1", assignment: "Assignment 1", type: "Proposal", marks: 85 },
         { id: 2, semester: "Semester1", assignment: "Assignment 2", type: "Research Paper", marks: 70 },
-        { id: 3, semester: "Semester2", assignment: "Assignment 1", type: "Presentation", marks: 78 },
     ];
 
     const generatePDF = () => {

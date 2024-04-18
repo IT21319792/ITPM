@@ -6,6 +6,8 @@ import CoDash from './pages/co-ordinator/CoDash';
 import ExaminarDash from './pages/examinar/ExaminarDash';
 import PMemberDash from './pages/projectMember/PMemberDash';
 import SupervisorDash from './pages/supervisor/SupervisorDash';
+
+import AddStudents from './components/AddStudents';
 import Assignments from './pages/student/Assignments';
 import Research from './pages/student/Research';
 import MyResults from './pages/student/MyResults';

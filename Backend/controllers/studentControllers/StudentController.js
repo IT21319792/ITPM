@@ -1,6 +1,7 @@
 import StudentRegModel from "../../models/studentModels/studentRegModel.js";
 import jwt from 'jsonwebtoken';
 import { sendEmail } from "../../utils/sendEmail.js";
+import SubmitAssignment from "../../models/studentModels/SubmitAssignmentModel.js"
 
 
 //Student Login and generating token
@@ -188,3 +189,28 @@ export const getSameSemesterSpecializationStudents = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 }
+
+
+
+// Controller function to handle assignment submission
+export const submitAssignment = async (req, res) => {
+    try {
+        // Extract data from the request body
+        const { assignmentId, fileUrl, comment } = req.body;
+
+        // Create a new submission based on the extracted data
+        const submission = new SubmitAssignment({
+            assignmentId: assignmentId,
+            fileUrl: fileUrl,
+            comment: comment
+        });
+
+        // Save the submission to the database
+        const savedSubmission = await submission.save();
+        
+        res.status(201).json(savedSubmission);
+    } catch (error) {
+        console.error("Error submitting assignment:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};

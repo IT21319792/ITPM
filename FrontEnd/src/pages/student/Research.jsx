@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TextField, Select, MenuItem, Button, FormControl, InputLabel, Grid } from "@mui/material";
+import { Button, InputLabel } from "@mui/material";
 import { Link } from "react-router-dom";
 
 export default function Research() {
@@ -206,19 +206,6 @@ export default function Research() {
                                             </select>
                                         </div>
                                     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
                                 </div>
                                 <br></br>
                                 <div>
