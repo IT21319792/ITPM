@@ -188,7 +188,7 @@ function SignUp() {
             variant="text"
             color="primary"
             sx={{ textDecoration: 'none', borderBottom: '1px solid blue', color: 'blue' }}
-            onClick={() => navigate('/studentsignup')}
+            onClick={() => navigate('/addStudent')}
           >
             Student Signup
           </Button>

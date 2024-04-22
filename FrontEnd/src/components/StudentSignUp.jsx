@@ -16,11 +16,11 @@ function StudentSignUp() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    axios.post('http://localhost:510/user/create', formData)
+    axios.post('http://localhost:510/student/create', formData)
       .then(() => {
         alert('User created successfully')
         console.log('User created successfully')//alert('User created successfully')
-        navigate('/studentlogin')
+        navigate('/s-login')
       })
       .catch((err) => {
         console.log('Form data:', formData)
@@ -38,6 +38,7 @@ function StudentSignUp() {
           <form onSubmit={handleSubmit} className="mb-4 md:flex md:flex-wrap md:justify-between" action="/signup/" method="post">
 
             <div className='flex gap-2 w-full'>
+              
               <input
                 type="text"
                 className="block border border-grey-light w-full p-3 rounded mb-4"
@@ -56,6 +57,13 @@ function StudentSignUp() {
 
 
             </div>
+            <input
+                type="text"
+                className="block border border-grey-light w-full p-3 rounded mb-4"
+                name="studentID"
+                placeholder="Student ID "
+                id='studentID'
+                onChange={handleChange} />
 
 
 
