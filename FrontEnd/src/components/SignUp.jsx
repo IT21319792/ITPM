@@ -1,24 +1,28 @@
 
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import Button from '@mui/material/Button';
 
-function AddUsers() {
-  const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', contactNo: '', password: '', confirm_password: '' })
+function SignUp() {
+  const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', contactNo: '', password: '', confirm_password: '', address: ''})
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
+      role: ['staff'],
       [e.target.name]: e.target.value
     })
   }
-
+ const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault()
     axios.post('http://localhost:510/user/create', formData)
       .then(() => {
         alert('User created successfully')
         console.log('User created successfully')//alert('User created successfully')
+        console.log('Form data:', formData)
+        navigate('/login')
       })
       .catch((err) => {
         console.log('Form data:', formData)
@@ -32,7 +36,7 @@ function AddUsers() {
     <div className="bg-grey-lighter min-h-screen flex flex-col">
       <div className="container max-w-xl mx-auto flex-1 flex flex-col items-center justify-center px-2">
         <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
-          <h1 className="mb-8 text-3xl text-center">Add Users</h1>
+          <h1 className="mb-8 text-3xl text-center">Staff Signup</h1>
           <form onSubmit={handleSubmit} className="mb-4 md:flex md:flex-wrap md:justify-between" action="/signup/" method="post">
 
             <div className='flex gap-2 w-full'>
@@ -130,11 +134,19 @@ function AddUsers() {
 
         <div className="text-grey-dark mt-6 flex gap-2">
           <p>Already have an account? </p>
-          <Link to="login" >
+          <Link to="/login" >
             <span className="no-underline border-b border-blue text-blue-700" href="../login/">
               Log in
             </span>
           </Link>
+          <Button
+            variant="text"
+            color="primary"
+            sx={{ textDecoration: 'none', borderBottom: '1px solid blue', color: 'blue' }}
+            onClick={() => navigate('/studentsignup')}
+          >
+            Student Signup
+          </Button>
 
         </div>
       </div>
@@ -142,4 +154,4 @@ function AddUsers() {
   )
 }
 
-export default AddUsers;
+export default SignUp;
