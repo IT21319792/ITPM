@@ -2,11 +2,15 @@ import React from 'react';
 import TopNav from './TopNav';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
+import {toast} from 'react-toastify';
 
 function MainPage() {
     const userRole = Cookies.get('role');
-    Cookies.set('OriginalRole', 'staff');
-    const previousRole = Cookies.get('role');
+    if (userRole === 'staff') {
+        Cookies.set('OriginalRole', userRole);
+    }  
+
+    
     const level = Cookies.get('level');
     const staffPost = Cookies.get('staffPost');
 
@@ -55,10 +59,21 @@ function MainPage() {
     
           }
     };
+
+    const handleLogout = () => {
+
+        Cookies.remove('role', { path: '/' });
+        Cookies.remove('token', { path: '/' });
+        Cookies.remove('pvt', { path: '/' });
+        toast.warning('Logout Success!')
+        navigate('/');
+      };
     return (
         <div>
             <TopNav />
+            <button onClick={handleLogout}>LogOut</button>
             <section className="w-full px-6 pb-12 antialiased bg-white flex items-center justify-center">
+               
                 <div className="container max-w-full px-4 py-32 text-center flex gap-7 justify-center">
                     <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
                         <a href="#">
