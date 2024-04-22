@@ -43,6 +43,7 @@ import UpdateRubrics from "./pages/projectMember/MarkingReburics/UpdateRubrics";
 import ViewRubrics from "./pages/projectMember/MarkingReburics/ViewRubrics";
 import UpdateForm from './pages/examinar/ExaminerUpdateMark';
 import SupervisorReportMarks from './pages/supervisor/Reports';
+import MainPage from './components/MainPage';
 
 
 
@@ -60,7 +61,9 @@ function App() {
         <Route path='studentsignup' element={<StudentSignUp />} />
         <Route path='login' element={<Login />} />
         <Route path='s-login' element={<StudentLogin />} />
-        <Route path='/dashboard' element={<Layout />} >
+        <Route path='/dashboard' element={<Layout />} />
+        <Route path='/main' element={<MainPage />} />
+          
 
 
           {/* Admin Routes  */}
@@ -120,8 +123,7 @@ function App() {
             <Route path='/dashboard/supervisorDash' element={<SupervisorDash />} />//
           <Route path='/dashboard/addReportMarks' element={<SupervisorReportMarks />} />
 
-        </Route>
-
+  
         {/* other Routes  */}
 
       </Routes>
