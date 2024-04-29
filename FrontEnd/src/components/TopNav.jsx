@@ -20,11 +20,13 @@ const TopNav = () => {
         }
     }
 
+    
+
 
     return (    
         <>
             <div className='items-center lg:px-10 bg-gray-400 flex '>
-                <Link to={'#'} className='text-white bg-gray-400 text-lg hover:bg-gray-500 p-5 focus:bg-blue-950 focus:text-white'>
+                <Link to={'/main'}  className='text-white bg-gray-400 text-lg hover:bg-gray-500 p-5 focus:bg-blue-950 focus:text-white'>
                     Home
                 </Link>
                 <Link to={'#'} className='text-white bg-gray-400 text-lg hover:bg-gray-500 p-5 focus:bg-blue-950 focus:text-white' onClick={()=>scrollToSection('vision')}>

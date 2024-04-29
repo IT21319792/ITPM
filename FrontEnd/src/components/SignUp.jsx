@@ -5,31 +5,56 @@ import axios from 'axios'
 import Button from '@mui/material/Button';
 
 function SignUp() {
-  const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', contactNo: '', password: '', confirm_password: '', address: ''})
+  const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', contactNo: '', password: '', confirm_password: '', address: '' })
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      role: ['staff'],
       [e.target.name]: e.target.value
     })
   }
- const navigate = useNavigate();
+  const navigate = useNavigate();
   const handleSubmit = (e) => {
-    e.preventDefault()
-    axios.post('http://localhost:510/user/create', formData)
-      .then(() => {
-        alert('User created successfully')
-        console.log('User created successfully')//alert('User created successfully')
-        console.log('Form data:', formData)
-        navigate('/login')
-      })
-      .catch((err) => {
-        console.log('Form data:', formData)
-        console.log('Error:', err)//alert('User creation failed')
-        alert(err.response.data.message)
-      })
-  }
+    e.preventDefault();
+    // Map staff post to level
+    const levelMap = {
+        "Chancellor": 1,
+        "Vice-Chancellor": 2,
+        "Deans": 2,
+        "Department Chairs/Heads": 2,
+        "Professors": 2,
+        "Associate Professors": 2,
+        "Assistant Professors": 2,
+        "Assistant Lecturer": 3,
+        "Lecturers": 3,
+        "Senior Lecturers": 3,
+        "Instructors": 3
+    };
+    // Retrieve the selected staff post from the form data
+    const selectedStaffPost = formData.staffPost;
+    // Determine the level based on the selected staff post
+    const level = levelMap[selectedStaffPost];
+    
+    // Update form data with the role
+    const updatedFormData = {
+        ...formData,
+        level: level,
+        role: ['staff'],
+    };
+
+    axios.post('http://localhost:510/user/create', updatedFormData)
+        .then(() => {
+            alert('User created successfully');
+            console.log('User created successfully');
+            navigate('/studentlogin');
+        })
+        .catch((err) => {
+            console.log('Form data:', updatedFormData);
+            console.log('Error:', err);
+            alert(err.response.data.message);
+        });
+};
+
 
   return (
 
@@ -68,6 +93,26 @@ function SignUp() {
               placeholder="Email"
               id='email'
               onChange={handleChange} />
+
+            <select
+              className="block border border-grey-light w-full p-3 rounded mb-4"
+              name="staffPost"
+              id="staffPost"
+              onChange={handleChange}
+            >
+              <option value="">Select Staff Post</option>
+              <option value="Chancellor">Chancellor</option>
+              <option value="Vice-Chancellor">Vice-Chancellor</option>
+              <option value="Deans">Deans</option>
+              <option value="Department Chairs/Heads">Department Chairs/Heads</option>
+              <option value="Professors">Professors</option>
+              <option value="Associate Professors">Associate Professors</option>
+              <option value="Assistant Professors">Assistant Professors</option>
+              <option value="Assistant Lecturer">Assistant Lecturer</option>
+              <option value="Lecturers">Lecturers</option>
+              <option value="Senior Lecturers">Senior Lecturers</option>
+              <option value="Instructors">Instructors</option>
+            </select>
 
 
             <input
@@ -143,7 +188,7 @@ function SignUp() {
             variant="text"
             color="primary"
             sx={{ textDecoration: 'none', borderBottom: '1px solid blue', color: 'blue' }}
-            onClick={() => navigate('/studentsignup')}
+            onClick={() => navigate('/addStudent')}
           >
             Student Signup
           </Button>

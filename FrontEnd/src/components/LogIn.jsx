@@ -23,27 +23,50 @@ function Login() {
       const res = await axios.post('http://localhost:510/user/login', formData);
       Cookies.set('role', res.data.userRole);
       Cookies.set('firstName', res.data.firstName);
-      switch (res.data.userRole) {
-        case 'admin':
-          navigate('/dashboard/adminDash');
-          break;
-        case 'student':
-          navigate('/dashboard/studentDash');
-          break;
-        case 'examinar':
-          navigate('/dashboard/examinerDash');
-          break;
-        case 'supervisor':
-          navigate('/dashboard/supervisorDash');
-          break;
-        case 'member':
-          navigate('/dashboard/pMemberDash');
-          break;
-        case 'coordinator':
-          navigate('/dashboard');
-          break;
-        default:
-          navigate('/');
+      Cookies.set('level', res.data.level);
+      Cookies.set('staffPost', res.data.staffPost);
+      // switch (res.data.userRole) {
+      //   case 'admin':
+      //     navigate('/dashboard/adminDash');
+      //     break;
+      //   case 'student':
+      //     navigate('/dashboard/studentDash');
+      //     break;
+      //   case 'examinar':
+      //     navigate('/dashboard/examinerDash');
+      //     break;
+      //   case 'supervisor':
+      //     navigate('/dashboard/supervisorDash');
+      //     break;
+      //   case 'member':
+      //     navigate('/dashboard/pMemberDash');
+      //     break;
+      //   case 'coordinator':
+      //     navigate('/dashboard');
+      //     break;
+      //   default:
+      //     navigate('/');
+      // }
+      // Assuming res.data.userRole is an array of roles
+      const userRoles = res.data.userRole;
+
+      // Check if the array includes a certain role
+      if (userRoles.includes('admin')) {
+        navigate('/dashboard/adminDash');
+      } else if (userRoles.includes('student')) {
+        navigate('/dashboard/studentDash');
+      } else if (userRoles.includes('examinar')) {
+        navigate('/main');
+      } else if (userRoles.includes('supervisor')) {
+        navigate('/dashboard/supervisorDash');
+      } else if (userRoles.includes('member')) {
+        navigate('/dashboard/pMemberDash');
+      } else if (userRoles.includes('coordinator')) {
+        navigate('/dashboard');
+      } else if (userRoles.includes('staff')) {
+        navigate('/main');
+      } else {
+        navigate('/');
       }
       toast.success(`${res.data.userRole}, successfully Logged In!`);
     } catch (err) {
