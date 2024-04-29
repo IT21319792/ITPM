@@ -1,10 +1,11 @@
 
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import Button from '@mui/material/Button';
 
-function AddUsers() {
-  const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', contactNo: '', password: '', confirm_password: '' })
+function SignUp() {
+  const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', contactNo: '', password: '', confirm_password: '', address: '' })
 
   const handleChange = (e) => {
     setFormData({
@@ -12,27 +13,55 @@ function AddUsers() {
       [e.target.name]: e.target.value
     })
   }
-
+  const navigate = useNavigate();
   const handleSubmit = (e) => {
-    e.preventDefault()
-    axios.post('http://localhost:510/user/create', formData)
-      .then(() => {
-        alert('User created successfully')
-        console.log('User created successfully')//alert('User created successfully')
-      })
-      .catch((err) => {
-        console.log('Form data:', formData)
-        console.log('Error:', err)//alert('User creation failed')
-        alert(err.response.data.message)
-      })
-  }
+    e.preventDefault();
+    // Map staff post to level
+    const levelMap = {
+        "Chancellor": 1,
+        "Vice-Chancellor": 2,
+        "Deans": 2,
+        "Department Chairs/Heads": 2,
+        "Professors": 2,
+        "Associate Professors": 2,
+        "Assistant Professors": 2,
+        "Assistant Lecturer": 3,
+        "Lecturers": 3,
+        "Senior Lecturers": 3,
+        "Instructors": 3
+    };
+    // Retrieve the selected staff post from the form data
+    const selectedStaffPost = formData.staffPost;
+    // Determine the level based on the selected staff post
+    const level = levelMap[selectedStaffPost];
+    
+    // Update form data with the role
+    const updatedFormData = {
+        ...formData,
+        level: level,
+        role: ['staff'],
+    };
+
+    axios.post('http://localhost:510/user/create', updatedFormData)
+        .then(() => {
+            alert('User created successfully');
+            console.log('User created successfully');
+            navigate('/studentlogin');
+        })
+        .catch((err) => {
+            console.log('Form data:', updatedFormData);
+            console.log('Error:', err);
+            alert(err.response.data.message);
+        });
+};
+
 
   return (
 
     <div className="bg-grey-lighter min-h-screen flex flex-col">
       <div className="container max-w-xl mx-auto flex-1 flex flex-col items-center justify-center px-2">
         <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
-          <h1 className="mb-8 text-3xl text-center">Add Users</h1>
+          <h1 className="mb-8 text-3xl text-center">Staff Signup</h1>
           <form onSubmit={handleSubmit} className="mb-4 md:flex md:flex-wrap md:justify-between" action="/signup/" method="post">
 
             <div className='flex gap-2 w-full'>
@@ -64,6 +93,26 @@ function AddUsers() {
               placeholder="Email"
               id='email'
               onChange={handleChange} />
+
+            <select
+              className="block border border-grey-light w-full p-3 rounded mb-4"
+              name="staffPost"
+              id="staffPost"
+              onChange={handleChange}
+            >
+              <option value="">Select Staff Post</option>
+              <option value="Chancellor">Chancellor</option>
+              <option value="Vice-Chancellor">Vice-Chancellor</option>
+              <option value="Deans">Deans</option>
+              <option value="Department Chairs/Heads">Department Chairs/Heads</option>
+              <option value="Professors">Professors</option>
+              <option value="Associate Professors">Associate Professors</option>
+              <option value="Assistant Professors">Assistant Professors</option>
+              <option value="Assistant Lecturer">Assistant Lecturer</option>
+              <option value="Lecturers">Lecturers</option>
+              <option value="Senior Lecturers">Senior Lecturers</option>
+              <option value="Instructors">Instructors</option>
+            </select>
 
 
             <input
@@ -130,11 +179,19 @@ function AddUsers() {
 
         <div className="text-grey-dark mt-6 flex gap-2">
           <p>Already have an account? </p>
-          <Link to="login" >
+          <Link to="/login" >
             <span className="no-underline border-b border-blue text-blue-700" href="../login/">
               Log in
             </span>
           </Link>
+          <Button
+            variant="text"
+            color="primary"
+            sx={{ textDecoration: 'none', borderBottom: '1px solid blue', color: 'blue' }}
+            onClick={() => navigate('/addStudent')}
+          >
+            Student Signup
+          </Button>
 
         </div>
       </div>
@@ -142,4 +199,4 @@ function AddUsers() {
   )
 }
 
-export default AddUsers;
+export default SignUp;

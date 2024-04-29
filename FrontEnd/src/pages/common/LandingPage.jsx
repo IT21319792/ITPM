@@ -24,7 +24,7 @@ function MainHeroContent() {
         </div>
         <div className=" items-center mt-12 mx-6 text-center gap-5">
           <span className="relative inline-flex w-full md:w-auto">
-            <a href="studentsignup" className="inline-flex items-center justify-center w-full px-8 py-4 text-base font-bold leading-6 text-white bg-indigo-600 border border-transparent rounded-full md:w-auto hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600">
+            <a href="/addStudent" className="inline-flex items-center justify-center w-full px-8 py-4 text-base font-bold leading-6 text-white bg-indigo-600 border border-transparent rounded-full md:w-auto hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600">
               SignUp
             </a>{/* Student registration walata wenama form ekakata yanawa */}
           </span>

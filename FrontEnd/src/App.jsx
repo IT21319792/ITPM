@@ -6,6 +6,8 @@ import CoDash from './pages/co-ordinator/CoDash';
 import ExaminarDash from './pages/examinar/ExaminarDash';
 import PMemberDash from './pages/projectMember/PMemberDash';
 import SupervisorDash from './pages/supervisor/SupervisorDash';
+
+import AddStudents from './components/AddStudents';
 import Assignments from './pages/student/Assignments';
 import Research from './pages/student/Research';
 import MyResults from './pages/student/MyResults';
@@ -43,6 +45,8 @@ import UpdateRubrics from "./pages/projectMember/MarkingReburics/UpdateRubrics";
 import ViewRubrics from "./pages/projectMember/MarkingReburics/ViewRubrics";
 import UpdateForm from './pages/examinar/ExaminerUpdateMark';
 import SupervisorReportMarks from './pages/supervisor/Reports';
+import SignUp from './components/SignUp';
+import MainPage from './components/MainPage';
 
 
 
@@ -57,10 +61,13 @@ function App() {
       <Routes>
         {/* Common Routes  */}
         <Route path='/' element={<LandingPage />} />
-        <Route path='studentsignup' element={<StudentSignUp />} />
+        <Route path='/addStudent' element={<AddStudents />} />
         <Route path='login' element={<Login />} />
         <Route path='s-login' element={<StudentLogin />} />
+        <Route path='/signup' element={<SignUp/>} />
+        <Route path='/main' element={<MainPage/>} />
         <Route path='/dashboard' element={<Layout />} >
+          
 
 
           {/* Admin Routes  */}

@@ -1,5 +1,5 @@
 import React from "react";
-import AddUsersSuperAdmin from "../../components/AddUsersSuperAdmin";
+
 import AdminWelcomeCard from "../../components/AdminWelcomeCard";
 
 function AdminDash () {
@@ -12,7 +12,7 @@ function AdminDash () {
            
    {/* <AddUsersSuperAdmin/> */}
         
-        <AddUsersSuperAdmin />
+
         </>
      
     );
