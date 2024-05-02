@@ -1,10 +1,20 @@
 import React from "react";
 
+import AdminWelcomeCard from "../../components/AdminWelcomeCard";
+
 function AdminDash () {
 
 
     return (
-        <h1>Super Admin Dashboard</h1>
+        <>
+        <AdminWelcomeCard />
+        
+           
+   {/* <AddUsersSuperAdmin/> */}
+        
+
+        </>
+     
     );
 }
 
