@@ -27,10 +27,25 @@ const UserSchema = new mongoose.Schema({
         type: String,
         // required: true
     },
+<<<<<<< HEAD
     role: {
         type: String,
         enum: ["admin", "coordinator", "member", "supervisor", "examinar", "cosupervisor"],
     },
+=======
+    staffPost: {
+        type: String,
+        enum: ["Chancellor", "Vice-Chancellor", "Deans", "Department Chairs/Heads", "Professors", "Associate Professors", "Assistant Professors", "Assistant Lecturer", "Lecturers", "Senior Lecturers", "Instructors"],
+    },
+    level: {
+        type: String,
+        enum: ["1", "2", "3"],
+    },
+    role: [{ 
+        type: String,
+        enum: ["admin", "coordinator", "member", "supervisor", "examiner", "student", "staff"],
+    }],
+>>>>>>> bd0b13a62b3ccfa1f97ee4acd2692aac83ed8ebf
 }, { timestamps: true });
 
 
