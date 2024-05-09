@@ -1,10 +1,7 @@
 import StudentRegModel from "../../models/studentModels/studentRegModel.js";
 import jwt from 'jsonwebtoken';
 import { sendEmail } from "../../utils/sendEmail.js";
-<<<<<<< HEAD
 import SubmitAssignment from "../../models/studentModels/SubmitAssignmentModel.js"
-=======
->>>>>>> bd0b13a62b3ccfa1f97ee4acd2692aac83ed8ebf
 
 
 //Student Login and generating token
@@ -192,7 +189,6 @@ export const getSameSemesterSpecializationStudents = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 }
-<<<<<<< HEAD
 
 
 
@@ -218,5 +214,3 @@ export const submitAssignment = async (req, res) => {
         res.status(500).json({ error: "Internal Server Error" });
     }
 };
-=======
->>>>>>> bd0b13a62b3ccfa1f97ee4acd2692aac83ed8ebf

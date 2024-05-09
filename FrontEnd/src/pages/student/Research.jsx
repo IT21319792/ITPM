@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -480,21 +479,3 @@ export default function Research() {
         </>
     );
 }
-=======
-import React from "react";
-
-function Research () {
-
-
-    return(
-        <>
-        
-
-            <h1>This is Research page</h1>
-    </>
-
-
-    );
-}
-export default Research;
->>>>>>> bd0b13a62b3ccfa1f97ee4acd2692aac83ed8ebf

@@ -45,11 +45,6 @@ import UpdateRubrics from "./pages/projectMember/MarkingReburics/UpdateRubrics";
 import ViewRubrics from "./pages/projectMember/MarkingReburics/ViewRubrics";
 import UpdateForm from './pages/examinar/ExaminerUpdateMark';
 import SupervisorReportMarks from './pages/supervisor/Reports';
-<<<<<<< HEAD
-=======
-import SignUp from './components/SignUp';
-import MainPage from './components/MainPage';
->>>>>>> bd0b13a62b3ccfa1f97ee4acd2692aac83ed8ebf
 
 
 
@@ -64,18 +59,10 @@ function App() {
       <Routes>
         {/* Common Routes  */}
         <Route path='/' element={<LandingPage />} />
-<<<<<<< HEAD
         <Route path='studentsignup' element={<StudentSignUp />} />
         <Route path='/addStudent' element={<AddStudents />} />
         <Route path='login' element={<Login />} />
         <Route path='s-login' element={<StudentLogin />} />
-=======
-        <Route path='/addStudent' element={<AddStudents />} />
-        <Route path='login' element={<Login />} />
-        <Route path='s-login' element={<StudentLogin />} />
-        <Route path='/signup' element={<SignUp/>} />
-        <Route path='/main' element={<MainPage/>} />
->>>>>>> bd0b13a62b3ccfa1f97ee4acd2692aac83ed8ebf
         <Route path='/dashboard' element={<Layout />} >
           
 

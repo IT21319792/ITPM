@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Dialog, DialogContent, Button, IconButton, TextField } from "@mui/material";
@@ -165,21 +164,3 @@ const Assignments = () => {
 };
 
 export default Assignments;
-=======
-import React from "react";
-
-
-
-function Assignments() {
-
-    return(
-        <>
-            
-
-                <h1>This is Assignments page</h1>
-        </>
-
-    );
-}
-export default Assignments;
->>>>>>> bd0b13a62b3ccfa1f97ee4acd2692aac83ed8ebf

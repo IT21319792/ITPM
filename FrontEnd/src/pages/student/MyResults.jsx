@@ -1,5 +1,5 @@
-<<<<<<< HEAD
 import React, { useRef, useState } from "react";
+
 import { styled } from "@mui/material/styles";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, TextField } from "@mui/material";
 import { jsPDF } from "jspdf";
@@ -92,21 +92,3 @@ const MyResults = () => {
 };
 
 export default MyResults;
-=======
-import React from "react";
-
-
-function MyResults () {
-
-    return(
-        <>
-        
-
-            <h1>This is MyResults page</h1>
-    </>
-
-
-    );
-}
-export default MyResults;
->>>>>>> bd0b13a62b3ccfa1f97ee4acd2692aac83ed8ebf

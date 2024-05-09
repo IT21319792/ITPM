@@ -1,14 +1,8 @@
 import React, { useState } from 'react';
-<<<<<<< HEAD
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { toast } from "react-toastify";
-=======
 import { useNavigate,Link } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from "react-toastify";
 import { Button } from '@mui/material';
->>>>>>> bd0b13a62b3ccfa1f97ee4acd2692aac83ed8ebf
 
 function AddStudents() {
     const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', contactNo: '', password: '', confirm_password: '', address: '', specialization: 'it', semester: 'semester1', role: 'student' });
@@ -25,13 +19,8 @@ function AddStudents() {
         e.preventDefault();
         axios.post('http://localhost:510/student/create', formData)
             .then(() => {
-<<<<<<< HEAD
-                navigate('/dashboard/adminDash');
-                toast.success('Student created successfully');
-=======
                 toast.success('Student created successfully');
                 navigate('/s-login');
->>>>>>> bd0b13a62b3ccfa1f97ee4acd2692aac83ed8ebf
             })
             .catch((err) => {
                 console.log('Error:', err);
@@ -42,11 +31,6 @@ function AddStudents() {
                 }
             });
     };
-<<<<<<< HEAD
-    
-=======
-
->>>>>>> bd0b13a62b3ccfa1f97ee4acd2692aac83ed8ebf
 
     return (
         <div className="bg-grey-lighter min-h-screen flex flex-col">
@@ -157,8 +141,6 @@ function AddStudents() {
                             Add Student
                         </button>
                     </form>
-<<<<<<< HEAD
-=======
 
                     <div className="text-grey-dark mt-6 flex gap-2">
                         <p>Already have an account? </p>
@@ -179,7 +161,6 @@ function AddStudents() {
                     </div>
 
 
->>>>>>> bd0b13a62b3ccfa1f97ee4acd2692aac83ed8ebf
                 </div>
             </div>
         </div>

@@ -203,11 +203,7 @@ function MyTeam() {
                   checked={myGroup.reason || reason}
                   onChange={() => setMyGroup(prevState => ({ ...prevState, reason: !prevState.reason }))}
                 />
-<<<<<<< HEAD
                 <InputLabel id="checkbox">I have a reason to Prove Specialization and the Semester..</InputLabel>
-=======
-                <InputLabel id="checkbox">I have a reason</InputLabel>
->>>>>>> bd0b13a62b3ccfa1f97ee4acd2692aac83ed8ebf
               </Box>
             </DialogContent>
             <DialogActions>
@@ -262,11 +258,7 @@ function MyTeam() {
           </FormControl>
           <Box>
             <Checkbox checked={reason} onChange={() => setReason(pre => (!pre))} />
-<<<<<<< HEAD
             <InputLabel id="checkbox">I have a reason to Prove Specialization and the Semester..</InputLabel>
-=======
-            <InputLabel id="checkbox">I have a reason</InputLabel>
->>>>>>> bd0b13a62b3ccfa1f97ee4acd2692aac83ed8ebf
           </Box>
           <div className="flex justify-between">
             <Button variant="contained" onClick={handleSubmit} color="primary">

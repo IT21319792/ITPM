@@ -39,11 +39,6 @@ export const Login = async (req, res) => {
             token,
             userRole: isExist.role,
             firstName: isExist.firstName,
-<<<<<<< HEAD
-=======
-            level: isExist.level,
-            staffPost: isExist.staffPost,
->>>>>>> bd0b13a62b3ccfa1f97ee4acd2692aac83ed8ebf
             rest
             
         })
