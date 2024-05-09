@@ -24,18 +24,24 @@ function ProjectMemberMng() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const [userData, scheduleData, markingData] = await Promise.all([
-          axios.get('http://localhost:510/user'),
+        // Fetch only the users with the role 'coordinator'
+        const userData = await axios.get('http://localhost:510/user', {
+          params: {
+            role: 'coordinator'
+          }
+        });
+
+        const [scheduleData, markingData] = await Promise.all([
           axios.get('http://localhost:510/assignShedule'),
           axios.get('http://localhost:510/assignMark')
         ]);
-      
 
         console.log("userData:", userData);
         console.log("scheduleData:", scheduleData);
         console.log("markingData:", markingData);
 
-        const members = userData.data.filter(user => user.role === "member");
+        // Assuming userData.data contains the filtered users
+        const members = userData.data;
         const scheduleMap = new Map(scheduleData.data.map(item => [item.firstName, item]));
         const markingMap = new Map(markingData.data.map(item => [item.firstName, item]));
 
@@ -49,7 +55,7 @@ function ProjectMemberMng() {
           assignedMarking: markingMap.get(member.firstName) || null
         }));
 
-        console.log("Updated Table Data:", updatedTableData);   
+        console.log("Updated Table Data:", updatedTableData);
         setTableData(updatedTableData);
       } catch (error) {
         console.log("Error fetching data:", error);
@@ -59,6 +65,7 @@ function ProjectMemberMng() {
 
     fetchData();
   }, []);
+
 
   //navigate to next page
   const handlePage = () => {
@@ -200,6 +207,7 @@ function ProjectMemberMng() {
               <th scope="col" className="px-6 py-4">First Name</th>
               <th scope="col" className="px-6 py-4">Last Name</th>
               <th scope="col" className="px-6 py-4">Contact Number</th>
+              <th scope="col" className="px-6 py-4">staffPost</th>
               <th scope="col" className="px-6 py-4">Email</th>
               <th scope="col" className="px-6 py-4">Assigned Schedule</th>
               <th scope="col" className="px-6 py-4">Assigned Marking</th>
@@ -212,7 +220,9 @@ function ProjectMemberMng() {
                 <td className="px-6 py-4">{data.firstName}</td>
                 <td className="px-6 py-4">{data.lastName}</td>
                 <td className="px-6 py-4">{data.contactNo}</td>
+                <td className="px-6 py-4">{data.staffPost}</td>
                 <td className="px-6 py-4">{data.email}</td>
+                <td className="px-6 py-4">{data.address}</td>
                 <td className="px-6 py-4">{data.assignedSchedule ? data.assignedSchedule.selectedAssignment : 'Not Assigned to any'}</td>
                 <td className="px-6 py-4">{data.assignedMarking ? data.assignedMarking.selectedAssignment : 'Not Assigned to any'}</td>
                 <td className="px-6 py-4 flex justify-center text-white">

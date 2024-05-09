@@ -2,27 +2,27 @@ import React from 'react';
 import TopNav from './TopNav';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 
 function MainPage() {
     const userRole = Cookies.get('role');
     if (userRole === 'staff') {
         Cookies.set('OriginalRole', userRole);
-    }  
+    }
 
-    
+
     const level = Cookies.get('level');
     const staffPost = Cookies.get('staffPost');
 
     const navigate = useNavigate();
     const handleButtonClickCoordinator = () => {
         const role = Cookies.get('OriginalRole');
-        if (role === 'staff' && (level === '1' )) {
-        const expirationTime = new Date();
-        expirationTime.setSeconds(expirationTime.getSeconds() + 10);
-        Cookies.set('role', 'coordinator', { expires: expirationTime });
+        if (role === 'staff' && (level === '1' || level === '2')) {
+            const expirationTime = new Date();
+            expirationTime.setSeconds(expirationTime.getSeconds() + 10);
+            Cookies.set('role', 'coordinator', { expires: expirationTime });
             navigate('/dashboard');
-        }  else {
+        } else {
             alert('You are not authorized to access this page as a ' + staffPost + ' with level ' + level + 'access');
         }
     };
@@ -40,24 +40,24 @@ function MainPage() {
 
     const handleButtonClickSupervisor = () => {
         const role = Cookies.get('OriginalRole');
-        if(role === 'staff' && (level === '1' || level === '2')) {
-            Cookies.set('role','supervisor');
+        if (role === 'staff' && (level === '1' || level === '2')) {
+            Cookies.set('role', 'supervisor');
             navigate('/dashboard/supervisorDash');
-          } else {
+        } else {
             alert('You are not authorized to access this page as a ' + staffPost + ' with level ' + level + 'access');
-    
-          }
+
+        }
     };
 
     const handleButtonClickExaminer = () => {
         const role = Cookies.get('OriginalRole');
-        if(role === 'staff' && (level === '1' || level === '2'  || level === '3')) {
-            Cookies.set('role','examinar');
+        if (role === 'staff' && (level === '1' || level === '2' || level === '3')) {
+            Cookies.set('role', 'examinar');
             navigate('/dashboard/examinerDash');
-          } else {
+        } else {
             alert('You are not authorized to access this page as a ' + staffPost + ' with level ' + level + 'access');
-    
-          }
+
+        }
     };
 
     const handleLogout = () => {
@@ -67,13 +67,13 @@ function MainPage() {
         Cookies.remove('pvt', { path: '/' });
         toast.warning('Logout Success!')
         navigate('/');
-      };
+    };
     return (
         <div>
             <TopNav />
             <button onClick={handleLogout}>LogOut</button>
             <section className="w-full px-6 pb-12 antialiased bg-white flex items-center justify-center">
-               
+
                 <div className="container max-w-full px-4 py-32 text-center flex gap-7 justify-center">
                     <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
                         <a href="#">
