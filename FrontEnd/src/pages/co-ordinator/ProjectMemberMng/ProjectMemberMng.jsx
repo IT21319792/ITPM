@@ -6,6 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Modal from 'react-modal';
 import Sweetalert from 'sweetalert2';
+import { FaEdit, FaTrash, FaUserPlus } from 'react-icons/fa';
 
 
 function ProjectMemberMng() {
@@ -226,8 +227,12 @@ function ProjectMemberMng() {
                 <td className="px-6 py-4">{data.assignedSchedule ? data.assignedSchedule.selectedAssignment : 'Not Assigned to any'}</td>
                 <td className="px-6 py-4">{data.assignedMarking ? data.assignedMarking.selectedAssignment : 'Not Assigned to any'}</td>
                 <td className="px-6 py-4 flex justify-center text-white">
-                  <button onClick={() => handleUpdate(data)} className="bg-blue-500 rounded bg-primary px-3 pb-2 pt-2.5 ml-2">Update</button>
-                  <button onClick={() => handleDelete(data._id)} className="bg-red-500 inline-block rounded bg-primary px-3 pb-2 pt-2.5 ml-2">Delete</button>
+                  <button onClick={() => handleUpdate(data)} className="bg-blue-500 rounded bg-primary px-3 pb-2 pt-2.5 ml-2">
+                    <FaEdit />
+                  </button>
+                  <button onClick={() => handleDelete(data._id)} className="bg-red-500 inline-block rounded bg-primary px-3 pb-2 pt-2.5 ml-2">
+                    <FaTrash />
+                  </button>
 
                   <ToastContainer />
                   <button
@@ -235,7 +240,7 @@ function ProjectMemberMng() {
                     disabled={data.assignedSchedule && data.assignedMarking}
                     className={`bg-green-700 inline-block rounded bg-primary px-3 pb-2 pt-2.5 ml-2 ${data.assignedSchedule && data.assignedMarking ? 'opacity-50 cursor-not-allowed' : ''}`}
                   >
-                    Assign This Member
+                    <FaUserPlus />
                   </button>
                 </td>
               </tr>
@@ -311,12 +316,8 @@ function ProjectMemberMng() {
           </div>
         </div>
       )}
-
-
-
     </div>
   );
-
 
 
 }

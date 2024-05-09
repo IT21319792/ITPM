@@ -15,6 +15,7 @@ import AddAssignmentRouter from './routes/cordinatorRoutes/AddAssignmentRouter.j
 import StudentRouter from './routes/studentRoutes/StudentRoutes.js';
 import GroupRouter from './routes/studentRoutes/GroupRoutes.js';
 import AddRepoMarkRouter from './routes/supervisorRoutes/AddReportMarkRouter.js';
+import PrMemberRouter from './routes/cordinatorRoutes/PrMemberRouter.js';
 
 
 const PORT = process.env.PORT || 510;
@@ -24,27 +25,28 @@ dotenv.config();
 
 app.use(morgan('dev'));
 app.use(cors());
-app.get('/', async (req,res)=>{
+app.get('/', async (req, res) => {
     res.status(200).json('Server is up and running');
 })
 
 //Admin Routes
-app.use('/user',userRouter);
+app.use('/user', userRouter);
 app.use('/rubric', RubricRouter);
 app.use('/schedule', ScheduleRouter);
-app.use('/assignMark',AssignMarkRouter);
-app.use('/assignShedule',AssignShedulerouter);
-app.use('/presentation',AddMarkRouter)
-app.use('/assignment',AddAssignmentRouter);
+app.use('/assignMark', AssignMarkRouter);
+app.use('/assignShedule', AssignShedulerouter);
+app.use('/presentation', AddMarkRouter)
+app.use('/assignment', AddAssignmentRouter);
 app.use('/student', StudentRouter);
 app.use('/group', GroupRouter);
-app.use('/report',AddRepoMarkRouter);
+app.use('/report', AddRepoMarkRouter);
+app.use('/prmember', PrMemberRouter);
 
-dbConfig().then(()=>{
-    app.listen(PORT,()=>{
+dbConfig().then(() => {
+    app.listen(PORT, () => {
         console.log(`Server is up and running on 🚀 @http://localhost:${PORT}`);
     })
-}).catch((err)=>{
+}).catch((err) => {
     console.log(err);
 })
 
