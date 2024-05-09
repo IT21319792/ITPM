@@ -1,64 +1,49 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const ResearchSchema = new mongoose.Schema({
 
-    groupID: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'group',
-        unique: true,
-    },
     title: {
         type: String,
         required: true,
     },
     student1: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'student',
+        type: String,
         required: true,
     },
     student2: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'student',
+        type: String,
         required: true,
     },
     student3: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'student',
+        type: String,
         required: true,
     },
     student4: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'student',
+        type: String,
         required: true,
     },
     supervisor1: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'user',
+        type: String,
         required: true,
     },
     supervisor1: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'user',
+        type: String,
         required: true,
     },
     supervisor2: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'user',
+        type: String,
         required: true,
     },
     coSupervisor1: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'user',
+        type: String,
         required: true,
     },
     coSupervisor2: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'user',
+        type: String,
         required: true,
     },
     journalName: {
         type: String,
-        required: true,
     },
     issnNumber: {
         type: String,
@@ -74,7 +59,7 @@ const ResearchSchema = new mongoose.Schema({
     },
     imageLinkOfAcceptanceLetter: {
         type: String,
-    }
+    },
 
 }, { timestamps: true });
 

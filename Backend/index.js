@@ -15,6 +15,7 @@ import AddAssignmentRouter from './routes/cordinatorRoutes/AddAssignmentRouter.j
 import StudentRouter from './routes/studentRoutes/StudentRoutes.js';
 import GroupRouter from './routes/studentRoutes/GroupRoutes.js';
 import AddRepoMarkRouter from './routes/supervisorRoutes/AddReportMarkRouter.js';
+import researchRouter from './routes/studentRoutes/ResearchRoutes.js';
 
 
 const PORT = process.env.PORT || 510;
@@ -39,6 +40,7 @@ app.use('/assignment',AddAssignmentRouter);
 app.use('/student', StudentRouter);
 app.use('/group', GroupRouter);
 app.use('/report',AddRepoMarkRouter);
+app.use('/research', researchRouter);
 
 dbConfig().then(()=>{
     app.listen(PORT,()=>{

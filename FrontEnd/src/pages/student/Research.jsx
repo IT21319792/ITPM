@@ -4,8 +4,11 @@ import { Link } from "react-router-dom";
 import axios from 'axios';
 import authAxios from "../utils/authAxios";
 import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export default function Research() {
+    const [members, setMembers] = useState([]);
     const [formData, setFormData] = useState({
         title: "",
         student1: "",
@@ -21,10 +24,8 @@ export default function Research() {
         h5IndexLink: "",
         hIndexLink: "",
         scopusSiteLink: "",
-        imageLinkOfAcceptanceLetter: ""
+        imageLinkOfAcceptanceLetter: "",
     });
-
-    const [members, setMembers] = useState([]);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -37,18 +38,18 @@ export default function Research() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await authAxios.post('http://localhost:510/research/', formData);
+            const response = await axios.post('http://localhost:510/research/', formData);
             if (response.status === 200) {
                 console.log("Research Paper Submitted successfully!");
+                // Toast success message
                 toast.success("Research Paper Submitted successfully!");
-                // Assuming your backend returns the ID of the created group
-                const groupId = response.data.groupId;
-                // Redirect to the dashboard page
-                window.location.href = `/dashboard/studentDash/${groupId}`;
+                // Redirect to '/dashboard/studentDash'
+                <Link to="/dashboard/studentDash">Go to Student Dashboard</Link>
             }
         } catch (error) {
-            console.error("Error creating group:", error);
-            toast.error(error.response.data.message);
+            console.error("Error submitting research paper:", error);
+            // Toast error message
+            toast.error("Error submitting research paper. Please try again later.");
         }
     };
 
@@ -56,23 +57,42 @@ export default function Research() {
     const GetMyGroup = async () => {
         try {
             const res = await authAxios.get("http://localhost:510/group/mygroup");
-            setMembers(res.data); // Assuming the response contains the members data directly
+            setMembers(res.data);
             console.log(res.data);
         } catch (error) {
-            // Handle error
+            toast.error(error.response.data.message);
+        }
+    };
+    const [sup, setSup] = useState([])
+    const GetSup = async () => {
+        try {
+            const res = await authAxios.get("http://localhost:510/user/get-all-supervisors");
+            setSup(res.data);
+            console.log(res.data);
+        } catch (error) {
+            toast.error(error.response.data.message);
+        }
+    };
+    const [cosup, setCoSup] = useState([])
+    const GetCoSup = async () => {
+        try {
+            const res = await authAxios.get("http://localhost:510/user/get-all-cosupervisors");
+            setCoSup(res.data);
+            console.log(res.data);
+        } catch (error) {
+            toast.error(error.response.data.message);
         }
     };
 
     useEffect(() => {
         GetMyGroup();
+        GetSup();
+        GetCoSup();
     }, []);
-
-
 
     const [extractedMembers, setExtractedMembers] = useState({});
 
     useEffect(() => {
-        // Extracting members 1, 2, 3, and 4 from each object in the members array
         const extracted = members.reduce((acc, member) => {
             acc.member1 = member.member1;
             acc.member2 = member.member2;
@@ -83,6 +103,9 @@ export default function Research() {
 
         setExtractedMembers(extracted);
     }, [members]);
+
+
+
 
     return (
         <>
@@ -142,7 +165,7 @@ export default function Research() {
                                                 <option key={extractedMembers.member2} value={extractedMembers.member2}>{extractedMembers.member2}</option>
                                                 <option key={extractedMembers.member3} value={extractedMembers.member3}>{extractedMembers.member3}</option>
                                                 <option key={extractedMembers.member4} value={extractedMembers.member4}>{extractedMembers.member4}</option>
-                                              
+
                                             </select>
                                         </div>
                                     </div>
@@ -164,9 +187,11 @@ export default function Research() {
                                                 onChange={handleChange}
                                             >
                                                 <option value="">Select Student 2</option>
-                                                {/* {members.map(member => (
-                                                    <option key={member.id} value={member.id}>{member.name}</option>
-                                                ))} */}
+                                                <option key={extractedMembers.member1} value={extractedMembers.member1}>{extractedMembers.member1}</option>
+                                                <option key={extractedMembers.member2} value={extractedMembers.member2}>{extractedMembers.member2}</option>
+                                                <option key={extractedMembers.member3} value={extractedMembers.member3}>{extractedMembers.member3}</option>
+                                                <option key={extractedMembers.member4} value={extractedMembers.member4}>{extractedMembers.member4}</option>
+
                                             </select>
                                         </div>
                                     </div>
@@ -187,9 +212,11 @@ export default function Research() {
                                                 onChange={handleChange}
                                             >
                                                 <option value="">Select Student 3</option>
-                                                {/* {members.map(member => (
-                                                    <option key={member.id} value={member.id}>{member.name}</option>
-                                                ))} */}
+                                                <option key={extractedMembers.member1} value={extractedMembers.member1}>{extractedMembers.member1}</option>
+                                                <option key={extractedMembers.member2} value={extractedMembers.member2}>{extractedMembers.member2}</option>
+                                                <option key={extractedMembers.member3} value={extractedMembers.member3}>{extractedMembers.member3}</option>
+                                                <option key={extractedMembers.member4} value={extractedMembers.member4}>{extractedMembers.member4}</option>
+
                                             </select>
                                         </div>
                                     </div>
@@ -210,120 +237,115 @@ export default function Research() {
                                                 onChange={handleChange}
                                             >
                                                 <option value="">Select Student 4</option>
-                                                {/* {members.map(member => (
-                                                    <option key={member.id} value={member.id}>{member.name}</option>
-                                                ))} */}
+                                                <option key={extractedMembers.member1} value={extractedMembers.member1}>{extractedMembers.member1}</option>
+                                                <option key={extractedMembers.member2} value={extractedMembers.member2}>{extractedMembers.member2}</option>
+                                                <option key={extractedMembers.member3} value={extractedMembers.member3}>{extractedMembers.member3}</option>
+                                                <option key={extractedMembers.member4} value={extractedMembers.member4}>{extractedMembers.member4}</option>
+
                                             </select>
                                         </div>
                                     </div>
 
 
 
-                                    {/*Superviser input starts here*/}
+                                    {/* Supervisor input starts here */}
                                     <div className="col mt-10">
                                         <label
                                             className="block text-sm font-medium text-slate-500"
-                                            htmlFor="group "
+                                            htmlFor="supervisor1"
                                         >
                                             Supervisor1
                                         </label>
                                         <div className="relative h-10 w-72 min-w-[425px]">
                                             <select
-                                                className="peer h-full w-full rounded-[7px] border border-blue-gray-200 bg-transparent px-3 py-2 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200  bg-white  border-slate-300 shadow-sm placeholder-slate-400
-                      focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-                     disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-                     invalid:border-pink-500 invalid:text-pink-600
-                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
-                                                name="GroupID"
+                                                className="peer h-full w-full rounded-[7px] border border-blue-gray-200 bg-transparent px-3 py-2 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+                                                name="supervisor1"
+                                                value={formData.supervisor1}
+                                                onChange={handleChange}
                                             >
-                                                <option defaultValue="Select Group">Select Supervisor 1</option>
-                                                <option value="IT21158186">IT21158186</option>
-                                                <option value="IT21158187">IT21158187</option>
-                                                <option value="IT21158188">IT21158188</option>
-                                                <option value="IT21158189">IT21158189</option>
+                                                <option value="">Select Supervisor 1</option>
+                                                {sup.map((supervisor, index) => (
+                                                    <option key={index} value={`${supervisor.firstName} ${supervisor.lastName}`}>
+                                                        {`${supervisor.firstName} ${supervisor.lastName}`}
+                                                    </option>
+                                                ))}
                                             </select>
                                         </div>
                                     </div>
 
-
                                     <div className="col mt-10">
                                         <label
                                             className="block text-sm font-medium text-slate-500"
-                                            htmlFor="group "
+                                            htmlFor="supervisor2"
                                         >
                                             Supervisor2
                                         </label>
                                         <div className="relative h-10 w-72 min-w-[425px]">
                                             <select
-                                                className="peer h-full w-full rounded-[7px] border border-blue-gray-200 bg-transparent px-3 py-2 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200  bg-white  border-slate-300 shadow-sm placeholder-slate-400
-                      focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-                     disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-                     invalid:border-pink-500 invalid:text-pink-600
-                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
-                                                name="GroupID"
+                                                className="peer h-full w-full rounded-[7px] border border-blue-gray-200 bg-transparent px-3 py-2 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+                                                name="supervisor2"
+                                                value={formData.supervisor2}
+                                                onChange={handleChange}
                                             >
-                                                <option defaultValue="Select Group">Select Supervisor 2</option>
-                                                <option value="IT21158186">IT21158186</option>
-                                                <option value="IT21158187">IT21158187</option>
-                                                <option value="IT21158188">IT21158188</option>
-                                                <option value="IT21158189">IT21158189</option>
+                                                <option value="">Select Supervisor 2</option>
+                                                {sup.map((supervisor, index) => (
+                                                    <option key={index} value={`${supervisor.firstName} ${supervisor.lastName}`}>
+                                                        {`${supervisor.firstName} ${supervisor.lastName}`}
+                                                    </option>
+                                                ))}
                                             </select>
                                         </div>
                                     </div>
 
-
-
-                                    {/*Superviser input starts here*/}
+                                    {/* Co-Supervisor input starts here */}
                                     <div className="col mt-10">
                                         <label
                                             className="block text-sm font-medium text-slate-500"
-                                            htmlFor="group "
+                                            htmlFor="coSupervisor1"
                                         >
                                             Co-Supervisor1
                                         </label>
                                         <div className="relative h-10 w-72 min-w-[425px]">
                                             <select
-                                                className="peer h-full w-full rounded-[7px] border border-blue-gray-200 bg-transparent px-3 py-2 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200  bg-white  border-slate-300 shadow-sm placeholder-slate-400
-                      focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-                     disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-                     invalid:border-pink-500 invalid:text-pink-600
-                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
-                                                name="GroupID"
+                                                className="peer h-full w-full rounded-[7px] border border-blue-gray-200 bg-transparent px-3 py-2 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+                                                name="coSupervisor1"
+                                                value={formData.coSupervisor1}
+                                                onChange={handleChange}
                                             >
-                                                <option defaultValue="Select Group">Select Co-Supervisor 1</option>
-                                                <option value="IT21158186">IT21158186</option>
-                                                <option value="IT21158187">IT21158187</option>
-                                                <option value="IT21158188">IT21158188</option>
-                                                <option value="IT21158189">IT21158189</option>
+                                                <option value="">Select Co-Supervisor 1</option>
+                                                {cosup.map((cosupervisor, index) => (
+                                                    <option key={index} value={`${cosupervisor.firstName} ${cosupervisor.lastName}`}>
+                                                        {`${cosupervisor.firstName} ${cosupervisor.lastName}`}
+                                                    </option>
+                                                ))}
                                             </select>
                                         </div>
                                     </div>
 
-
                                     <div className="col mt-10">
                                         <label
                                             className="block text-sm font-medium text-slate-500"
-                                            htmlFor="group "
+                                            htmlFor="coSupervisor2"
                                         >
                                             Co-Supervisor2
                                         </label>
                                         <div className="relative h-10 w-72 min-w-[425px]">
                                             <select
-                                                className="peer h-full w-full rounded-[7px] border border-blue-gray-200 bg-transparent px-3 py-2 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200  bg-white  border-slate-300 shadow-sm placeholder-slate-400
-                      focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-                     disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-                     invalid:border-pink-500 invalid:text-pink-600
-                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
-                                                name="GroupID"
+                                                className="peer h-full w-full rounded-[7px] border border-blue-gray-200 bg-transparent px-3 py-2 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+                                                name="coSupervisor2"
+                                                value={formData.coSupervisor2}
+                                                onChange={handleChange}
                                             >
-                                                <option defaultValue="Select Group">Select Co-Supervisor 2</option>
-                                                <option value="IT21158186">IT21158186</option>
-                                                <option value="IT21158187">IT21158187</option>
-                                                <option value="IT21158188">IT21158188</option>
-                                                <option value="IT21158189">IT21158189</option>
+                                                <option value="">Select Co-Supervisor 2</option>
+                                                {cosup.map((cosupervisor, index) => (
+                                                    <option key={index} value={`${cosupervisor.firstName} ${cosupervisor.lastName}`}>
+                                                        {`${cosupervisor.firstName} ${cosupervisor.lastName}`}
+                                                    </option>
+                                                ))}
                                             </select>
                                         </div>
                                     </div>
+
 
 
                                 </div>
@@ -338,13 +360,17 @@ export default function Research() {
                                             type="text"
                                             placeholder="Enter the journalName"
                                             className="block w-72 min-w-[425px] px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
-                focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-                disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-                invalid:border-pink-500 invalid:text-pink-600
-                focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+            focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+            disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
+            invalid:border-pink-500 invalid:text-pink-600
+            focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
                                             name="journalName"
+                                            value={formData.journalName}
+                                            onChange={handleChange}
                                         />
                                     </div>
+
+
 
 
                                     {/* ISSN number input starts here */}
@@ -356,11 +382,13 @@ export default function Research() {
                                             type="text"
                                             placeholder="Enter the ISSN Number here"
                                             className="block w-72 min-w-[425px] px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
-                focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-                disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-                invalid:border-pink-500 invalid:text-pink-600
-                focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
-                                            name="ISSNNumber"
+            focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+            disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
+            invalid:border-pink-500 invalid:text-pink-600
+            focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+                                            name="issnNumber"
+                                            value={formData.issnNumber}
+                                            onChange={handleChange}
                                         />
                                     </div>
                                 </div>
@@ -381,6 +409,8 @@ export default function Research() {
                 invalid:border-pink-500 invalid:text-pink-600
                 focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
                                             name="h5IndexLink"
+                                            value={formData.h5IndexLink}
+                                            onChange={handleChange}
                                         />
                                     </div>
 
@@ -399,6 +429,8 @@ export default function Research() {
                 invalid:border-pink-500 invalid:text-pink-600
                 focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
                                             name="hIndexLink"
+                                            value={formData.hIndexLink}
+                                            onChange={handleChange}
                                         />
                                     </div>
                                 </div>
@@ -419,6 +451,8 @@ export default function Research() {
                 invalid:border-pink-500 invalid:text-pink-600
                 focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
                                             name="scopusSiteLink"
+                                            value={formData.scopusSiteLink}
+                                            onChange={handleChange}
                                         />
                                     </div>
 
@@ -432,13 +466,17 @@ export default function Research() {
                                             type="text"
                                             placeholder="Enter the Image Link of Acceptance Letter here"
                                             className="block w-72 min-w-[425px] px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
-                focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-                disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-                invalid:border-pink-500 invalid:text-pink-600
-                focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
-                                            name="imageLinkAcceptanceLetter"
+            focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+            disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
+            invalid:border-pink-500 invalid:text-pink-600
+            focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+                                            name="imageLinkOfAcceptanceLetter"  // Change name attribute to match state key
+                                            value={formData.imageLinkOfAcceptanceLetter} // Bind value to state
+                                            onChange={handleChange} // Update state on change
                                         />
                                     </div>
+
+
                                 </div>
 
                                 <br /><br />
@@ -452,7 +490,6 @@ export default function Research() {
                                                 <Button
                                                     style={{ backgroundColor: '#4CAF50', color: 'white', marginRight: '8px' }}
                                                     variant="contained"
-                                                    fullWidth
                                                     type="submit"
                                                 >
                                                     Add

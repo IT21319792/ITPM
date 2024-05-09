@@ -68,7 +68,6 @@ export const CreateAccount = async (req, res) => {
         console.log(error);
         res.status(401).json({ message: error.message });
     }
-
 }
 
 //GET USER DETAILS
@@ -137,6 +136,24 @@ export const getAllUsers = async (req, res) => {
     try {
         const users = await UserModel.find();
         res.status(200).json(users);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+export const getAllSupervisors = async (req, res) => {
+    try {
+        const supervisors = await UserModel.find({ role: 'supervisor' }, { firstName: 1, lastName: 1 });
+        res.status(200).json(supervisors);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+export const getAllCoSupervisors = async (req, res) => {
+    try {
+        const cosupervisors = await UserModel.find({ role: 'cosupervisor' }, { firstName: 1, lastName: 1 });
+        res.status(200).json(cosupervisors);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

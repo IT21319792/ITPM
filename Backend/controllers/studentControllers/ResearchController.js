@@ -2,7 +2,7 @@ import ResearchModel from "../../models/studentModels/ResearchModel.js";
 
 export const createResearch = async (req, res) => {
     const {
-        groupID,
+        
         title,
         student1,
         student2,
@@ -22,7 +22,7 @@ export const createResearch = async (req, res) => {
 
     try {
         const newResearch = await ResearchModel.create({
-            groupID,
+           
             title,
             student1,
             student2,
