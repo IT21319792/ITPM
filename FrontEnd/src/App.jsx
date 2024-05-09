@@ -45,6 +45,7 @@ import UpdateRubrics from "./pages/projectMember/MarkingReburics/UpdateRubrics";
 import ViewRubrics from "./pages/projectMember/MarkingReburics/ViewRubrics";
 import UpdateForm from './pages/examinar/ExaminerUpdateMark';
 import SupervisorReportMarks from './pages/supervisor/Reports';
+import OTP from './components/OTP';
 
 
 
@@ -63,6 +64,7 @@ function App() {
         <Route path='/addStudent' element={<AddStudents />} />
         <Route path='login' element={<Login />} />
         <Route path='s-login' element={<StudentLogin />} />
+        <Route path='/s-login-otp' element={<OTP />} />
         <Route path='/dashboard' element={<Layout />} >
           
 
