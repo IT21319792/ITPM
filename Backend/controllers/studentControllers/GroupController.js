@@ -165,70 +165,71 @@ export const updateGroup = async (req, res) => {
             throw Error("Id can't be empty");
         }
 
-    //     // Check if any member is duplicated
-    // const members = [Data.member1, Data.member2, Data.member3, Data.member4];
-    // const uniqueMembers = [...new Set(members)];
-    // if (uniqueMembers.length !== members.length) {
-    //     res.status(401).json({
-    //         message: "Duplicate member(s) detected. Each member should be added only once."
-    //     });
-    //     return;
-    // }
+        //     // Check if any member is duplicated
+        // const members = [Data.member1, Data.member2, Data.member3, Data.member4];
+        // const uniqueMembers = [...new Set(members)];
+        // if (uniqueMembers.length !== members.length) {
+        //     res.status(401).json({
+        //         message: "Duplicate member(s) detected. Each member should be added only once."
+        //     });
+        //     return;
+        // }
 
 
-    // Check if any non-null member is duplicated
-const members = [Data.member1, Data.member2, Data.member3, Data.member4];
+        // Check if any non-null member is duplicated
+        const members = [Data.member1, Data.member2, Data.member3, Data.member4];
 
-// Filter out null values
-const nonNullMembers = members.filter(member => member !== "");
+        // Filter out null values
+        const nonNullMembers = members.filter(member => member !== "");
 
-// Use Set to remove duplicates
-const uniqueNonNullMembers = [...new Set(nonNullMembers)];
+        // Use Set to remove duplicates
+        const uniqueNonNullMembers = [...new Set(nonNullMembers)];
 
-if (uniqueNonNullMembers.length !== nonNullMembers.length) {
-    res.status(401).json({
-        message: "Duplicate non-null member(s) detected. Each non-null member should be added only once."})
-        return;
-    }
-
-    const Member1 = await StudentModel.findOne({ studentID: Data.member1 });
-    const Member2 = await StudentModel.findOne({ studentID: Data.member2 });
-    const Member3 = await StudentModel.findOne({ studentID: Data.member3 });
-    const Member4 = await StudentModel.findOne({ studentID: Data.member4 });
-
-    if (!Member1 || !Member2 || !Member3 || !Member4) {
-        res.status(401).json({
-            message: "One or more student Id is Invalid!"
-        })
-        return;
-    }
-
-
-
-
-    if (!Data.reason) {
-        if (!(Member1.specialization == Member2.specialization &&
-            Member1.specialization == Member3.specialization &&
-            Member1.specialization == Member4.specialization)) {
-
+        if (uniqueNonNullMembers.length !== nonNullMembers.length) {
             res.status(401).json({
-                message: "All Group members should be in the same specialization"
-            });
+                message: "Duplicate non-null member(s) detected. Each non-null member should be added only once."
+            })
             return;
         }
-    }
 
-    if (!Data.reason) {
-        if (!(Member1.semester == Member2.semester &&
-            Member1.semester == Member3.semester &&
-            Member1.semester == Member4.semester)) {
+        const Member1 = await StudentModel.findOne({ studentID: Data.member1 });
+        const Member2 = await StudentModel.findOne({ studentID: Data.member2 });
+        const Member3 = await StudentModel.findOne({ studentID: Data.member3 });
+        const Member4 = await StudentModel.findOne({ studentID: Data.member4 });
 
+        if (!Member1 || !Member2 || !Member3 || !Member4) {
             res.status(401).json({
-                message: "All Group members should be in the same semester"
-            });
+                message: "One or more student Id is Invalid!"
+            })
             return;
         }
-    }
+
+
+
+
+        if (!Data.reason) {
+            if (!(Member1.specialization == Member2.specialization &&
+                Member1.specialization == Member3.specialization &&
+                Member1.specialization == Member4.specialization)) {
+
+                res.status(401).json({
+                    message: "All Group members should be in the same specialization"
+                });
+                return;
+            }
+        }
+
+        if (!Data.reason) {
+            if (!(Member1.semester == Member2.semester &&
+                Member1.semester == Member3.semester &&
+                Member1.semester == Member4.semester)) {
+
+                res.status(401).json({
+                    message: "All Group members should be in the same semester"
+                });
+                return;
+            }
+        }
 
 
         const updatedGroup = await GroupModel.findByIdAndUpdate(id, Data, { new: true });
@@ -266,7 +267,7 @@ if (uniqueNonNullMembers.length !== nonNullMembers.length) {
 export const deleteGroup = async (req, res) => {
     try {
         const id = req.params.id;
-        const loggedInUser = req.loggedInId; 
+        const loggedInUser = req.loggedInId;
 
         const groupLeader = await StudentModel.findById(loggedInUser);
         console.log(groupLeader);
@@ -286,7 +287,7 @@ export const deleteGroup = async (req, res) => {
             return res.status(403).json({ message: "Not authorized to delete this group" });
         }
 
-       
+
 
         // Proceed with group deletion
         const deletedGroup = await GroupModel.findByIdAndDelete(id);

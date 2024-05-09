@@ -71,7 +71,6 @@ const ResearchSchema = new mongoose.Schema({
     },
     scopusSiteLink: {
         type: String,
-
     },
     imageLinkOfAcceptanceLetter: {
         type: String,
@@ -82,4 +81,3 @@ const ResearchSchema = new mongoose.Schema({
 const ResearchModel = mongoose.model("research", ResearchSchema);
 
 export default ResearchModel;
-
