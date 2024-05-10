@@ -15,7 +15,42 @@ import AddAssignmentRouter from './routes/cordinatorRoutes/AddAssignmentRouter.j
 import StudentRouter from './routes/studentRoutes/StudentRoutes.js';
 import GroupRouter from './routes/studentRoutes/GroupRoutes.js';
 import AddRepoMarkRouter from './routes/supervisorRoutes/AddReportMarkRouter.js';
+import researchRouter from './routes/studentRoutes/ResearchRoutes.js';
 
+import bodyparser from 'body-parser';
+import nodemailer from 'nodemailer';
+import { sendLoginOTP } from './controllers/studentControllers/StudentController.js';
+
+// const bodyParser = require('body-parser');
+// const nodemailer = require('nodemailer');
+
+
+// Function to generate a random 4-digit OTP
+function generateOTP() {
+    return Math.floor(1000 + Math.random() * 9000);
+}
+
+// Function to send OTP via email
+export async function sendOTP(email, otp) {
+    let transporter = nodemailer.createTransport({
+        // Your email configuration
+        // Example for Gmail:
+        service: 'Gmail',
+        auth: {
+            user: 'dknimzara@gmail.com',
+            pass: 'vgmideeikciunyuk'
+        }
+    });
+
+    let info = await transporter.sendMail({
+        from: '"Your Name" <dknimzara@gmail.com>',
+        to: email,
+        subject: 'Your OTP',
+        text: `Your OTP for login is: ${otp}`,
+    });
+
+    console.log('Message sent: %s', info.messageId);
+}
 
 const PORT = process.env.PORT || 510;
 const app = express();
@@ -27,6 +62,8 @@ app.use(cors());
 app.get('/', async (req,res)=>{
     res.status(200).json('Server is up and running');
 })
+// Route to send OTP
+
 
 //Admin Routes
 app.use('/user',userRouter);
@@ -39,6 +76,7 @@ app.use('/assignment',AddAssignmentRouter);
 app.use('/student', StudentRouter);
 app.use('/group', GroupRouter);
 app.use('/report',AddRepoMarkRouter);
+app.use('/research', researchRouter);
 
 dbConfig().then(()=>{
     app.listen(PORT,()=>{
