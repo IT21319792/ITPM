@@ -5,10 +5,14 @@ import axios from 'axios';
 import authAxios from "../utils/authAxios";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { uploadFileToCloud } from "../utils/CloudinaryConfig";
 
 
 export default function Research() {
     const [members, setMembers] = useState([]);
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [previewImage, setPreviewImage] = useState("");
+    const [isUploading, setUploading] = useState(false)
     const [formData, setFormData] = useState({
         title: "",
         student1: "",
@@ -104,6 +108,26 @@ export default function Research() {
         setExtractedMembers(extracted);
     }, [members]);
 
+
+    const handleImageUpload = async (event) => {
+        console.log('file change');
+        const file = event.target.files[0]; // Get the selected file from the input
+
+        if (file) {
+            // Check if the selected file is an image
+            if (file.type.startsWith('image/')) {
+                setSelectedFile(file); // Set the selected file in state
+                setUploading(true)
+                const resp = await uploadFileToCloud(file)
+                setPreviewImage(resp)
+                setUploading(false)
+
+            } else {
+                // Handle the case when the selected file is not an image
+                alert('Please select an image file.');
+            }
+        }
+    };
 
 
 
@@ -459,26 +483,25 @@ export default function Research() {
 
                                     {/* Image Link input starts here */}
                                     <div className="col mt-10">
-                                        <label className="block text-sm font-medium text-slate-500" htmlFor="imageLinkAcceptanceLetter">
-                                            Image Link of Acceptance Letter
+
+
+                                        <label className="block text-sm font-medium text-slate-500" htmlFor="acceptanceLetterUpload">
+                                            Upload Acceptance Letter
                                         </label>
                                         <input
-                                            type="text"
-                                            placeholder="Enter the Image Link of Acceptance Letter here"
-                                            className="block w-72 min-w-[425px] px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
-            focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-            disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-            invalid:border-pink-500 invalid:text-pink-600
-            focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
-                                            name="imageLinkOfAcceptanceLetter"  // Change name attribute to match state key
-                                            value={formData.imageLinkOfAcceptanceLetter} // Bind value to state
-                                            onChange={handleChange} // Update state on change
+                                            type="file"
+                                            accept="image/*"
+                                            className="block w-72 min-w-[425px] px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm
+        placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+        invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+                                            name="acceptanceLetterUpload"
+                                            onChange={handleImageUpload} // Call function to handle image upload
                                         />
+                                        <div className="w-20 h-20">
+                                            <img src={previewImage} alt={isUploading ? 'Uploading....' : 'Image'} className="w-full h-full object-cover" />
+                                        </div>
                                     </div>
-
-
                                 </div>
-
                                 <br /><br />
 
                                 <div>
