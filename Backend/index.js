@@ -16,6 +16,7 @@ import StudentRouter from './routes/studentRoutes/StudentRoutes.js';
 import GroupRouter from './routes/studentRoutes/GroupRoutes.js';
 import AddRepoMarkRouter from './routes/supervisorRoutes/AddReportMarkRouter.js';
 import PrMemberRouter from './routes/cordinatorRoutes/PrMemberRouter.js';
+import SupervisorRouter from './routes/cordinatorRoutes/SupervisorRoutes.js';
 
 
 const PORT = process.env.PORT || 510;
@@ -41,6 +42,7 @@ app.use('/student', StudentRouter);
 app.use('/group', GroupRouter);
 app.use('/report', AddRepoMarkRouter);
 app.use('/prmember', PrMemberRouter);
+app.use('/supervisor',SupervisorRouter);
 
 dbConfig().then(() => {
     app.listen(PORT, () => {

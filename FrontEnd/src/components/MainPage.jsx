@@ -24,7 +24,7 @@ function MainPage() {
 // checking users in the databases
 //-----------------------------------------------------------------------------------------------------------------------
 
-    const findPrMemberByName = async (firstName) => {
+const findPrMemberByName = async (firstName) => {
     try {
         const response = await axios.get(`http://localhost:510/prmember/${firstName}`);
         if (!response.data) {
@@ -85,6 +85,54 @@ const findExaminerByName = async (firstName) => {
     }
 };
 
+const findSupervisorByName = async (firstName) => {
+    try {
+        const response = await axios.get(`http://localhost:510/supervisor/`);
+
+        // Assuming the response contains an array of supervisors
+        const supervisors = response.data;
+
+        console.log('Supervisors:', supervisors);
+
+        // Initialize arrays to store tittle and group names
+        const tittleNames = [];
+        const groupNames = [];
+
+        // Iterate over each supervisor
+        supervisors.forEach(supervisor => {
+            console.log('Checking supervisor:', supervisor);
+
+            // Check if the provided first name is present in the supervisor's name
+            const supervisorName = `${supervisor.firstName} ${supervisor.lastName}`;
+            const supervisorFound = supervisorName.includes(firstName);
+
+            console.log('Supervisor found:', supervisorFound);
+
+            // If the supervisor is found, add tittle and group names to arrays
+            if (supervisorFound) {
+                console.log(`Supervisor ${firstName} found`);
+                tittleNames.push(...supervisor.tittles);
+                groupNames.push(...supervisor.groups);
+            }
+        });
+
+        console.log('Tittle Names:', tittleNames);
+        console.log('Group Names:', groupNames);
+
+        // If the supervisor is not found in any supervisor, return { found: false }
+        if (tittleNames.length === 0) {
+            console.log(`Supervisor ${firstName} not found `);
+            return { found: false };
+        }
+
+        // Return found status, tittle names, and group names
+        return { found: true, tittleNames, groupNames };
+    } catch (error) {
+        console.error('Error finding supervisor by name:', error);
+        return { found: false, error: error.message }; // Return error if encountered
+    }
+};
+
 
 // handling the button click for userdashboards
 //-----------------------------------------------------------------------------------------------------------------------
@@ -92,16 +140,20 @@ const findExaminerByName = async (firstName) => {
 const handleButtonClickCoordinator = () => {
     const role = Cookies.get('OriginalRole');
     console.log(role);
-    if (role === 'staff' && (level === '1' || level === '2')) {
+    if (role === 'staff' && (level === '1')) {
         const expirationTime = new Date();
         expirationTime.setSeconds(expirationTime.getSeconds() + 10);
         Cookies.set('role', 'coordinator', { expires: expirationTime });
         navigate('/dashboard');
     } else {
-        alert('You are not authorized to access this page as a ' + staffPost + ' with level ' + level + 'access');
+       
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'You are not authorized to access this page as a ' + staffPost + ' with level ' + level + 'access',
+        });
     }
 };
-
 
 
 const handleButtonClickPMember = async () => {
@@ -113,32 +165,75 @@ const handleButtonClickPMember = async () => {
             Cookies.set('role', 'member');
             navigate('/dashboard/pMemberDash');
         } else {
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'You have not been assigned as a project member!',
-            });
+            if (level === '1') {
+                Swal.fire({
+                    icon: 'question',
+                    title: 'You are not assigned as a project member!',
+                    text: 'Do you want to go to the dashboard as a project member?',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'No',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Cookies.set('role', 'member');
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: 'Welcome to the project member dashboard!',
+                        });
+                        navigate('/dashboard/pMemberDash');
+                    }
+                });
+            }else{
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Seems like you have not been assigned as a project member!',
+                });
+            }
+            
+          
         }
     } else {
        
         Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
+            icon: 'warning',
+            title: 'Access Denied',
             text: 'You are not authorized to access this page as a ' + staffPost + ' with level ' + level + 'access',
         });
     }
 };
 
-    const handleButtonClickSupervisor = () => {
-        console.log(role);
+    const handleButtonClickSupervisor = async () => {
         const role = Cookies.get('OriginalRole');
         if (role === 'staff' && (level === '1' || level === '2')) {
-            Cookies.set('role', 'supervisor');
-            navigate('/dashboard/supervisorDash');
+            const result = await findSupervisorByName(firstName); // Get supervisor details
+            if (result.found) {
+                Cookies.set('role', 'supervisor');
+                navigate('/dashboard/supervisorDash', {
+                    state: { tittleNames: result.tittleNames, groupNames: result.groupNames }
+
+                })
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'You have been assigned as a supervisor to the following schedules: ' + result.scheduleNames+
+                    'and to the following groups: ' + result.groupNames.join(', '), // Display group names
+                });
+                
+            }else{
+                console.error('Supervisor not found in any schedule');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'You have not been assigned as a supervisor!',
+                });
+            }
+          
         } else {
             Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
+                icon: 'warning',
+                title: 'Access Denied',
                 text: 'You are not authorized to access this page as a ' + staffPost + ' with level ' + level + 'access',
             });
 
@@ -164,17 +259,17 @@ const handleButtonClickPMember = async () => {
                     'and to the following groups: ' + result.groupNames.join(', '), // Display group names
                 });
             } else {
-                console.error('Examiner not found in any schedule');
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'You have not been assigned as an examiner!',
-                });
+                    console.error('Examiner not found in any schedule');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'You have not been assigned as an examiner!',
+                    });              
             }
         } else {
             Swal.fire({
                 icon: 'error',
-                title: 'Oops...',
+                title: 'Access Denied',
                 text: 'You are not authorized to access this page as a ' + staffPost + ' with level ' + level + 'access',
             });
         }
