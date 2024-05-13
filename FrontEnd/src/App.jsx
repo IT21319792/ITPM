@@ -45,11 +45,10 @@ import UpdateRubrics from "./pages/projectMember/MarkingReburics/UpdateRubrics";
 import ViewRubrics from "./pages/projectMember/MarkingReburics/ViewRubrics";
 import UpdateForm from './pages/examinar/ExaminerUpdateMark';
 import SupervisorReportMarks from './pages/supervisor/Reports';
+import OTP from './components/OTP';
 import SignUp from './components/SignUp';
+
 import MainPage from './components/MainPage';
-
-
-
 
 
 
@@ -61,11 +60,13 @@ function App() {
       <Routes>
         {/* Common Routes  */}
         <Route path='/' element={<LandingPage />} />
+        <Route path='studentsignup' element={<StudentSignUp />} />
         <Route path='/addStudent' element={<AddStudents />} />
         <Route path='login' element={<Login />} />
         <Route path='s-login' element={<StudentLogin />} />
         <Route path='/signup' element={<SignUp/>} />
         <Route path='/main' element={<MainPage/>} />
+        <Route path='/s-login-otp' element={<OTP />} />
         <Route path='/dashboard' element={<Layout />} >
           
 

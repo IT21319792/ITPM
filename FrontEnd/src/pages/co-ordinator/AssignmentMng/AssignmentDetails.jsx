@@ -8,10 +8,12 @@ import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
 import AssignmentPDF from '../utils/AssignmentPDF';
 import ReactDOMServer from 'react-dom/server';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 function AssignmentView() {
   const user = Cookies.get('firstName');
- const role = Cookies.get('role');
+  const role = Cookies.get('role');
   const [assignments, setAssignments] = useState([]);
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
@@ -22,9 +24,9 @@ function AssignmentView() {
     deadline: '',
     description: '',
     user: user,
-    role: role +' Updated',
+    role: role + ' Updated',
   });
- 
+
 
 
 
@@ -56,12 +58,12 @@ function AssignmentView() {
     try {
       // Update selectedAssignment state with the latest changes
       const updatedAssignment = { ...selectedAssignment };
-  
+
       const response = await axios.put(`http://localhost:510/assignment/update/${selectedAssignment._id}`, updatedAssignment);
-  
+
       if (response.status === 200) {
         console.log('Assignment updated successfully:', response.data.message);
-         
+
         // Update assignments state with the updated assignment
         setAssignments(prevAssignments => prevAssignments.map(assignment => assignment._id === selectedAssignment._id ? updatedAssignment : assignment));
         setIsModalOpen(false); // Close modal after successful update
@@ -75,7 +77,7 @@ function AssignmentView() {
       toast.error(error.message);
     }
   };
-  
+
 
 
   const handleDelete = async (id) => {
@@ -95,25 +97,110 @@ function AssignmentView() {
   // Inside the AssignmentView component
 
   const handleGeneratePDF = (assignment) => {
-    // Render the AssignmentPDFGenerator component to a string
-    const pdfContent = ReactDOMServer.renderToStaticMarkup(<AssignmentPDF assignment={assignment} />);
-  
-    // Open a new tab with the PDF content
-    const pdfWindow = window.open("");
-    pdfWindow.document.write(`
-      <html>
-        <head>
-          <title>Assignment PDF</title>
-          <style>
-            body { margin: 0; }
-          </style>
-        </head>
-        <body>
-          ${pdfContent}
-        </body>
-      </html>
-    `);
+    // Create a new instance of jsPDF
+    const pdf = new jsPDF();
+
+    // HTML template for the PDF content
+    const htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="description" content="University Assignment">
+      <title>University Assignment</title>
+    
+      <!-- Bootstrap -->
+      <link href="../css/bootstrap.min.css" rel="stylesheet">
+      <link href="../css/bootstrap-theme.min.css" rel="stylesheet">
+      <link href="../css/custom-style.css" rel="stylesheet"> <!-- Add your custom styles here -->
+    
+      <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+      <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+      <![endif]-->
+    </head>
+    <body>
+    
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">University Assignment</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class=""><a href="../index.html">Home</a></li>
+            <li><a href="../index.html#calendar">Calendar</a></li>
+            <li><a href="../lab/">Lab</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Logistics <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="../logistics.html#prereqs">Prerequisites</a></li>
+                <li><a href="../logistics.html#lab">Lab</a></li>
+                <li><a href="../logistics.html#grading">Grading</a></li>
+                <li><a href="../logistics.html#attendance">Attendance</a></li>
+                <li><a href="../logistics.html#cs77">CS 77</a></li>
+                <li><a href="../logistics.html#faq">FAQ</a></li>
+              </ul>
+            </li>            
+            <li><a href="http://www.coursera.org">Submit Work</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="staffemailorpiazzaforum@university.edu">Questions</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+    
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1>${assignment.title}</h1>
+          <p class="lead">${assignment.subtitle}</p>
+        </div>
+      </div>
+    
+      <div class="row">
+        <div class="col-md-12">
+          <h2>Assignment Details</h2>
+          <p><strong>Title:</strong> ${assignment.title}</p>
+          <p><strong>Type:</strong> ${assignment.type}</p>
+          <p><strong>Subtype:</strong> ${assignment.subType}</p>
+          <p><strong>Deadline:</strong> ${new Date(assignment.deadline).toLocaleDateString()}</p>
+          <p><strong>Description:</strong> ${assignment.description}</p>
+          <p><strong>Created By:</strong> ${assignment.user}</p>
+          <p><strong>Role:</strong> ${assignment.role}</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="../js/bootstrap.min.js"></script>
+    </body>
+    </html>
+    
+
+    `;
+
+    // Convert HTML to PDF
+    pdf.html(htmlContent, {
+      callback: () => {
+        // Save the PDF or open in a new tab
+        pdf.save('assignment.pdf');
+      }
+    });
   };
+
 
 
   return (
@@ -153,7 +240,7 @@ function AssignmentView() {
                       Delete
                     </button>
                     <button onClick={() => handleUpdate(assignment)} className="bg-blue-500 rounded bg-primary px-3 pb-2 pt-2.5 ml-2">Update</button>
-                    <button onClick={() => handleGeneratePDF(assignment)}  className="bg-yellow-400 rounded bg-primary px-3 pb-2 pt-2.5 ml-2">Generate PDF</button>
+                    <button onClick={() => handleGeneratePDF(assignment)} className="bg-yellow-400 rounded bg-primary px-3 pb-2 pt-2.5 ml-2">Generate PDF</button>
                   </td>
 
                 </tr>
@@ -172,9 +259,9 @@ function AssignmentView() {
 
           {/* pop up for Update */}
           {isModalOpen && (
-  <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-500 bg-opacity-75">
-    <div className="bg-white p-8 rounded-md shadow-md max-w-xl w-full mx-4">
-      <h2 className="text-xl mb-4">Update Assignment</h2>
+            <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-500 bg-opacity-75">
+              <div className="bg-white p-8 rounded-md shadow-md max-w-xl w-full mx-4">
+                <h2 className="text-xl mb-4">Update Assignment</h2>
                 <form onSubmit={handleUpdateAssignment} className="mb-4 md:flex md:flex-wrap md:justify-between">
                   <input
                     type="text"

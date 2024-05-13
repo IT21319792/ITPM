@@ -28,10 +28,9 @@ function StudentLogin() {
       Cookies.set('token', res.data.token)
      
       if(res.data.userRole=='student'){
-        navigate('/dashboard/studentDash')
+        navigate(`/s-login-otp?email=${formData.email}`)
       }
       
-     
 
       toast.success(`${res.data.userRole}, successfully Logged In!`)
       console.log(res)//alert('Student Logged In successfully')
