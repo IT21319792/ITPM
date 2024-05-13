@@ -8,6 +8,17 @@ const PrMemberSchema = new mongoose.Schema({
     lastName: {
         type: String,
     },
+    contactNo: {
+        type: Number,
+        unique: true,
+
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+
+    },
 
     staffPost: {
         type: String,
