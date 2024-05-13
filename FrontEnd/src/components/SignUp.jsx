@@ -17,17 +17,25 @@ function SignUp() {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Map staff post to level
+    //level 1 kenekta = cordinator, pMember, supervisor knk wenna puluwan
+    //level 2 kenekta = pMember, supervisor, examiner knk wenna puluwan
+    //level 3 kenekta = examiner knk wenna puluwan
+
+    //cordinator wenna puluwa --> level 1 kenekta
+    //pMember wenna puluwa --> level 1,2 kenekta
+    //supervisor wenna puluwa --> level 1,2 kenekta
+    //examiner wenna puluwa --> level 2,3 kenekta
     const levelMap = {
         "Chancellor": 1,
-        "Vice-Chancellor": 2,
-        "Deans": 2,
-        "Department Chairs/Heads": 2,
+        "Vice-Chancellor": 1,
+        "Deans": 1,
+        "Department Chairs/Heads": 1,
         "Professors": 2,
         "Associate Professors": 2,
         "Assistant Professors": 2,
         "Assistant Lecturer": 3,
         "Lecturers": 3,
-        "Senior Lecturers": 3,
+        "Senior Lecturers": 2,
         "Instructors": 3
     };
     // Retrieve the selected staff post from the form data

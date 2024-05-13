@@ -16,10 +16,11 @@ import StudentRouter from './routes/studentRoutes/StudentRoutes.js';
 import GroupRouter from './routes/studentRoutes/GroupRoutes.js';
 import AddRepoMarkRouter from './routes/supervisorRoutes/AddReportMarkRouter.js';
 import researchRouter from './routes/studentRoutes/ResearchRoutes.js';
-
 import bodyparser from 'body-parser';
 import nodemailer from 'nodemailer';
 import { sendLoginOTP } from './controllers/studentControllers/StudentController.js';
+import PrMemberRouter from './routes/cordinatorRoutes/PrMemberRouter.js';
+import SupervisorRouter from './routes/cordinatorRoutes/SupervisorRoutes.js';
 
 // const bodyParser = require('body-parser');
 // const nodemailer = require('nodemailer');
@@ -52,6 +53,7 @@ export async function sendOTP(email, otp) {
     console.log('Message sent: %s', info.messageId);
 }
 
+
 const PORT = process.env.PORT || 510;
 const app = express();
 app.use(express.json());
@@ -59,30 +61,33 @@ dotenv.config();
 
 app.use(morgan('dev'));
 app.use(cors());
-app.get('/', async (req,res)=>{
+app.get('/', async (req, res) => {
     res.status(200).json('Server is up and running');
 })
 // Route to send OTP
 
 
 //Admin Routes
-app.use('/user',userRouter);
+app.use('/user', userRouter);
 app.use('/rubric', RubricRouter);
 app.use('/schedule', ScheduleRouter);
-app.use('/assignMark',AssignMarkRouter);
-app.use('/assignShedule',AssignShedulerouter);
-app.use('/presentation',AddMarkRouter)
-app.use('/assignment',AddAssignmentRouter);
+app.use('/assignMark', AssignMarkRouter);
+app.use('/assignShedule', AssignShedulerouter);
+app.use('/presentation', AddMarkRouter)
+app.use('/assignment', AddAssignmentRouter);
 app.use('/student', StudentRouter);
 app.use('/group', GroupRouter);
-app.use('/report',AddRepoMarkRouter);
+app.use('/report', AddRepoMarkRouter);
 app.use('/research', researchRouter);
+app.use('/prmember', PrMemberRouter);
+app.use('/supervisor',SupervisorRouter);
 
-dbConfig().then(()=>{
-    app.listen(PORT,()=>{
+dbConfig().then(() => {
+    app.listen(PORT, () => {
         console.log(`Server is up and running on 🚀 @http://localhost:${PORT}`);
     })
-}).catch((err)=>{
+}).catch((err) => {
     console.log(err);
+
 })
 
