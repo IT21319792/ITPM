@@ -35,6 +35,8 @@ export const addAssignments = async (req, res) => {
             role
         });
 
+
+
         await newAssignment.save();
         res.status(201).json({ message: 'Assignment added successfully', assignment: newAssignment });
     } catch (error) {
@@ -52,6 +54,8 @@ export const getAllAssignments = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 }
+
+
 
 // Search 
 export const searchAssignments = async (req, res) => {
