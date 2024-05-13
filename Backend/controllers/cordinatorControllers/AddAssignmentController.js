@@ -94,7 +94,7 @@ export const updateAssignment = async (req, res) => {
     }
 };
 
-// Delete an assignment by ID
+// Delete 
 export const deleteAssignment = async (req, res) => {
     const { id } = req.params;
 
