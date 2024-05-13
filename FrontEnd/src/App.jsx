@@ -48,10 +48,6 @@ import SupervisorReportMarks from './pages/supervisor/Reports';
 import OTP from './components/OTP';
 import SignUp from './components/SignUp';
 import MainPage from './components/MainPage';
-import SignUp from './components/SignUp';
-import MainPage from './components/MainPage';
-
-
 
 
 
