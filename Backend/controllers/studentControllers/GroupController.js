@@ -1,5 +1,6 @@
 import GroupModel from "../../models/studentModels/GroupModel.js";
 import StudentModel from "../../models/studentModels/studentRegModel.js";
+import UserModel from "../../models/UserModel.js";
 
 
 
@@ -11,6 +12,7 @@ export const createGroup = async (req, res) => {
         member2,
         member3,
         member4,
+        supervisor,
         groupLeader,
         reason = false
     } = req.body;
@@ -86,8 +88,14 @@ export const createGroup = async (req, res) => {
         member2,
         member3,
         member4,
+        supervisor,
         groupLeader
     });
+
+    const newSupervisor = await UserModel.findById(supervisor)
+    newSupervisor.role = [...newSupervisor.role, "supervisor"]
+    await newSupervisor.save()
+
 
     console.log(mongooseRes);
     mongooseRes.save().then((result) => {
@@ -122,7 +130,7 @@ export const getMyGroup = async (req, res) => {
                 { member3: loggedInUser.studentID },
                 { member4: loggedInUser.studentID }
             ]
-        });
+        }).populate("supervisor")
 
 
         res.status(200).json(Groups);

@@ -11,11 +11,12 @@ function MyTeam() {
   const [member2, setMember2] = useState("");
   const [member3, setMember3] = useState("");
   const [member4, setMember4] = useState("");
+  const [supervisor, setSupervisor] = useState("");
   const [leader, setLeader] = useState("");
   const [reason, setReason] = useState(false);
   const [myGroup, setMyGroup] = useState({});
   const [openDialog, setOpenDialog] = useState(false);
-  const [updatedGroupData, setUpdatedGroupData] = useState({ member1: "", member2: "", member3: "", member4: "", groupLeader: "" });
+  const [updatedGroupData, setUpdatedGroupData] = useState({ member1: "", member2: "", member3: "", member4: "", supervisor: "", groupLeader: "" });
 
   const handleSubmit = async () => {
     try {
@@ -24,6 +25,7 @@ function MyTeam() {
         member2,
         member3,
         member4,
+        supervisor: selectedUser,
         groupLeader: leader,
         reason
       });
@@ -106,6 +108,21 @@ function MyTeam() {
   useEffect(() => {
     GetMyGroup()
   }, [])
+
+//fetch all staff
+  const [users, setUsers] = useState([]);
+  const [selectedUser, setSelectedUser] = useState('');
+  useEffect(() => {
+    axios.get('http://localhost:510/user')
+      .then(res => {
+        setUsers(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, []);
+
+
 
   return (
     <>
@@ -241,6 +258,23 @@ function MyTeam() {
             onChange={(e) => setMember4(e.target.value)}
             fullWidth
           />
+          
+          <FormControl fullWidth>
+            <InputLabel id="leader-label">Supervisor</InputLabel>
+            <Select
+              labelId="leader-label"
+              value={selectedUser}
+              onChange={(e) => setSelectedUser(e.target.value)}
+            >
+              <MenuItem value="">Select Supervisor</MenuItem>
+              {users.map(user => (
+                <MenuItem key={user.id} value={user._id}>
+                  {user.firstName} {user.lastName}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
           <FormControl fullWidth>
             <InputLabel id="leader-label">Group Leader</InputLabel>
             <Select
