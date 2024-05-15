@@ -109,7 +109,7 @@ function MyTeam() {
     GetMyGroup()
   }, [])
 
-//fetch all staff
+  //fetch all staff
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState('');
   useEffect(() => {
@@ -137,19 +137,42 @@ function MyTeam() {
               </TableHead>
               <TableBody>
                 <TableRow>
-                  <TableCell className="py-3">{myGroup.member1}</TableCell>
+                  <TableCell>
+                    <label className="font-bold">Member 1:</label>
+                    <span className="py-3">{myGroup.member1}</span>
+                  </TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell className="py-3">{myGroup.member2}</TableCell>
+                  <TableCell>
+                    <label className="font-bold">Member 2:</label>
+                    <span className="py-3">{myGroup.member2}</span>
+                  </TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell className="py-3">{myGroup.member3}</TableCell>
+                  <TableCell>
+                    <label className="font-bold">Member 3:</label>
+                    <span className="py-3">{myGroup.member3}</span>
+                  </TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell className="py-3">{myGroup.member4}</TableCell>
+                  <TableCell>
+                    <label className="font-bold">Member 4:</label>
+                    <span className="py-3">{myGroup.member4}</span>
+                  </TableCell>
                 </TableRow>
-                <TableRow> {/* New TableRow */}
-                  <TableCell> {/* New TableCell containing buttons */}
+                <TableRow>
+                  <TableCell>
+                    <label className="font-bold">Supervisor:</label>
+                    <span className="py-3">
+                      {myGroup.supervisor ? `${myGroup.supervisor.firstName} ${myGroup.supervisor.lastName}` : ''}
+                    </span>
+                  </TableCell>
+                </TableRow>
+
+                {/* New TableRow */}
+                <TableRow>
+                  <TableCell className="py-3" colSpan={2}>
+                    {/* New TableCell containing buttons */}
                     <Button variant="contained" onClick={handleUpdateDialogOpen} className="bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 px-4 py-2 rounded-md mr-2">Update</Button>
                     <Button variant="contained" onClick={handleRemove} className="bg-red-700 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 px-4 py-2 rounded-md">Remove</Button>
                   </TableCell>
@@ -157,6 +180,7 @@ function MyTeam() {
               </TableBody>
             </Table>
           </TableContainer>
+
 
           <Dialog open={openDialog} onClose={handleUpdateDialogClose}>
             <DialogTitle>Confirmation</DialogTitle>
@@ -169,6 +193,7 @@ function MyTeam() {
             </DialogActions>
           </Dialog>
 
+          {/* Update dialog */}
           <Dialog open={openDialog} onClose={handleUpdateDialogClose}>
             <DialogTitle>Update Group</DialogTitle>
             <DialogContent>
@@ -200,6 +225,27 @@ function MyTeam() {
                 fullWidth
                 className="mb-2"
               />
+              <TextField
+  label="Supervisor"
+  value={myGroup.supervisor ? `${myGroup.supervisor.firstName} ${myGroup.supervisor.lastName}` : ''}
+  onChange={(e) => setMyGroup({ ...myGroup, member4: e.target.value })}
+  fullWidth
+  className="mb-2"
+  disabled
+/>
+
+
+               {/* <FormControl fullWidth className="mb-2">
+      <InputLabel id="supervisor-label">Supervisor: {supervisor.firstName} {supervisor.lastName}</InputLabel>
+      <Select
+        labelId="supervisor-label"
+        value={selectedUser}
+        disabled
+      >
+        
+      </Select>
+    </FormControl> */}
+
               <Select
                 labelId="leader-label"
                 value={myGroup.groupLeader}
@@ -258,7 +304,7 @@ function MyTeam() {
             onChange={(e) => setMember4(e.target.value)}
             fullWidth
           />
-          
+
           <FormControl fullWidth>
             <InputLabel id="leader-label">Supervisor</InputLabel>
             <Select
