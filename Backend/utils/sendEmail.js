@@ -4,19 +4,14 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-//this file location
+
 const __filename = fileURLToPath(import.meta.url);
-//this directory location
+
 const __dirname = path.dirname(__filename);
 
 
-/*
-USAGE EXAMPLE:
-await sendEmail(isExsit.email, "Title", { name: isExsit.name, description: description, }, "./template/emailtemplate.handlebars");
-*/
 export const sendEmail = async (email, subject, payload, template) => {
-    //console.log(__filename);
-    //console.log(__dirname);
+
     try {
 
         const transporter = nodemailer.createTransport({
