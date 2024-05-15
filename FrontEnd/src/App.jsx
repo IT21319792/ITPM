@@ -102,10 +102,7 @@ function App() {
           <Route path='/dashboard/marking' element={<AddMarking />} />
           <Route path='/dashboard/addAssignments' element={<AssignmentAdd />} />
           
-          
  
-
-
           {/* Examinar Routes  */}
           <Route path='/dashboard/examinerDash' element={<ExaminarDash />} />
           <Route path='/dashboard/marksAssignments' element={<ExaminerPresentationMarks />} />
