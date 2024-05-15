@@ -28,7 +28,7 @@ export default function Research() {
         h5IndexLink: "",
         hIndexLink: "",
         scopusSiteLink: "",
-        imageLinkOfAcceptanceLetter: "",
+        imageLinkOfAcceptanceLetter: previewImage,
     });
 
     const handleChange = (event) => {
@@ -39,20 +39,49 @@ export default function Research() {
         }));
     };
 
+    useEffect(() => {
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            imageLinkOfAcceptanceLetter: previewImage
+        }));
+    }, [previewImage])
+
+
+    // const handleSubmit = async (event) => {
+    //     event.preventDefault();
+    //     try {
+    //         const response = await axios.post('http://localhost:510/research/', formData);
+    //         if (response.status === 200) {
+    //             console.log("Research Paper Submitted successfully!");
+    //             // Toast success message
+    //             toast.success("Research Paper Submitted successfully!");
+    //             // Redirect to '/dashboard/studentDash'
+    //             <Link to="/dashboard/studentDash">Go to Student Dashboard</Link>
+    //         }
+    //     } catch (error) {
+    //         console.error("Error submitting research paper:", error);
+    //         // Toast error message
+    //         toast.error("Error submitting research paper. Please try again later.");
+    //     }
+    // };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post('http://localhost:510/research/', formData);
-            if (response.status === 200) {
-                console.log("Research Paper Submitted successfully!");
-                // Toast success message
-                toast.success("Research Paper Submitted successfully!");
-                // Redirect to '/dashboard/studentDash'
-                <Link to="/dashboard/studentDash">Go to Student Dashboard</Link>
+            console.log(formData);
+            console.log(previewImage);
+            if (!formData.imageLinkOfAcceptanceLetter) {
+                throw Error('Image is required')
             }
+            const response = await axios.post('http://localhost:510/research/', formData);
+
+            console.log("Research Paper Submitted successfully!");
+            toast.success("Research Paper Submitted successfully!");
+            // Redirect to '/dashboard/studentDash'
+            <Link to="/dashboard/studentDash">Go to Student Dashboard</Link>
+
         } catch (error) {
             console.error("Error submitting research paper:", error);
-            // Toast error message
             toast.error("Error submitting research paper. Please try again later.");
         }
     };
@@ -109,21 +138,18 @@ export default function Research() {
     }, [members]);
 
 
+
     const handleImageUpload = async (event) => {
         console.log('file change');
-        const file = event.target.files[0]; // Get the selected file from the input
-
+        const file = event.target.files[0];
         if (file) {
-            // Check if the selected file is an image
             if (file.type.startsWith('image/')) {
-                setSelectedFile(file); // Set the selected file in state
+                setSelectedFile(file);
                 setUploading(true)
                 const resp = await uploadFileToCloud(file)
                 setPreviewImage(resp)
                 setUploading(false)
-
             } else {
-                // Handle the case when the selected file is not an image
                 alert('Please select an image file.');
             }
         }
@@ -483,8 +509,6 @@ export default function Research() {
 
                                     {/* Image Link input starts here */}
                                     <div className="col mt-10">
-
-
                                         <label className="block text-sm font-medium text-slate-500" htmlFor="acceptanceLetterUpload">
                                             Upload Acceptance Letter
                                         </label>
@@ -503,7 +527,6 @@ export default function Research() {
                                     </div>
                                 </div>
                                 <br /><br />
-
                                 <div>
                                     <div>
 

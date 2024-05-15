@@ -32,6 +32,14 @@ const Assignments = () => {
         fetchAssignments();
     }, []);
 
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
+
     const handleViewDetails = (assignment) => {
         setSelectedAssignment(assignment);
         setOpenDialog(true);
@@ -56,20 +64,20 @@ const Assignments = () => {
             formData.append('file', file);
             formData.append("upload_preset", "692727433933717");
             const cloudinaryResponse = await axios.post(`https://api.cloudinary.com/v1_1/dhnhq8l83/image/upload`, formData);
-    
+
             // Extract necessary data from Cloudinary response
             const fileUrl = cloudinaryResponse.data.secure_url;
-    
+
             // Create submission object
             const submissionData = {
                 assignmentId: selectedAssignment._id,
                 fileUrl: fileUrl,
                 comment: comment
             };
-    
+
             // Send submission data to backend to store in the database
             await axios.post('http://localhost:510/submit-assignment', submissionData);
-    
+
             // Close dialog and reset state
             handleCloseDialog();
         } catch (error) {
@@ -77,13 +85,14 @@ const Assignments = () => {
             // Handle error gracefully, show error message or retry logic
         }
     };
+
     return (
         <>
             <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
                 <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>Pending Assignments - {assignments.length}</h2>
             </div>
-            <div style={{ margin: '0 auto', maxWidth: '1000px',borderLeftRadius: '16px',borderRightRadius: '16px' }}>
-            <TableContainer component={Paper} sx={{ borderRadius: '16px 16px 0 0' }}>
+            <div style={{ margin: '0 auto', maxWidth: '1000px', borderLeftRadius: '16px', borderRightRadius: '16px' }}>
+                <TableContainer component={Paper} sx={{ borderRadius: '16px 16px 0 0' }}>
                     <Table aria-label="assignments table">
                         <TableHead>
                             <TableRow>
@@ -92,7 +101,7 @@ const Assignments = () => {
                                 <StyledTableCell>Sub Type</StyledTableCell>
                                 <StyledTableCell>Deadline</StyledTableCell>
                                 <StyledTableCell>Description</StyledTableCell>
-                                <StyledTableCell></StyledTableCell> 
+                                <StyledTableCell></StyledTableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -101,7 +110,7 @@ const Assignments = () => {
                                     <TableCell>{assignment.title}</TableCell>
                                     <TableCell>{assignment.type}</TableCell>
                                     <TableCell>{assignment.subType}</TableCell>
-                                    <TableCell>{assignment.deadline}</TableCell>
+                                    <TableCell>{formatDate(assignment.deadline)}</TableCell>
                                     <TableCell>{assignment.description}</TableCell>
                                     <TableCell>
                                         <IconButton onClick={() => handleViewDetails(assignment)}>
@@ -130,7 +139,7 @@ const Assignments = () => {
                             <div><strong>Sub Type:</strong> {selectedAssignment ? selectedAssignment.subType : ""}</div>
                         </Grid>
                         <Grid item xs={12}>
-                            <div><strong>Deadline:</strong> {selectedAssignment ? selectedAssignment.deadline : ""}</div>
+                            <div><strong>Deadline:</strong> {selectedAssignment ? formatDate(selectedAssignment.deadline) : ""}</div>
                         </Grid>
                         <Grid item xs={12}>
                             <div><strong>Description:</strong> {selectedAssignment ? selectedAssignment.description : ""}</div>
@@ -139,16 +148,15 @@ const Assignments = () => {
                             <input accept="image/*" id="file-upload" type="file" onChange={handleFile} />
                             <Grid style={{ marginTop: '1rem' }}>
                                 <label htmlFor="file-upload">
-                                    
+                                    Upload File
                                 </label>
-                                
                             </Grid>
-                            <br></br>
+                            <br />
                             <Grid item xs={12}>
                                 <TextField fullWidth multiline rows={4} label="Add Comment" variant="outlined" value={comment} onChange={(e) => setComment(e.target.value)} />
                             </Grid>
                             <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
-                                <Button style={{ backgroundColor: '#4CAF50', color: 'white', marginRight: '8px' }} variant="contained" onClick={handleSubmit}>
+                                <Button style={{ backgroundColor: '#4CAF50', color: 'white', marginRight: '8px' }} variant="contained" type="submit">
                                     Submit
                                 </Button>
                                 <Button style={{ backgroundColor: '#f44336', color: 'white' }} variant="contained" onClick={handleCloseDialog}>
