@@ -55,12 +55,12 @@ function Login() {
         navigate('/dashboard/adminDash');
       } else if (userRoles.includes('student')) {
         navigate('/dashboard/studentDash');
-      } else if (userRoles.includes('examinar')) {
-        navigate('/main');
-      } else if (userRoles.includes('supervisor')) {
-        navigate('/dashboard/supervisorDash');
-      } else if (userRoles.includes('member')) {
-        navigate('/dashboard/pMemberDash');
+        // } else if (userRoles.includes('examinar')) {
+        //   navigate('/main');
+        // } else if (userRoles.includes('supervisor')) {
+        //   navigate('/dashboard/supervisorDash');
+        // } else if (userRoles.includes('member')) {
+        //   navigate('/dashboard/pMemberDash');
       } else if (userRoles.includes('coordinator')) {
         navigate('/dashboard');
       } else if (userRoles.includes('staff')) {

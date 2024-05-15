@@ -35,8 +35,10 @@ export const addAssignments = async (req, res) => {
             role
         });
 
+
+
         await newAssignment.save();
-        res.status(201).json({ message: 'Assignment added successfully', assignment: newAssignment });
+        res.status(201).json({ message: 'Assignment successfully added', assignment: newAssignment });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -48,10 +50,13 @@ export const getAllAssignments = async (req, res) => {
     try {
         const assignments = await AddAssignment.find();
         res.status(200).json(assignments);
+    
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 }
+
+
 
 // Search 
 export const searchAssignments = async (req, res) => {
@@ -89,7 +94,7 @@ export const updateAssignment = async (req, res) => {
     }
 };
 
-// Delete an assignment by ID
+// Delete 
 export const deleteAssignment = async (req, res) => {
     const { id } = req.params;
 

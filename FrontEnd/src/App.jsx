@@ -47,14 +47,18 @@ import UpdateForm from './pages/examinar/ExaminerUpdateMark';
 import SupervisorReportMarks from './pages/supervisor/Reports';
 import OTP from './components/OTP';
 import SignUp from './components/SignUp';
+
 import MainPage from './components/MainPage';
 
 
 
+<<<<<<< HEAD
 
 
 
 
+=======
+>>>>>>> cda1b94c0d258c4ac932b86763576c0e87bb3d65
 function App() {
 
   return (
