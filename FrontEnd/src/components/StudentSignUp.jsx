@@ -161,9 +161,5 @@ function StudentSignUp() {
 }
 
 
-<<<<<<< HEAD
 export default StudentSignUp;
 
-=======
-export default StudentSignUp;
->>>>>>> cda1b94c0d258c4ac932b86763576c0e87bb3d65
