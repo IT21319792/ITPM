@@ -21,6 +21,7 @@ import nodemailer from 'nodemailer';
 import { sendLoginOTP } from './controllers/studentControllers/StudentController.js';
 import PrMemberRouter from './routes/cordinatorRoutes/PrMemberRouter.js';
 import SupervisorRouter from './routes/cordinatorRoutes/SupervisorRoutes.js';
+import SupervisorListRouter from './routes/cordinatorRoutes/SupervisorLisrRoutes.js';
 
 // const bodyParser = require('body-parser');
 // const nodemailer = require('nodemailer');
@@ -81,6 +82,7 @@ app.use('/report', AddRepoMarkRouter);
 app.use('/research', researchRouter);
 app.use('/prmember', PrMemberRouter);
 app.use('/supervisor',SupervisorRouter);
+app.use('/supervisorList',SupervisorListRouter);
 
 dbConfig().then(() => {
     app.listen(PORT, () => {
