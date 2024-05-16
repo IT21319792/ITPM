@@ -15,6 +15,6 @@ StudentRouter.delete('/delete-student/:id', deleteStudent);
 StudentRouter.put('/update-student/:id', updateStudent);
 StudentRouter.get('/get-same-semester-specialization-students', getSameSemesterSpecializationStudents);
 StudentRouter.get('/assignments', getAllAssignments);
-StudentRouter.post('/submit-assignment', submitAssignment);
+StudentRouter.post('/submit-assignment',LoginValidator, submitAssignment);
 
 export default StudentRouter;
