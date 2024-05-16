@@ -1,4 +1,6 @@
 import ResearchModel from "../../models/studentModels/ResearchModel.js";
+import StudentModel from "../../models/studentModels/studentRegModel.js";
+import UserModel from "../../models/UserModel.js";
 
 export const createResearch = async (req, res) => {
     const {
@@ -97,3 +99,32 @@ export const updateResearch = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+
+
+
+export const getMyResearch = async (req, res) => {
+    const userId = req.loggedInId;
+    try {
+        
+        const loggedInUser = await StudentModel.findById(userId);
+        console.log(loggedInUser)
+        
+        const Research = await ResearchModel.find({
+            $or: [
+                { student1: loggedInUser.studentID },
+                { student2: loggedInUser.studentID },
+                { student3: loggedInUser.studentID },
+                { student4: loggedInUser.studentID }
+            ]
+        });
+
+        res.status(200).json(Research);
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        });
+    }
+};
+
+

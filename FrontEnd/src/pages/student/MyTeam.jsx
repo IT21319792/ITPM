@@ -226,26 +226,13 @@ function MyTeam() {
                 className="mb-2"
               />
               <TextField
-  label="Supervisor"
-  value={myGroup.supervisor ? `${myGroup.supervisor.firstName} ${myGroup.supervisor.lastName}` : ''}
-  onChange={(e) => setMyGroup({ ...myGroup, member4: e.target.value })}
-  fullWidth
-  className="mb-2"
-  disabled
-/>
-
-
-               {/* <FormControl fullWidth className="mb-2">
-      <InputLabel id="supervisor-label">Supervisor: {supervisor.firstName} {supervisor.lastName}</InputLabel>
-      <Select
-        labelId="supervisor-label"
-        value={selectedUser}
-        disabled
-      >
-        
-      </Select>
-    </FormControl> */}
-
+                label="Supervisor"
+                value={myGroup.supervisor ? `${myGroup.supervisor.firstName} ${myGroup.supervisor.lastName}` : ''}
+                onChange={(e) => setMyGroup({ ...myGroup, member4: e.target.value })}
+                fullWidth
+                className="mb-2"
+                disabled
+              />
               <Select
                 labelId="leader-label"
                 value={myGroup.groupLeader}
