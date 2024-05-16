@@ -162,6 +162,12 @@ function MyTeam() {
                 </TableRow>
                 <TableRow>
                   <TableCell>
+                    <label className="font-bold">Group Leader:</label>
+                    <span className="py-3">{myGroup.groupLeader}</span>
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>
                     <label className="font-bold">Supervisor:</label>
                     <span className="py-3">
                       {myGroup.supervisor ? `${myGroup.supervisor.firstName} ${myGroup.supervisor.lastName}` : ''}

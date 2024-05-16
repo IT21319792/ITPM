@@ -3,22 +3,24 @@ import { styled } from "@mui/material/styles";
 import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Dialog, DialogContent, Button, IconButton, TextField } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import axios from "axios";
-
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    backgroundColor: theme.palette.info.dark,
-    color: theme.palette.common.white,
-    fontSize: 14,
-    fontWeight: 'bold',
-}));
-
+import authAxios from "../utils/authAxios";
+import { uploadFileToCloud } from "../utils/CloudinaryConfig";
+import { toast } from "react-toastify";
 
 const Assignments = () => {
     const [openDialog, setOpenDialog] = useState(false);
     const [selectedAssignment, setSelectedAssignment] = useState(null);
     const [comment, setComment] = useState('');
+    const [loggedInId, setLoggedInId] = useState(""); // Add loggedInId state
     const [assignments, setAssignments] = useState([]);
-    const [file, setFile] = useState(null); // State to hold the uploaded file
+    const [file, setFile] = useState(null);
+    const [previewImage, setPreviewImage] = useState("");
+    const [isUploading, setIsUploading] = useState(false);
+    const [formData, setFormData] = useState({
+        fileUrl: "",
+        comment: "",
+        submittedBy: ""
+    });
 
     useEffect(() => {
         const fetchAssignments = async () => {
@@ -30,6 +32,20 @@ const Assignments = () => {
             }
         };
         fetchAssignments();
+    }, []);
+
+    useEffect(() => {
+        // Fetch logged in user ID
+        const fetchLoggedInId = async () => {
+            try {
+                const response = await authAxios.get("http://localhost:510/student/get-student");
+                setLoggedInId(response.data._id);
+                console.log(response.data._id);
+            } catch (error) {
+                console.error("Error fetching logged in user ID:", error);
+            }
+        };
+        fetchLoggedInId();
     }, []);
 
     const formatDate = (dateString) => {
@@ -51,40 +67,84 @@ const Assignments = () => {
         setComment('');
     };
 
-    const handleFile = (event) => {
-        const file = event.target.files[0];
-        setFile(file);
+
+    const renameFile = (file, newName) => {
+        const renamedFile = new File([file], newName, { type: file.type });
+        return renamedFile;
     };
+
+    const handleFileUpload = async (event) => {
+        console.log('file change');
+        const file = event.target.files[0];
+        if (file) {
+            if (file.type === 'application/pdf') {
+                const renamedFile = await renameFile(file, file.name.replace(/\.pdf$/, '.jpg'));
+                if (renamedFile) {
+                    setIsUploading(true);
+                    try {
+                        const resp = await uploadFileToCloud(renamedFile);
+                        setPreviewImage(resp);
+                    } catch (error) {
+                        console.error('Error uploading file:', error);
+                    } finally {
+                        setIsUploading(false);
+                    }
+                } else {
+                    console.error('Error renaming file.');
+                }
+            } else if (file.type.startsWith('file/')) {
+                setIsUploading(true);
+                try {
+                    const resp = await uploadFileToCloud(file);
+                    setPreviewImage(resp);
+                } catch (error) {
+                    console.error('Error uploading file:', error);
+                } finally {
+                    setIsUploading(false);
+                }
+            } else {
+                alert('Please select an image or PDF file.');
+            }
+        }
+    };
+
+
+
+    useEffect(() => {
+        if (selectedAssignment) {
+            setFormData(prevFormData => ({
+                ...prevFormData,
+                assignmentId: selectedAssignment._id,
+                fileUrl: previewImage,
+                comment: comment,
+                submittedBy: loggedInId // Set submittedBy to loggedInId
+            }));
+        }
+    }, [comment, previewImage, selectedAssignment, loggedInId]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            // Upload file to Cloudinary
-            const formData = new FormData();
-            formData.append('file', file);
-            formData.append("upload_preset", "692727433933717");
-            const cloudinaryResponse = await axios.post(`https://api.cloudinary.com/v1_1/dhnhq8l83/image/upload`, formData);
-
-            // Extract necessary data from Cloudinary response
-            const fileUrl = cloudinaryResponse.data.secure_url;
-
-            // Create submission object
-            const submissionData = {
-                assignmentId: selectedAssignment._id,
-                fileUrl: fileUrl,
-                comment: comment
-            };
-
-            // Send submission data to backend to store in the database
-            await axios.post('http://localhost:510/submit-assignment', submissionData);
-
-            // Close dialog and reset state
-            handleCloseDialog();
+            console.log('formData', formData);
+            console.log('previewImage', previewImage);
+            if (!formData.fileUrl) {
+                throw Error('Image is required')
+            }
+            const response = await authAxios.post('http://localhost:510/student/submit-assignment', formData);
+            console.log("Assignment Submitted successfully!");
+            toast.success("Assignment Submitted successfully!");
         } catch (error) {
-            console.error("Error submitting assignment:", error);
-            // Handle error gracefully, show error message or retry logic
+            console.error("Error submitting Assignment:", error);
+            toast.error(error.response.data.error);
         }
     };
+
+    const StyledTableCell = styled(TableCell)(({ theme }) => ({
+        backgroundColor: theme.palette.info.dark,
+        color: theme.palette.common.white,
+        fontSize: 14,
+        fontWeight: 'bold',
+    }));
 
     return (
         <>
@@ -124,7 +184,6 @@ const Assignments = () => {
                 </TableContainer>
             </div>
 
-            {/*View the assignment and Submission dialog here.. */}
             <Dialog open={openDialog} onClose={handleCloseDialog}>
                 <DialogContent style={{ maxWidth: '400px', margin: '0 auto' }}>
                     <h1 style={{ textAlign: 'center', marginBottom: '1rem' }}>Assignment Details</h1>
@@ -144,17 +203,28 @@ const Assignments = () => {
                         <Grid item xs={12}>
                             <div><strong>Description:</strong> {selectedAssignment ? selectedAssignment.description : ""}</div>
                         </Grid>
+
                         <form onSubmit={handleSubmit}>
-                            <input accept="image/*" id="file-upload" type="file" onChange={handleFile} />
-                            <Grid style={{ marginTop: '1rem' }}>
-                                <label htmlFor="file-upload">
+                            <div className="col mt-10">
+                                <label className="block text-sm font-medium text-slate-500" htmlFor="acceptanceLetterUpload">
                                     Upload File
                                 </label>
-                            </Grid>
-                            <br />
+                                <input
+                                    type="file"
+                                    accept="file/*"
+                                    className="block w-72 min-w-[425px] px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm
+                                    placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+                                    invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+                                    name="acceptanceLetterUpload"
+                                    onChange={handleFileUpload}
+                                />
+
+                            </div>
+
                             <Grid item xs={12}>
                                 <TextField fullWidth multiline rows={4} label="Add Comment" variant="outlined" value={comment} onChange={(e) => setComment(e.target.value)} />
                             </Grid>
+
                             <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
                                 <Button style={{ backgroundColor: '#4CAF50', color: 'white', marginRight: '8px' }} variant="contained" type="submit">
                                     Submit
@@ -172,3 +242,4 @@ const Assignments = () => {
 };
 
 export default Assignments;
+

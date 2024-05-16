@@ -193,21 +193,35 @@ export const getSameSemesterSpecializationStudents = async (req, res) => {
 }
 
 
-
-// Controller function to handle assignment submission
+//assignments submitting controller
 export const submitAssignment = async (req, res) => {
     try {
-        // Extract data from the request body
         const { assignmentId, fileUrl, comment } = req.body;
+        
+        // Check if user is authenticated
+        if (!req.loggedInId) {
+            return res.status(401).json({ error: "Unauthorized" });
+        }
+        
+        const loggedInId = req.loggedInId; 
 
-        // Create a new submission based on the extracted data
+        // Check if the user has already submitted this assignment
+        const existingSubmission = await SubmitAssignment.findOne({
+            assignmentId: assignmentId,
+            submittedBy: loggedInId
+        });
+
+        if (existingSubmission) {
+            return res.status(400).json({ error: "You have already submitted this assignment." });
+        }
+
         const submission = new SubmitAssignment({
             assignmentId: assignmentId,
             fileUrl: fileUrl,
-            comment: comment
+            comment: comment,
+            submittedBy: loggedInId
         });
 
-        // Save the submission to the database
         const savedSubmission = await submission.save();
 
         res.status(201).json(savedSubmission);
@@ -217,6 +231,9 @@ export const submitAssignment = async (req, res) => {
     }
 };
 
+
+
+//otp sending function
 export const sendLoginOTP = async (req, res) => {
     const { email } = req.query;
     try {
@@ -238,6 +255,7 @@ export const sendLoginOTP = async (req, res) => {
     }
 };
 
+//otp verifying function
 export const verifyOTP = async (req, res) => {
     const { email, otp } = req.query;
     try {
