@@ -12,7 +12,6 @@ import Assignments from './pages/student/Assignments';
 import Research from './pages/student/Research';
 import MyResults from './pages/student/MyResults';
 import MyTeam from './pages/student/MyTeam';
-import Notifications from './pages/student/Notifications';
 import LandingPage from './pages/common/LandingPage';
 import StudentSignUp from './components/StudentSignUp';
 import Login from './components/LogIn';
@@ -49,6 +48,10 @@ import OTP from './components/OTP';
 import SignUp from './components/SignUp';
 
 import MainPage from './components/MainPage';
+import StudentProfile from './pages/student/Notifications';
+import Notifications from './pages/student/Notifications';
+import UserProfile from './pages/common/UserProfile';
+import { AuthProvider } from './pages/common/AuthContext';
 // import StickyFooter from './components/Footer/StickyFooter';
 
 
@@ -57,6 +60,7 @@ function App() {
 
   return (
     <BrowserRouter>
+    <AuthProvider>
 
       <Routes>
         {/* Common Routes  */}
@@ -65,10 +69,12 @@ function App() {
         <Route path='/addStudent' element={<AddStudents />} />
         <Route path='login' element={<Login />} />
         <Route path='s-login' element={<StudentLogin />} />
+        <Route path='/profile' element={<UserProfile />} />
         <Route path='/signup' element={<SignUp />} />
         <Route path='/main' element={<MainPage />} />
         <Route path='/s-login-otp' element={<OTP />} />
         <Route path='/dashboard' element={<Layout />} >
+          
 
 
 
@@ -133,6 +139,7 @@ function App() {
       </Routes>
       {/* <StickyFooter /> */}
 
+      </AuthProvider>ෆ
     </BrowserRouter>
 
   );

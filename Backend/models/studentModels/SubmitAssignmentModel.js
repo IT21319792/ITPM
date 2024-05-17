@@ -18,8 +18,13 @@ const submitAssignmentSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'students',
     required: true
-  }
-});
+  },
+
+},
+{ timestamps: true }
+);
+
+
 
 const SubmitAssignment = mongoose.model('SubmitAssignment', submitAssignmentSchema);
 

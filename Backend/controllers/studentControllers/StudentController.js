@@ -279,6 +279,19 @@ export const getSubmittedAssignment = async (req, res) => {
     }
 }
 
+export const updateSubmittedAssignment = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const response = await SubmitAssignment.findByIdAndUpdate(id, req.body, { new: true });
+        if (!response) {
+            return res.status(404).json({ error: "Assignment not found" });
+        }
+        res.status(200).json(response);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+};
+
 //getsubmitted assignment
 export const deleteSubmittedAssignment = async (req, res) => {
     const id = req.params.id;
