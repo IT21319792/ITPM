@@ -1,5 +1,6 @@
 import GroupModel from "../../models/studentModels/GroupModel.js";
 import StudentModel from "../../models/studentModels/studentRegModel.js";
+import UserModel from "../../models/UserModel.js";
 
 
 
@@ -11,6 +12,7 @@ export const createGroup = async (req, res) => {
         member2,
         member3,
         member4,
+        supervisor,
         groupLeader,
         reason = false
     } = req.body;
@@ -86,8 +88,14 @@ export const createGroup = async (req, res) => {
         member2,
         member3,
         member4,
+        supervisor,
         groupLeader
     });
+
+    const newSupervisor = await UserModel.findById(supervisor)
+    newSupervisor.role = [...newSupervisor.role, "supervisor"]
+    await newSupervisor.save()
+
 
     console.log(mongooseRes);
     mongooseRes.save().then((result) => {
@@ -107,9 +115,6 @@ export const createGroup = async (req, res) => {
 };
 
 
-
-
-
 //Get My Groups data
 export const getMyGroup = async (req, res) => {
     const userId = req.loggedInId;
@@ -122,7 +127,7 @@ export const getMyGroup = async (req, res) => {
                 { member3: loggedInUser.studentID },
                 { member4: loggedInUser.studentID }
             ]
-        });
+        }).populate("supervisor")
 
 
         res.status(200).json(Groups);
@@ -151,10 +156,7 @@ export const getAllGroups = async (req, res) => {
 
 
 
-
-
-
-//Update My Group
+// Update Group
 export const updateGroup = async (req, res) => {
     try {
         const id = req.params.id;
@@ -164,17 +166,6 @@ export const updateGroup = async (req, res) => {
         if (!id) {
             throw Error("Id can't be empty");
         }
-
-        //     // Check if any member is duplicated
-        // const members = [Data.member1, Data.member2, Data.member3, Data.member4];
-        // const uniqueMembers = [...new Set(members)];
-        // if (uniqueMembers.length !== members.length) {
-        //     res.status(401).json({
-        //         message: "Duplicate member(s) detected. Each member should be added only once."
-        //     });
-        //     return;
-        // }
-
 
         // Check if any non-null member is duplicated
         const members = [Data.member1, Data.member2, Data.member3, Data.member4];
@@ -188,7 +179,7 @@ export const updateGroup = async (req, res) => {
         if (uniqueNonNullMembers.length !== nonNullMembers.length) {
             res.status(401).json({
                 message: "Duplicate non-null member(s) detected. Each non-null member should be added only once."
-            })
+            });
             return;
         }
 
@@ -200,12 +191,9 @@ export const updateGroup = async (req, res) => {
         if (!Member1 || !Member2 || !Member3 || !Member4) {
             res.status(401).json({
                 message: "One or more student Id is Invalid!"
-            })
+            });
             return;
         }
-
-
-
 
         if (!Data.reason) {
             if (!(Member1.specialization == Member2.specialization &&
@@ -231,35 +219,26 @@ export const updateGroup = async (req, res) => {
             }
         }
 
+        // Fetch supervisor ID from the request body
+        const supervisorId = Data.supervisor;
+
+        // Find the supervisor user
+        const supervisorUser = await UserModel.findById(supervisorId);
+
+        // Add "supervisor" role if not already present
+        if (!supervisorUser.role.includes("supervisor")) {
+            supervisorUser.role.push("supervisor");
+            await supervisorUser.save();
+        }
 
         const updatedGroup = await GroupModel.findByIdAndUpdate(id, Data, { new: true });
         res.status(200).json({ message: 'Group Updated Successfully', group: updatedGroup });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-}
+};
 
 
-
-
-
-
-
-// //Delete Group
-// export const deleteGroup = async (req, res) => {
-//     try {
-//         const id = req.params.id;
-
-//         if (!id) {
-//             throw Error("Id can't be empty");
-//         }
-
-//         const deletedSub = await GroupModel.findByIdAndDelete(id);
-//         res.status(200).json({ message: 'Group Deleted Successfully', item: deletedSub });
-//     } catch (error) {
-//         res.status(500).json({ message: error.message });
-//     }
-// }
 
 
 
