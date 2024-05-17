@@ -4,10 +4,11 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-
+//this file location
 const __filename = fileURLToPath(import.meta.url);
-
+//this directory location
 const __dirname = path.dirname(__filename);
+
 
 
 export const sendEmail = async (email, subject, payload, template) => {
@@ -23,7 +24,7 @@ export const sendEmail = async (email, subject, payload, template) => {
         });
 
         const source = fs.readFileSync(path.join(__dirname, template), "utf8");
-        //console.log(source);
+      
         const compiledTemplate = handlebars.compile(source);
 
         const options = () => {
@@ -50,4 +51,3 @@ export const sendEmail = async (email, subject, payload, template) => {
         console.log(error);
     }
 };
-

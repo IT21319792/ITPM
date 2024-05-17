@@ -22,7 +22,7 @@ import nodemailer from 'nodemailer';
 import { sendLoginOTP } from './controllers/studentControllers/StudentController.js';
 
 // const bodyParser = require('body-parser');
-// const nodemailer = require('nodemailer');
+// const nodemailer = require('nodemailer')
 
 
 // Function to generate a random 4-digit OTP
