@@ -11,7 +11,6 @@ function StudentDash() {
         <WelcomeCard />
         <h1>My Progress</h1>
         < BasicLineChart />
-        
         </>
     );
 }

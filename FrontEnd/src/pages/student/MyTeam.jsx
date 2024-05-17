@@ -343,6 +343,7 @@ function MyTeam() {
           </div>
         </div>
       </div>}
+
     </>
   );
 }
