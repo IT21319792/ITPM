@@ -9,6 +9,8 @@ import { toast } from "react-toastify";
 
 const Assignments = () => {
     const [openDialog, setOpenDialog] = useState(false);
+    const [openDialog2, setOpenDialog2] = useState(false);
+    const [submittedAssignment, setSubmittedAssignment] = useState({});
     const [selectedAssignment, setSelectedAssignment] = useState(null);
     const [comment, setComment] = useState('');
     const [loggedInId, setLoggedInId] = useState(""); // Add loggedInId state
@@ -61,10 +63,29 @@ const Assignments = () => {
         setOpenDialog(true);
     };
 
+    const fetchSubmittedAssignments = async (id) => {
+        try {
+            const response = await authAxios.get(`http://localhost:510/student/assignments/${id}`);
+            setSubmittedAssignment(response.data);
+            console.log(response);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const handleViewAssignments = (assignment) => {
+        fetchSubmittedAssignments(assignment._id);
+        setOpenDialog2(true);
+    };
+
     const handleCloseDialog = () => {
         setOpenDialog(false);
         setSelectedAssignment(null);
         setComment('');
+    };
+
+    const handleCloseDialog2 = () => {
+        setOpenDialog2(false);
     };
 
 
@@ -139,6 +160,17 @@ const Assignments = () => {
         }
     };
 
+    const handleDeleteSubmission = async (id) => {
+        try {
+            const response = await authAxios.delete(`http://localhost:510/student/assignments/${id}`);
+            console.log(response);
+            handleCloseDialog2();
+            toast.success('Assignment deleted successfully');
+        } catch (error) {
+            console.error(error);
+            toast.error(error.response.data.error);
+        }
+    }
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         backgroundColor: theme.palette.info.dark,
         color: theme.palette.common.white,
@@ -162,6 +194,7 @@ const Assignments = () => {
                                 <StyledTableCell>Deadline</StyledTableCell>
                                 <StyledTableCell>Description</StyledTableCell>
                                 <StyledTableCell></StyledTableCell>
+                                <StyledTableCell></StyledTableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -177,12 +210,35 @@ const Assignments = () => {
                                             <VisibilityIcon />
                                         </IconButton>
                                     </TableCell>
+                                    <TableCell>
+                                        <IconButton onClick={() => handleViewAssignments(assignment)}>
+                                            <VisibilityIcon />
+                                        </IconButton>
+                                    </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
                 </TableContainer>
             </div>
+
+            <Dialog open={openDialog2} onClose={handleCloseDialog2}>
+                    {submittedAssignment ?
+                <DialogContent style={{ maxWidth: '400px', margin: '0 auto' }}>
+                    <h1 style={{ textAlign: 'center', marginBottom: '1rem' }}>Assignment Details</h1>
+                    <Grid container spacing={2}>
+                        {submittedAssignment ? (submittedAssignment.assignmentId ? submittedAssignment.assignmentId.title : 'Not Submitted Yet!') : 'Not Submitted Yet!'}
+                    </Grid>
+                        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
+                            <Button color="error" style={{marginRight: '8px' }} variant="contained" type="submit"
+                                onClick={() => { handleDeleteSubmission(submittedAssignment._id) }}>
+                                Delete
+                            </Button>
+                        </div>
+
+                </DialogContent> :
+                        'Not Submitted Yet!'}
+            </Dialog>
 
             <Dialog open={openDialog} onClose={handleCloseDialog}>
                 <DialogContent style={{ maxWidth: '400px', margin: '0 auto' }}>

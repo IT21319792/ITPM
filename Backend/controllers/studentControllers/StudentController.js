@@ -8,7 +8,7 @@ import OTPModel from "../../models/studentModels/OTP.js";
 
 //Student Login and generating token
 const createToken = (id) => {
-    return jwt.sign({ id }, process.env.SECRET_KEY, { expiresIn: '1h' });
+    return jwt.sign({ id }, process.env.SECRET_KEY, { expiresIn: '3h' });
 }
 
 export const StudentLogin = async (req, res) => {
@@ -25,7 +25,7 @@ export const StudentLogin = async (req, res) => {
         }
 
         const token = createToken(student._id.toString());
-        const expiryDate = new Date(Date.now() + 3600000); // 1 hour from now
+        const expiryDate = new Date(Date.now() + 3 * 3600000); // 3 hours from now
         res.cookie('access_token', token, { httpOnly: true, expires: expiryDate, secure: true });
 
         const { password: pass, ...rest } = student._doc;
@@ -41,15 +41,24 @@ export const StudentLogin = async (req, res) => {
     }
 }
 
-
 // Create new Student Account
 export const CreateStudent = async (req, res) => {
     const {
         studentID,
         firstName,
+        middleName,
         lastName,
         contactNo,
         email,
+        aLevelStream,
+        subject1,
+        subject1Result,
+        subject2,
+        subject2Result,
+        subject3,
+        subject3Result,
+        guardianName,
+        guardianEmail,
         password,
         specialization,
         semester,
@@ -70,28 +79,50 @@ export const CreateStudent = async (req, res) => {
         const result = await StudentRegModel.find();
         const studentCount = result.length;
 
-        // generate new Group ID for the new Groups
+        // Generate new Group ID for the new Groups
         const newStudentID = `IT2115818${studentCount + 1}`;
 
-        const mongooseRes = new StudentRegModel({
+        const newStudent = new StudentRegModel({
             studentID: newStudentID,
             firstName,
+            middleName,
             lastName,
             contactNo,
             email,
+            aLevelStream,
+            subject1,
+            subject1Result,
+            subject2,
+            subject2Result,
+            subject3,
+            subject3Result,
+            guardianName,
+            guardianEmail,
             password,
             specialization,
             semester,
             role
         });
 
-        console.log(mongooseRes);
-        await mongooseRes.save();
+        console.log(newStudent);
+        await newStudent.save();
+
+        // Send confirmation email
+        await sendEmail(
+            email,
+            "Account Creation Confirmation",
+            {
+                name: firstName,
+                email: `Email: ${email}`,
+                description: `Your Password is: ${password}`,
+            },
+            "./template/emailtemplate.handlebars"
+        );
 
         res.status(200).json({
             message: "New Student Account created successfully!",
             result: {
-                data: mongooseRes,
+                data: newStudent,
                 response: true,
             },
         });
@@ -231,6 +262,34 @@ export const submitAssignment = async (req, res) => {
     }
 };
 
+//getsubmitted assignment
+export const getSubmittedAssignment = async (req, res) => {
+    const submittedBy = req.loggedInId
+    const assignmentId = req.params.id;
+    try {
+        const response = await SubmitAssignment.findOne(
+            { submittedBy, assignmentId }
+        )
+        .populate('assignmentId') // Populate the assignment details
+        .populate('submittedBy') // Populate the student details;
+        res.status(200).json(response);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: error.message });
+    }
+}
+
+//getsubmitted assignment
+export const deleteSubmittedAssignment = async (req, res) => {
+    const id = req.params.id;
+    try {
+        const response = await SubmitAssignment.findOneAndDelete(id)
+        res.status(200).json(response);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: error.message });
+    }
+}
 
 
 //otp sending function

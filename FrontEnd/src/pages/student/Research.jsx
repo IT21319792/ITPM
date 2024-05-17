@@ -621,8 +621,6 @@ export default function Research() {
             )}
 
 
-
-
             {/* If the logged in Student have previously submitted the Research paper*/}
             {myResearch &&
                 <div>
