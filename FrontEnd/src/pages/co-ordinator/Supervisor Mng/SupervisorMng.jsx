@@ -18,6 +18,21 @@ function SupervisorMng() {
     contactNo: '',
     email: ''
   });; // State to store the selected user for pop up form
+  const [addedUsers, setAddedUsers] = useState([]);
+  
+  useEffect(() => {
+    // Fetch added users from the database or any other source
+  
+    axios.get('http://localhost:510/supervisorList/')
+         .then(response => {
+             setAddedUsers(response.data);
+             console.log('Added users:', response.data);
+         })
+         .catch(error => {
+            console.error('Error fetching added users:', error);
+        });
+  
+}, []);
 
   const handlePage = () => {
     Navigate('/dashboard/addSupervisor');
@@ -35,40 +50,79 @@ function SupervisorMng() {
 
 
   //update function
-  const handleUpdateUser = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.put(`http://localhost:510/user/update-account/${selectedUser._id}`, selectedUser);
+  
+  const handleAdd = (rowData) => {
+    // Extract relevant data from rowData
+    const relevantData = {
+        firstName: rowData.firstName,
+        lastName: rowData.lastName,
+        contactNo: rowData.contactNo,
+        email: rowData.email,
+        staffPost: rowData.staffPost,
+        level: rowData.level
+    };
 
-      if (response.status === 200) {
-        console.log('User updated successfully:', response.data.message);
-        setTableData(prevData => prevData.map(data => data._id === selectedUser._id ? selectedUser : data)); // refresh nokara table eke adaala data eka witarak update wenawa
-        setIsModalOpen(false); // Close modal after successful update
-        Sweetalert.fire({ 
-          title: 'Success',
-          text: 'User updated successfully',
-          icon: 'success',
-          confirmButtonText: 'OK'
+    // If validation passes, proceed with form submission
+    axios.post('http://localhost:510/supervisorList/add', relevantData)
+        .then(() => {
+            toast.success('Supervisor added to list successfully');
+            Sweetalert.fire({
+                title: 'Success',
+                text: 'Supervisor added successfully',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+            console.log('Supervisor added successfully');
         })
-      } else {
-        console.error('Failed to update user:', response.data.message);
-        Sweetalert.fire({
-          title: 'Error',
-          text: response.data.message,
-          icon: 'error',
-          confirmButtonText: 'OK'
-        })
-      }
-    } catch (error) {
-      console.error('Error updating user:', error.message);
-      Sweetalert.fire({
-        title: 'Error',
-        text: error.message,
-        icon: 'error',
-        confirmButtonText: 'OK'
-      })
-    }
-  };
+        .catch((err) => {
+            console.log('Error:', err);
+            Sweetalert.fire({
+                title: 'Error',
+                text: err.response.data.message || 'Error adding supervisor',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        });
+};
+
+  
+
+
+   //update function
+  //  const handleupdate = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const response = await axios.put(`http://localhost:510/user/update-account/${selectedUser._id}`, selectedUser);
+
+  //     if (response.status === 200) {
+  //       console.log('User updated successfully:', response.data.message);
+  //       setTableData(prevData => prevData.map(data => data._id === selectedUser._id ? selectedUser : data)); // refresh nokara table eke adaala data eka witarak update wenawa
+  //       setIsModalOpen(false); // Close modal after successful update
+  //       Sweetalert.fire({ 
+  //         title: 'Success',
+  //         text: 'User updated successfully',
+  //         icon: 'success',
+  //         confirmButtonText: 'OK'
+  //       })
+  //     } else {
+  //       console.error('Failed to update user:', response.data.message);
+  //       Sweetalert.fire({
+  //         title: 'Error',
+  //         text: response.data.message,
+  //         icon: 'error',
+  //         confirmButtonText: 'OK'
+  //       })
+  //     }
+  //   } catch (error) {
+  //     console.error('Error updating user:', error.message);
+  //     Sweetalert.fire({
+  //       title: 'Error',
+  //       text: error.message,
+  //       icon: 'error',
+  //       confirmButtonText: 'OK'
+  //     })
+  //   }
+  // };
 
   // const handleDelete = async (id) => {
   //   const confirmation = window.confirm('Are you sure you want to delete this user?');
@@ -133,7 +187,8 @@ function SupervisorMng() {
   useEffect(() => {
     axios.get('http://localhost:510/user')
       .then(res => {
-        const supervisor = res.data.filter(user => user.role === "supervisor");
+        const supervisor = res.data.filter(user => user.level === "1" || user.level === "2");
+        console.log(supervisor);
         setTableData(supervisor);
       })
       .catch(err => {
@@ -152,7 +207,8 @@ function SupervisorMng() {
               <th scope="col" className="px-6 py-4">First Name</th>
               <th scope="col" className="px-6 py-4">Last Name</th>
               <th scope="col" className="px-6 py-4">Contact Number</th>
-              <th scope="col" className="px-6 py-4">Address</th>
+              <th scope="col" className="px-6 py-4">Level</th>
+              <th scope="col" className="px-6 py-4">Post</th>
               <th scope="col" className="px-6 py-4">Email</th>
               <th scope="col" className="px-6 py-4">Actions</th>
             </tr>
@@ -164,11 +220,16 @@ function SupervisorMng() {
                   <td className="px-6 py-4">{data.firstName}</td>
                   <td className="px-6 py-4">{data.lastName}</td>
                   <td className="px-6 py-4">{data.contactNo}</td>
-                  <td className="px-6 py-4">{data.address}</td>
+                  <td className="px-6 py-4">{data.level}</td>
+                  <td className="px-6 py-4">{data.staffPost}</td>
                   <td className="px-6 py-4">{data.email}</td>
                   <td className="px-6 py-4 flex justify-center">
-                    <button onClick={() => handleUpdate(data)} className="bg-blue-500 rounded bg-primary px-3 pb-2 pt-2.5 ml-2">Update</button>
-                    <button onClick={() => handleDelete(data._id)} className="bg-red-500 inline-block rounded bg-primary px-3 pb-2 pt-2.5 ml-2">Delete</button>
+                    <button onClick={() => handleAdd(data)} className="bg-blue-500 rounded bg-primary px-3 pb-2 pt-2.5 ml-2"
+                     disabled={addedUsers.includes(addedUsers.email)} >
+                   
+                      +</button>
+                
+                    {/* <button onClick={() => handleDelete(data._id)} className="bg-red-500 inline-block rounded bg-primary px-3 pb-2 pt-2.5 ml-2">Delete</button> */}
                   </td>
                 </tr>
               )
@@ -176,11 +237,7 @@ function SupervisorMng() {
           </tbody>
         </table>
       </div>
-      <div className="px-4 py-2">
-        <button onClick={handlePage} className="bg-blue-600 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded mr-2">
-          Add Supervisor
-        </button>
-      </div>
+
 
       {/* pop up for Update */}
       {isModalOpen && (

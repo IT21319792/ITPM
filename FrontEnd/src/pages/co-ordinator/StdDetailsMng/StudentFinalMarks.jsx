@@ -25,9 +25,9 @@ function StudentMng() {
   const [tableData, setTableData] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:510/user')
+    axios.get('//localhost:510/student/get-student')
       .then(res => {
-        const student = res.data.filter(user => user.role === "student");
+        const student = res.data.filter(user => user.role === "staff");
         setTableData(student);
       })
       .catch(err => {
