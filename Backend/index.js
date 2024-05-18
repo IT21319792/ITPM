@@ -23,6 +23,7 @@ import { sendLoginOTP } from './controllers/studentControllers/StudentController
 import PrMemberRouter from './routes/cordinatorRoutes/PrMemberRouter.js';
 import SupervisorRouter from './routes/cordinatorRoutes/SupervisorRoutes.js';
 import SupervisorListRouter from './routes/cordinatorRoutes/SupervisorLisrRoutes.js';
+import PublishRouter from './routes/cordinatorRoutes/PublishMarkRouter.js';
 
 // const bodyParser = require('body-parser');
 // const nodemailer = require('nodemailer');
@@ -78,11 +79,12 @@ app.use('/presentation', AddMarkRouter)
 app.use('/assignment', AddAssignmentRouter);
 app.use('/student', StudentRouter);
 app.use('/group', GroupRouter);
-app.use('/report',AddRepoMarkRouter);
+app.use('/report', AddRepoMarkRouter);
 app.use('/research', researchRouter);
 app.use('/prmember', PrMemberRouter);
-app.use('/supervisor',SupervisorRouter);
-app.use('/supervisorList',SupervisorListRouter);
+app.use('/supervisor', SupervisorRouter);
+app.use('/supervisorList', SupervisorListRouter);
+app.use('/publish', PublishRouter);
 
 dbConfig().then(() => {
     app.listen(PORT, () => {
