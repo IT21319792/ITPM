@@ -1,135 +1,257 @@
-import React, { useEffect, useState } from 'react';
-import Axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
 import PMemberWelcomeCard from '../../components/PMemberWelcomeCard';
-import { useNavigate } from 'react-router-dom';
-import Sweetalert2 from 'sweetalert2';
 
-function ExaminarDash() {
-    const navigate = useNavigate();
-    const [presentationData, setpresentationData] = useState([]);
-    const [searchQuery, setSearchQuery] = useState(''); //search part
+function SchedulePresentationTable() {
+    const [schedulePresentations, setSchedulePresentations] = useState([]);
+    const [loggedInUser, setLoggedInUser] = useState('');
+    const [presentations, setPresentations] = useState([]);
+    const navigate = useNavigate(); // Initialize useNavigate hook
+
+    const tableHeaderStyle = {
+        padding: '12px',
+        textAlign: 'left',
+        borderBottom: '1px solid #ddd',
+        whiteSpace: 'nowrap',
+    };
+
+    const tableCellStyle = {
+        padding: '12px',
+        textAlign: 'left',
+        borderBottom: '1px solid #ddd',
+        whiteSpace: 'nowrap',
+    };
+
+    const handleAddMarks = (rowData1, loggedInUser) => {
+        const additionalData = { loggedInUser };
+        navigate('/dashboard/marksAssignments', { state: { rowData1, additionalData } }); // Use navigate instead of history.push
+    };
 
     useEffect(() => {
-        Axios.get('http://localhost:510/presentation/')
-            .then(res => {
-                console.log(res.data);
-                setpresentationData(res.data);
-            })
-            .catch(err => {
-                console.log(err);
-            });
+        async function fetchData() {
+            try {
+                const response = await axios.get('http://localhost:510/schedule/getSchedules');
+                setSchedulePresentations(response.data.data);
+                const user = Cookies.get('firstName');
+                setLoggedInUser(user);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+        fetchData();
     }, []);
 
-    const handleAddMarks = () => {
-        navigate('/dashboard/addMarks');
-    }
-    //search part
-    const handleSearch = (event) => {
-        setSearchQuery(event.target.value);
+    const filteredSchedulePresentations = schedulePresentations ? schedulePresentations.filter(schedule =>
+        schedule.examiners.includes(loggedInUser)
+    ) : [];
+    console.log('Filtered schedule presentations:', filteredSchedulePresentations);
+
+    const actionButtonStyle = {
+        backgroundColor: 'transparent',
+        border: 'none',
+        cursor: 'pointer',
+        marginRight: '5px',
     };
-    const filteredPresentationData = presentationData.filter(report =>
-        report.group.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-
-    const getAllSchedule = async () => {
-        try {
-            const response = await Axios.get('http://localhost:510/presentation/');
-            setpresentationData(response.data);
-        } catch (error) {
-            console.error('Error fetching presentation marks:', error);
-            // Handle error
-        }
-    };
-    const handleDelete = (rowData) => {
-        Sweetalert2.fire({
-            title: 'Are you sure?',
-            text: 'You want to delete this!',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                try {
-                    const response = await Axios.delete(`http://localhost:510/presentation/delete/${rowData._id}`);
-                    if (response.status === 200) {
-                        Sweetalert2.fire('Deleted!', 'Your record has been deleted.', 'success');
-                        setpresentationData(prevData => prevData.filter(student => student._id !== rowData._id));
-                        getAllSchedule(); // Assuming this function is defined somewhere
-                    } else {
-
-                    }
-                } catch (error) {
-                    console.error('Error deleting presentation mark:', error);
-                    Sweetalert2.fire('Error!', 'Failed to delete the record', 'error');
-                }
-            }
-        });
-    };
-
-
-
-    const handleUpdate = (rowData) => {
-        navigate('/dashboard/update', { state: { rowData } });
-    }
 
     return (
-        <div className="p-4">
+
+
+        <div style={{ maxWidth: '100%', overflowX: 'auto', padding: '20px' }}>
+
             <PMemberWelcomeCard />
-            <input
-                type="text"
-                placeholder="Search by group..."
-                className="p-2 mb-4 border rounded"
-                value={searchQuery}
-                onChange={handleSearch}
-            />
-
-
-            {/* Table */}
-            <table className="table-auto w-full mt-4">
-                <thead>
-                    <tr>
-                        <th className="border px-4 py-2">Group</th>
-                        <th className="border px-4 py-2">Presentation Type</th>
-                        {presentationData.length > 0 && presentationData[0].groupMarks.map((mark, index) => (
-                            <th key={index} className="border px-4 py-2">{`Rubric ${index + 1} marks`}</th>
+            <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Schedule Presentations</h2>
+            <div style={{ overflowX: 'auto' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                    <thead>
+                        <tr style={{ backgroundColor: '#f2f2f2' }}>
+                            <th style={tableHeaderStyle}>Schedule ID</th>
+                            <th style={tableHeaderStyle}>Group ID</th>
+                            <th style={tableHeaderStyle}>Date</th>
+                            <th style={tableHeaderStyle}>Time Duration</th>
+                            <th style={tableHeaderStyle}>Location</th>
+                            <th style={tableHeaderStyle}>Topic</th>
+                            <th style={tableHeaderStyle}>Examiners</th>
+                            <th style={tableHeaderStyle}>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {filteredSchedulePresentations.map(schedule => (
+                            <tr key={schedule._id} style={{ borderBottom: '1px solid #ddd' }}>
+                                <td style={tableCellStyle}>{schedule.ScheduleID}</td>
+                                <td style={tableCellStyle}>{schedule.GroupID}</td>
+                                <td style={tableCellStyle}>{new Date(schedule.date).toLocaleDateString()}</td>
+                                <td style={tableCellStyle}>{schedule.timeDuration}</td>
+                                <td style={tableCellStyle}>{schedule.location}</td>
+                                <td style={tableCellStyle}>{schedule.topic}</td>
+                                <td style={tableCellStyle}>{schedule.examiners.join(', ')}</td>
+                                <td style={tableCellStyle}>
+                                    <button onClick={() => handleAddMarks(schedule)} style={actionButtonStyle}>
+                                        <i className="fas fa-plus" style={{ color: '#28a745' }}></i>
+                                    </button>
+                                    {/* <button onClick={() => handleUpdate(schedule)} style={actionButtonStyle}>
+                                        <i className="fas fa-edit" style={{ color: '#007bff' }}></i>
+                                    </button>
+                                    <button onClick={() => handleDelete(schedule)} style={actionButtonStyle}>
+                                        <i className="fas fa-trash-alt" style={{ color: '#dc3545' }}></i>
+                                    </button> */}
+                                </td>
+                            </tr>
                         ))}
-                        <th className="border px-4 py-2">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {filteredPresentationData.length > 0 ? (
-                                            filteredPresentationData.map((presentation, index) => (
-                                                <tr key={index}>
-                                                    <td className="border px-4 py-2">{presentation.group}</td>
-                                                    <td className="border px-4 py-2">{presentation.presentationType}</td>
-                                                    {presentation.groupMarks.map((mark, index) => (
-                                                        <td key={index} className="border px-4 py-2">{mark.rubricID}</td>
-                                                    ))}
-                                                    <td className="border px-4 py-2">
-                                                        <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleDelete(presentation)}>Delete</button>
-                                                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2" onClick={() => handleUpdate(presentation)}>Update</button>
-                                                    </td>
-                                                </tr>
-                                            ))
-                    ) : (
-                        <tr>
-                        <td colSpan="7" className="border px-4 py-2 text-center">
-                            No data found for: <span style={{ fontWeight: 'bold' }}>{searchQuery}</span>
-                        </td>
-
-                    </tr>
-                    )
-
-                    }
-                </tbody>
-            </table>
-            <div className='p-4'>
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mr-2 rounded" onClick={() => handleAddMarks()}>Add Marks</button>
+                    </tbody>
+                </table>
             </div>
+            {/* Table to view marks */}
+            <h2 style={{ textAlign: 'center', marginBottom: '20px', marginTop: '40px' }}>View Marks</h2>
+            <ChildTable groupId={filteredSchedulePresentations.length > 0 ? filteredSchedulePresentations[0].GroupID : null} />
         </div>
-    )
+    );
 }
 
-export default ExaminarDash;
+
+
+function ChildTable({ groupId, loggedInUser }) {
+    const [presentations, setPresentations] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
+
+
+    useEffect(() => {
+        if (groupId) {
+            axios.get(`http://localhost:510/presentation/?groupId=${groupId}`)
+                .then(response => {
+                    console.log('Fetched presentations:', response.data);
+                    setPresentations(response.data);
+                    setLoading(false);
+                })
+                .catch(error => {
+                    console.error('Error fetching presentations:', error);
+                    setLoading(false);
+                });
+        }
+    }, [groupId]);
+
+    const handleUpdate = (presentation) => {
+        try {
+            const presentationId = presentation._id;
+            // Define a variable to track if the button is disabled
+            let isDisabled = false;
+            // Check if the presentation ID should be disabled
+            if (presentationId === '6647ae7a0464b54ad28b8dc6' || presentationId === 'disableID2') {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Update Button Disabled',
+                    text: 'The update button is disabled for this presentation.',
+                });
+                // Set the disabled flag to true
+                isDisabled = true;
+                // Show a message or perform any action indicating that the update button is disabled for this ID
+                console.log('Update button is disabled for this presentation.');
+            }
+            // If the presentation ID is not in the disabled list, proceed with update
+            if (!isDisabled) {
+                navigate('/dashboard/updateMarksAssignments', { state: { presentation } });
+            }
+        } catch (error) {
+            // Handle any errors if necessary
+            console.error('Error navigating to update marks assignments:', error);
+        }
+    };
+
+    const handleDelete = async (presentation) => {
+        try {
+            const presentationId = presentation._id;
+            // Check if the presentation ID should be disabled
+            if (presentationId === '6647ae7a0464b54ad28b8dc6' || presentationId === '6647bc3c2b55927a2acc6ac3') {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Delete Button Disabled',
+                    text: 'The delete button is disabled for this presentation.',
+                });
+
+                // Show a message or perform any action indicating that the delete button is disabled for this ID
+                console.log('Delete button is disabled for this presentation.');
+                return;
+            }
+            // If the presentation ID is not in the disabled list, proceed with deletion
+            await axios.delete(`http://localhost:510/presentation/delete/${presentationId}`);
+            setPresentations(prevPresentations => prevPresentations.filter(prevPresentation => prevPresentation._id !== presentationId));
+            Swal.fire({
+                icon: 'success',
+                title: 'Presentation Deleted!',
+                text: 'The presentation has been deleted successfully.',
+            });
+
+            console.log('Presentation deleted successfully.');
+        } catch (error) {
+            // Show error message using SweetAlert
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Failed to delete the presentation. Please try again later.',
+            });
+
+            console.error('Error deleting presentation:', error);
+        }
+    };
+
+
+    return (
+        <div style={{ maxWidth: '100%', overflowX: 'auto', padding: '20px' }}>
+            <h2>Presentation Data</h2>
+            {loading ? (
+                <p>Loading...</p>
+            ) : (
+                <div style={{ overflowX: 'auto' }}>
+                    <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                        <thead>
+                            <tr style={{ backgroundColor: '#f2f2f2' }}>
+                                <th className="table-header">Presentation Type</th>
+                                <th className="table-header">Group</th>
+                                <th className="table-header">Rubric ID</th>
+                                <th className="table-header">Mark</th>
+                                <th className="table-header">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {presentations.length > 0 ? (
+                                presentations.map(presentation => (
+                                    <tr key={presentation._id} style={{ borderBottom: '1px solid #ddd' }}>
+                                        <td>{presentation.presentationType}</td>
+                                        <td>{presentation.group}</td>
+                                        <td>
+                                            {presentation.groupMarks.map(mark => (
+                                                <div key={mark.rubricID}>{mark.rubricID}</div>
+                                            ))}
+                                        </td>
+                                        <td>
+                                            {presentation.groupMarks.map(mark => (
+                                                <div key={mark.rubricID}>{mark.mark}</div>
+                                            ))}
+                                        </td>
+                                        <td>
+                                            <button onClick={() => handleUpdate(presentation)}>
+                                                <i className="fas fa-edit" style={{ color: '#007bff' }}></i>
+                                            </button>
+                                            <button onClick={() => handleDelete(presentation)}>
+                                                <i className="fas fa-trash-alt" style={{ color: '#dc3545' }}></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan={5}>No data available for this group.</td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
+            )}
+        </div>
+    );
+}
+
+export default SchedulePresentationTable;

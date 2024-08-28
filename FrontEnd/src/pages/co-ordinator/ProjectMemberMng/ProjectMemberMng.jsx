@@ -354,14 +354,14 @@ function ProjectMemberMng() {
       </div>
       {selectedOption === "option1" && (
         <div className="overflow-x-auto bg-white px-6 py-8 rounded shadow-md text-black w-full mb-8">
-          <h2 className="text-lg font-bold mb-4">Assigned Users</h2>
+          <h2 className="text-lg font-bold mb-4">Assign Users as project managers</h2>
           <table className="min-w-full text-left text-sm font-light" style={{ maxWidth: '400px' }}>
             <thead className="border-b bg-white font-medium dark:border-neutral-500 dark:bg-neutral-600">
               <tr>
                 <th scope="col" className="px-4 py-4">Name</th>
                 <th scope="col" className="px-4 py-4">Email</th>
                 <th scope="col" className="px-4 py-4">Staff Post</th>
-                <th scope="col" className="px-4 py-4">Actions</th>
+                <th scope="col" className="px-4 py-4">Add As a Project member</th>
               </tr>
             </thead>
             <tbody>
@@ -380,9 +380,7 @@ function ProjectMemberMng() {
                     >
                       Add
                     </button>
-                    <button onClick={() => handleDelete(data._id)} className="bg-red-500 inline-block rounded bg-primary px-3 pb-2 pt-2.5 ml-2">
-                      <FaTrash />
-                    </button>
+                   
 
                   </td>
                 </tr>
@@ -397,6 +395,7 @@ function ProjectMemberMng() {
       {
         selectedOption === "option2" && (
           <div className="overflow-x-auto bg-white px-6 py-8 rounded shadow-md text-black w-full">
+            <h2 className="text-lg font-bold mb-4">Assign project managers to schedules and markings</h2>
             <table className="min-w-full text-left text-sm font-light">
               <thead className="border-b bg-white font-medium dark:border-neutral-500 dark:bg-neutral-600">
                 <tr>
@@ -407,7 +406,7 @@ function ProjectMemberMng() {
                   <th scope="col" className="px-6 py-4">Email</th>
                   <th scope="col" className="px-6 py-4">Assigned Schedule</th>
                   <th scope="col" className="px-6 py-4">Assigned Marking</th>
-                  <th scope="col" className="px-6 py-4">Actions</th>
+                  <th scope="col" className="px-6 py-4">Assign</th>
                 </tr>
               </thead>
               <tbody>

@@ -4,7 +4,7 @@ import Axios from "axios";
 import moment from "moment";
 import SchedulePresentationValidation from "../../validation/SchedulePresentation";
 import Sweetalert2 from "sweetalert2";
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 
 function UpdateSchedule() {
@@ -19,6 +19,12 @@ function UpdateSchedule() {
     "Mr. Deneth Pinsara",
     "Ms. Rashmi Shehela",
     "Mr. Madhusha Prasad",
+    "Ms. Tharushi Perera",
+    "Mr. Tharindu Madushan",
+    "Ms. Tharushi Perera",
+    "Mr. Tharindu Madushan",
+    "Ms. Oshitha Kone",
+    "Mr. Kamshe Kure"
   ]);
   const [examiners, setexaminers] = useState([]);
   const [errors, setErrors] = useState({});
@@ -196,6 +202,10 @@ function UpdateSchedule() {
                       <option value="Group 02">Group 02</option>
                       <option value="Group 03">Group 03</option>
                       <option value="Group 04">Group 04</option>
+                      <option value="Group 01">Group 05</option>
+                      <option value="Group 02">Group 06</option>
+                      <option value="Group 03">Group 07</option>
+                      <option value="Group 04">Group 08</option>
                     </select>
                     <p
                       className={

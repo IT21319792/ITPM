@@ -3,6 +3,7 @@ import "../../styles/SchedulePresentation.css";
 import Axios from "axios";
 import SchedulePresentationValidation from "../../validation/SchedulePresentation";
 import Sweetalert2 from "sweetalert2";
+import { useNavigate, Link } from "react-router-dom";
 
 function SchedulePresentation(props) {
   const [scheduleList, setScheduleList] = useState([]);
@@ -19,9 +20,16 @@ function SchedulePresentation(props) {
     "Mr. Deneth Pinsara",
     "Ms. Rashmi Shehela",
     "Mr. Madhusha Prasad",
+    "Ms. Tharushi Perera",
+    "Mr. Tharindu Madushan",
+    "Ms. Tharushi Perera",
+    "Mr. Tharindu Madushan",
+    "Ms. Oshitha Kone",
+    "Mr. Kamshe Kure"
   ]);
   const [examiners, setexaminers] = useState([]);
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     getAllSchedule();
@@ -66,10 +74,10 @@ function SchedulePresentation(props) {
       examiners: examiners,
     };
 
-    const { error, isInvalid } = SchedulePresentationValidation(newSchedule);
+    const { errors, isInvalid } = SchedulePresentationValidation(newSchedule);
 
     if (isInvalid) {
-      setErrors(error);
+      setErrors(errors);
       Sweetalert2.fire({
         toast: true,
         position: "top-end",
@@ -79,12 +87,12 @@ function SchedulePresentation(props) {
         title: "Please enter your details",
       });
     } else {
-      setErrors(error);
+      setErrors(errors);
       await Axios.post(
         "http://localhost:510/schedule/createSchedule",
         newSchedule
       ).then((response) => {
-        console.log("data",response.data);
+        console.log("data", response.data);
         if (response.data.status === 200) {
           Sweetalert2.fire({
             toast: true,
@@ -104,6 +112,7 @@ function SchedulePresentation(props) {
           setexaminers([]);
           getAllSchedule();
         }
+        navigate("/dashboard/pMemberDash/ScheduledPresentations");
       });
     }
   };
@@ -142,18 +151,22 @@ function SchedulePresentation(props) {
                       <option value="Group 02">Group 02</option>
                       <option value="Group 03">Group 03</option>
                       <option value="Group 04">Group 04</option>
+                      <option value="Group 01">Group 05</option>
+                      <option value="Group 02">Group 06</option>
+                      <option value="Group 03">Group 07</option>
+                      <option value="Group 04">Group 08</option>
                     </select>
-                    
+
                   </div>
                   <p
-                      className={
-                        errors.GroupID
-                          ? "mt-2 peer-invalid:visible text-pink-600 text-sm block"
-                          : "mt-2 invisible text-pink-600 text-sm hidden"
-                      }
-                    >
-                      {errors.GroupID ? errors.GroupID : ""}
-                    </p>
+                    className={
+                      errors.GroupID
+                        ? "mt-2 peer-invalid:visible text-pink-600 text-sm block"
+                        : "mt-2 invisible text-pink-600 text-sm hidden"
+                    }
+                  >
+                    {errors.GroupID ? errors.GroupID : ""}
+                  </p>
                 </div>
                 <div className="col">
                   <label className="block">
@@ -207,14 +220,14 @@ function SchedulePresentation(props) {
                     }}
                   />
                   <p
-                      className={
-                        errors.location
-                          ? "mt-2 peer-invalid:visible text-pink-600 text-sm block"
-                          : "mt-2 invisible text-pink-600 text-sm hidden"
-                      }
-                    >
-                      {errors.location ? errors.location : ""}
-                    </p>
+                    className={
+                      errors.location
+                        ? "mt-2 peer-invalid:visible text-pink-600 text-sm block"
+                        : "mt-2 invisible text-pink-600 text-sm hidden"
+                    }
+                  >
+                    {errors.location ? errors.location : ""}
+                  </p>
                 </div>
                 <div className="col">
                   <label className="block">
@@ -268,14 +281,14 @@ function SchedulePresentation(props) {
                     }}
                   />
                   <p
-                      className={
-                        errors.topic
-                          ? "mt-2 peer-invalid:visible text-pink-600 text-sm block"
-                          : "mt-2 invisible text-pink-600 text-sm hidden"
-                      }
-                    >
-                      {errors.topic ? errors.topic : ""}
-                    </p>
+                    className={
+                      errors.topic
+                        ? "mt-2 peer-invalid:visible text-pink-600 text-sm block"
+                        : "mt-2 invisible text-pink-600 text-sm hidden"
+                    }
+                  >
+                    {errors.topic ? errors.topic : ""}
+                  </p>
                 </div>
               </div>
               <div className="grid grid-cols-1">
@@ -302,14 +315,14 @@ function SchedulePresentation(props) {
                     </select>
                   </div>
                   <p
-                      className={
-                        errors.examiners
-                          ? "mt-2 peer-invalid:visible text-pink-600 text-sm block"
-                          : "mt-2 invisible text-pink-600 text-sm hidden"
-                      }
-                    >
-                      {errors.examiners ? errors.examiners : ""}
-                    </p>
+                    className={
+                      errors.examiners
+                        ? "mt-2 peer-invalid:visible text-pink-600 text-sm block"
+                        : "mt-2 invisible text-pink-600 text-sm hidden"
+                    }
+                  >
+                    {errors.examiners ? errors.examiners : ""}
+                  </p>
                 </div>
               </div>
               <div className="grid grid-cols-1">
@@ -336,14 +349,14 @@ function SchedulePresentation(props) {
                     </select>
                   </div>
                   <p
-                      className={
-                        errors.examiners
-                          ? "mt-2 peer-invalid:visible text-pink-600 text-sm block"
-                          : "mt-2 invisible text-pink-600 text-sm hidden"
-                      }
-                    >
-                      {errors.examiners ? errors.examiners : ""}
-                    </p>
+                    className={
+                      errors.examiners
+                        ? "mt-2 peer-invalid:visible text-pink-600 text-sm block"
+                        : "mt-2 invisible text-pink-600 text-sm hidden"
+                    }
+                  >
+                    {errors.examiners ? errors.examiners : ""}
+                  </p>
                 </div>
               </div>
               <div className="grid grid-cols-1">
@@ -370,14 +383,14 @@ function SchedulePresentation(props) {
                     </select>
                   </div>
                   <p
-                      className={
-                        errors.examiners
-                          ? "mt-2 peer-invalid:visible text-pink-600 text-sm block"
-                          : "mt-2 invisible text-pink-600 text-sm hidden"
-                      }
-                    >
-                      {errors.examiners ? errors.examiners : ""}
-                    </p>
+                    className={
+                      errors.examiners
+                        ? "mt-2 peer-invalid:visible text-pink-600 text-sm block"
+                        : "mt-2 invisible text-pink-600 text-sm hidden"
+                    }
+                  >
+                    {errors.examiners ? errors.examiners : ""}
+                  </p>
                 </div>
               </div>
               {/* Button to publish schedule */}

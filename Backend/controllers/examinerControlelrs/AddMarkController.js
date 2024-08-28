@@ -3,8 +3,9 @@ import PresentationMarkAddModel from "../../models/examinerModels/AddMark.js";
 //add
 export const addPresentationMarks = async (req, res) => {
   try {
-    const {  presentationType,groupMarks,group } = req.body;
+    const { loggedUser, presentationType, groupMarks, group } = req.body;
     const newPresentationMark = new PresentationMarkAddModel({
+      loggedUser,
       presentationType,
       group,
       groupMarks
@@ -74,5 +75,31 @@ export const deletePresentationMarks = async (req, res) => {
   } catch (error) {
     console.error('Error deleting presentation mark:', error);
     res.status(500).json({ error: 'Failed to delete presentation mark', details: error.message });
+  }
+};
+
+//get by group id
+export const getPresentationMarksByGroupId = async (req, res) => {
+  const { groupId } = req.params;
+  try {
+    // Ensure proper parsing of groupId
+    if (!groupId) {
+      return res.status(400).json({ error: 'groupId is required' });
+    }
+
+    // Fetch presentation marks based on groupId
+    const presentationMarks = await PresentationMarkAddModel.find({ group: groupId });
+
+    // Check if presentation marks are found
+    if (!presentationMarks || presentationMarks.length === 0) {
+      return res.status(404).json({ error: 'Presentation marks not found for this groupId' });
+    }
+
+    // Return presentation marks
+    res.status(200).json(presentationMarks);
+  } catch (error) {
+    // Handle errors
+    console.error('Error fetching presentation marks:', error);
+    res.status(500).json({ error: 'Failed to fetch presentation marks', details: error.message });
   }
 };
