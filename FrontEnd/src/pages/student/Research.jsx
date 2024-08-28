@@ -16,6 +16,7 @@ export default function Research() {
     const [myResearch, setMyResearch] = useState({});
     const [myGroup, setMyGroup] = useState({});
     const [isUploading, setUploading] = useState(false)
+    const [sup, setSup] = useState([])
 
     const [formData, setFormData] = useState({
         title: "",
@@ -34,6 +35,7 @@ export default function Research() {
         scopusSiteLink: "",
         imageLinkOfAcceptanceLetter: previewImage,
     });
+
 
     const handleCancel = () => {
         console.log("Cancelled");
@@ -56,7 +58,58 @@ export default function Research() {
     }, [previewImage])
 
 
-    //Form SUbmission Handelling
+    // const handleSubmit = async (event) => {
+    //     event.preventDefault();
+    //     try {
+    //         const response = await axios.post('http://localhost:510/research/', formData);
+    //         if (response.status === 200) {
+    //             console.log("Research Paper Submitted successfully!");
+    //             // Toast success message
+    //             toast.success("Research Paper Submitted successfully!");
+    //             // Redirect to '/dashboard/studentDash'
+    //             <Link to="/dashboard/studentDash">Go to Student Dashboard</Link>
+    //         }
+    //     } catch (error) {
+    //         console.error("Error submitting research paper:", error);
+    //         // Toast error message
+    //         toast.error("Error submitting research paper. Please try again later.");
+    //     }
+    // };
+
+
+    // -------------------------------------------------------------------------------------------------------------------------------------
+    const [supervisorData, setSupervisorData] = useState({});
+
+    useEffect(() => {
+        setSupervisorData({
+            title: formData.title,
+            firstName: formData.supervisor1.split(' ')[0],
+            lastName: formData.supervisor1.split(' ')[1],
+        });
+    }, [formData]);
+    console.log(supervisorData, "SupervisorDatasubmit karanna");
+
+
+    // console.log(SupervisorData, "SupervisorDatasubmit karanna");
+    const handleSupervisorSubmit = async (title, groupName) => {
+        try {
+            // Fetch supervisor data from the backend
+            const response = await axios.get('http://localhost:510/supervisorList/');
+
+            // Submit the supervisor data to the backend to add to the database
+            const addResponse = await axios.post('http://localhost:510/supervisor/add', supervisorData);
+
+            console.log("Supervisor data added successfully!");
+            toast.success("Supervisor data added successfully!");
+        } catch (error) {
+            console.error("Error adding supervisor data:", error);
+            toast.error("Error adding supervisor data. Please try again later.");
+        }
+    };
+
+
+    // -------------------------------------------------------------------------------------------------------------------------------------
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
@@ -66,6 +119,7 @@ export default function Research() {
                 throw Error('Image is required')
             }
             const response = await axios.post('http://localhost:510/research/', formData);
+            await handleSupervisorSubmit(formData.title, formData.groupName);
 
             console.log("Research Paper Submitted successfully!");
             toast.success("Research Paper Submitted successfully!");
@@ -94,7 +148,7 @@ export default function Research() {
         try {
             const res = await authAxios.get("http://localhost:510/group/mygroup");
             setMembers(res.data);
-            console.log(res.data);
+            console.log(res.data, "members");
         } catch (error) {
             toast.error(error.response.data.message);
         }
@@ -102,10 +156,10 @@ export default function Research() {
 
 
     //Get All Supervisors
-    const [sup, setSup] = useState([])
+
     const GetSup = async () => {
         try {
-            const res = await authAxios.get("http://localhost:510/user/get-all-supervisors");
+            const res = await authAxios.get("http://localhost:510/supervisorList/");
             setSup(res.data);
             console.log(res.data);
         } catch (error) {
@@ -117,7 +171,7 @@ export default function Research() {
     const [cosup, setCoSup] = useState([])
     const GetCoSup = async () => {
         try {
-            const res = await authAxios.get("http://localhost:510/user/get-all-cosupervisors");
+            const res = await authAxios.get("http://localhost:510/supervisorList/");
             setCoSup(res.data);
             console.log(res.data);
         } catch (error) {
