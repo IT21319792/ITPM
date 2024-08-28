@@ -1,4 +1,5 @@
 import SupervisorListModel from "../../models/cordinatorModels/SupervisorList.js";
+
 // createSupervisor
 export const createSupervisorList = async (req, res) => {
     try {
@@ -70,3 +71,5 @@ export const deleteSupervisorById = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 };
+
+

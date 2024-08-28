@@ -49,6 +49,8 @@ import OTP from './components/OTP';
 import SignUp from './components/SignUp';
 
 import MainPage from './components/MainPage';
+import ExaminerUpdateMarks from './pages/examinar/ExaminerUpdateMark';
+import ExaminerPresentationMarks2 from './pages/supervisor/examinerPresentationMarks';
 
 
 
@@ -64,11 +66,11 @@ function App() {
         <Route path='/addStudent' element={<AddStudents />} />
         <Route path='login' element={<Login />} />
         <Route path='s-login' element={<StudentLogin />} />
-        <Route path='/signup' element={<SignUp/>} />
-        <Route path='/main' element={<MainPage/>} />
+        <Route path='/signup' element={<SignUp />} />
+        <Route path='/main' element={<MainPage />} />
         <Route path='/s-login-otp' element={<OTP />} />
         <Route path='/dashboard' element={<Layout />} >
-          
+
 
 
           {/* Admin Routes  */}
@@ -84,7 +86,7 @@ function App() {
           <Route path='/dashboard/myResults' element={<MyResults />} />
           <Route path='/dashboard/myTeam' element={<MyTeam />} />
           <Route path='/dashboard/notifications' element={<Notifications />} />
-          
+
 
 
           {/* Co-ordinator Routes  */}
@@ -101,29 +103,31 @@ function App() {
           <Route path='/dashboard/presentationDetails' element={<PresentationDetails />} />
           <Route path='/dashboard/marking' element={<AddMarking />} />
           <Route path='/dashboard/addAssignments' element={<AssignmentAdd />} />
-          
- 
+
+
           {/* Examinar Routes  */}
           <Route path='/dashboard/examinerDash' element={<ExaminarDash />} />
           <Route path='/dashboard/marksAssignments' element={<ExaminerPresentationMarks />} />
           <Route path='/dashboard/addMarks' element={<ExaminerPresentationMarks />} />
           <Route path='/dashboard/update' element={<UpdateForm />} />
+          <Route path='/dashboard/updateMarksAssignments' element={<ExaminerUpdateMarks />} />
 
 
           {/* Project Member Routes  */}
-          <Route path='pMemberDash' element={<PMemberDash />} />
+          < Route path='pMemberDash' element={<PMemberDash />} />
           <Route path='/dashboard/pMemberDash/SchedulePresentation' element={<SchedulePresentation />} />
           <Route path='/dashboard/pMemberDash/ScheduledPresentations' element={<ScheduledPresentations />} />
           <Route path='/dashboard/pMemberDash/ScheduledPresentations/UpdateSchedule/:id' element={<UpdateSchedule />} />
           <Route path='/dashboard/markingRubric' element={<Rubrics />} />
-          <Route path="/dashboard/updateMarkingRubric/:id" element={<UpdateRubrics />}/>
+          <Route path="/dashboard/updateMarkingRubric/:id" element={<UpdateRubrics />} />
           <Route path="/dashboard/viewRubric/:id" element={<ViewRubrics />} />
 
 
           {/* Supervisor Routes  */}
-            {/* <Route path='/dashboard/reports' element={<SupervisorReportMarks />} /> */}
-            <Route path='/dashboard/supervisorDash' element={<SupervisorDash />} />//
+          {/* <Route path='/dashboard/reports' element={<SupervisorReportMarks />} /> */}
+          <Route path='/dashboard/supervisorDash' element={<SupervisorDash />} />//
           <Route path='/dashboard/addReportMarks' element={<SupervisorReportMarks />} />
+          <Route path='/dashboard/updateMarksReports' element={<ExaminerPresentationMarks2 />} />
 
         </Route>
 
