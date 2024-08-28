@@ -26,7 +26,7 @@ import SupervisorListRouter from './routes/cordinatorRoutes/SupervisorLisrRoutes
 import PublishRouter from './routes/cordinatorRoutes/PublishMarkRouter.js';
 
 // const bodyParser = require('body-parser');
-// const nodemailer = require('nodemailer');
+// const nodemailer = require('nodemailer')
 
 
 // Function to generate a random 4-digit OTP
