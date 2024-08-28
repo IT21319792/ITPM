@@ -1,5 +1,3 @@
-// SubmitAssignmentModel.js
-
 import mongoose from 'mongoose';
 
 const submitAssignmentSchema = new mongoose.Schema({
@@ -13,9 +11,20 @@ const submitAssignmentSchema = new mongoose.Schema({
     required: true
   },
   comment: {
-    type: String
-  }
-});
+    type: String,
+    required: true 
+  },
+  submittedBy:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'students',
+    required: true
+  },
+
+},
+{ timestamps: true }
+);
+
+
 
 const SubmitAssignment = mongoose.model('SubmitAssignment', submitAssignmentSchema);
 
