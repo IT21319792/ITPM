@@ -226,6 +226,7 @@ function SupervisorMng() {
       .then(res => {
         const supervisor = res.data.filter(user => user.level === "1" || user.level === "2");
         console.log(supervisor);
+    
         setTableData(supervisor);
       })
       .catch(err => {
@@ -257,6 +258,8 @@ function SupervisorMng() {
               <th scope="col" className="px-6 py-4">First Name</th>
               <th scope="col" className="px-6 py-4">Last Name</th>
               <th scope="col" className="px-6 py-4">Contact Number</th>
+              <th scope="col" className="px-6 py-4">Level</th>
+              <th scope="col" className="px-6 py-4">Post</th>
               <th scope="col" className="px-6 py-4">Level</th>
               <th scope="col" className="px-6 py-4">Post</th>
               <th scope="col" className="px-6 py-4">Email</th>
