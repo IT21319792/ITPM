@@ -5,9 +5,10 @@ function Notifications () {
 
     return(
         <>
-        
+   
 
             <h1>These are Student Notifications</h1>
+      
         
         </>
 
