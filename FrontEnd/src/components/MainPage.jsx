@@ -19,6 +19,7 @@ function MainPage() {
 
 
 
+
     const navigate = useNavigate();
 
 
@@ -26,7 +27,22 @@ function MainPage() {
     //-----------------------------------------------------------------------------------------------------------------------
     // checking users in the databases
     //-----------------------------------------------------------------------------------------------------------------------
+    // checking users in the databases
+    //-----------------------------------------------------------------------------------------------------------------------
 
+    const findPrMemberByName = async (firstName) => {
+        try {
+            const response = await axios.get(`http://localhost:510/prmember/${firstName}`);
+            if (!response.data) {
+                return false;
+            }
+            return true;
+        } catch (error) {
+
+            console.error('Error finding PR member by name:', error);
+            return false; r
+        }
+    };
     const findPrMemberByName = async (firstName) => {
         try {
             const response = await axios.get(`http://localhost:510/prmember/${firstName}`);
@@ -50,15 +66,13 @@ function MainPage() {
 
             // Assuming the response contains an array of schedules
             const schedules = response.data.data;
-     
 
-            console.log('Schedules:', schedules);
             console.log('Schedules:', schedules);
 
             // Initialize arrays to store schedule and group names
             const scheduleNames = [];
             const groupNames = [];
-          
+
             // Iterate over each schedule
             schedules.forEach(schedule => {
                 console.log('Checking schedule:', schedule);
@@ -66,6 +80,8 @@ function MainPage() {
             schedules.forEach(schedule => {
                 console.log('Checking schedule:', schedule);
 
+                // Check if the provided first name is present in any examiner's name within the schedule
+                const examinerFound = schedule.examiners.includes(firstName);
                 // Check if the provided first name is present in any examiner's name within the schedule
                 const examinerFound = schedule.examiners.includes(firstName);
               
@@ -178,6 +194,8 @@ function MainPage() {
     //-----------------------------------------------------------------------------------------------------------------------
     // handling the button click for userdashboards
     //-----------------------------------------------------------------------------------------------------------------------
+    // handling the button click for userdashboards
+    //-----------------------------------------------------------------------------------------------------------------------
 
     
     const handleButtonClickCoordinator = () => {
@@ -199,53 +217,6 @@ function MainPage() {
     };
 
 
-    // const handleButtonClickPMember = async () => {
-    //     const role = Cookies.get('OriginalRole');
-    //     console.log(role);
-    //     if (role === 'staff' && (level === '1' || level === '2')) {
-    //         const userExists = await findPrMemberByName(firstName);
-    //         if (userExists) {
-    //             Cookies.set('role', 'member');
-    //             navigate('/dashboard/pMemberDash');
-    //         } else {
-    //             if (level === '1') {
-    //                 Swal.fire({
-    //                     icon: 'question',
-    //                     title: 'You are not assigned as a project member!',
-    //                     text: 'Do you want to go to the dashboard as a project member?',
-    //                     showCancelButton: true,
-    //                     confirmButtonText: 'Yes',
-    //                     cancelButtonText: 'No',
-    //                 }).then((result) => {
-    //                     if (result.isConfirmed) {
-    //                         Cookies.set('role', 'member');
-    //                         Swal.fire({
-    //                             icon: 'success',
-    //                             title: 'Success',
-    //                             text: 'Welcome to the project member dashboard!',
-    //                         });
-    //                         navigate('/dashboard/pMemberDash');
-    //                     }
-    //                 });
-    //             } else {
-    //                 Swal.fire({
-    //                     icon: 'error',
-    //                     title: 'Oops...',
-    //                     text: 'Seems like you have not been assigned as a project member!',
-    //                 });
-    //             }
-
-
-    //         }
-    //     } else {
-
-    //         Swal.fire({
-    //             icon: 'warning',
-    //             title: 'Access Denied',
-    //             text: 'You are not authorized to access this page as a ' + staffPost + ' with level ' + level + 'access',
-    //         });
-    //     }
-    // };
     const handleButtonClickPMember = async () => {
         const role = Cookies.get('OriginalRole');
         console.log(role);
