@@ -25,29 +25,7 @@ function Login() {
       Cookies.set('firstName', res.data.firstName);
       Cookies.set('level', res.data.level);
       Cookies.set('staffPost', res.data.staffPost);
-      // switch (res.data.userRole) {
-      //   case 'admin':
-      //     navigate('/dashboard/adminDash');
-      //     break;
-      //   case 'student':
-      //     navigate('/dashboard/studentDash');
-      //     break;
-      //   case 'examinar':
-      //     navigate('/dashboard/examinerDash');
-      //     break;
-      //   case 'supervisor':
-      //     navigate('/dashboard/supervisorDash');
-      //     break;
-      //   case 'member':
-      //     navigate('/dashboard/pMemberDash');
-      //     break;
-      //   case 'coordinator':
-      //     navigate('/dashboard');
-      //     break;
-      //   default:
-      //     navigate('/');
-      // }
-      // Assuming res.data.userRole is an array of roles
+      
       const userRoles = res.data.userRole;
 
       // Check if the array includes a certain role
@@ -55,8 +33,8 @@ function Login() {
         navigate('/dashboard/adminDash');
       } else if (userRoles.includes('student')) {
         navigate('/dashboard/studentDash');
-        // } else if (userRoles.includes('examinar')) {
-        //   navigate('/main');
+      } else if (userRoles.includes('examinar')) {
+        navigate('/dashboard/examinerDash');
         // } else if (userRoles.includes('supervisor')) {
         //   navigate('/dashboard/supervisorDash');
         // } else if (userRoles.includes('member')) {

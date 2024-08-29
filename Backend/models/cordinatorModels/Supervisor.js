@@ -8,23 +8,7 @@ const SupervisorSchema = new mongoose.Schema({
     lastName: {
         type: String,
     },
-    contactNo: {
-        type: Number,
-        unique: true,
-    },
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-    },
-    staffPost: {
-        type: String,
-        enum: ["Chancellor", "Vice-Chancellor", "Deans", "Department Chairs/Heads", "Professors", "Associate Professors", "Assistant Professors", "Assistant Lecturer", "Lecturers", "Senior Lecturers", "Instructors"],
-    },
-    level: {
-        type: String,
-        enum: ["1", "2", "3"],
-    },
+
     groups: {
         type: Array,
         default: [],

@@ -41,19 +41,32 @@ function CoDash() {
   return (
     <div className="p-4">
       <CoordinatorWelcomeCard />
+      <h1 className="text-xl font-semibold text-gray-800">System User Count</h1>
       <div className="overflow-x-auto">
-      <h1 className="text-xl font-semibold text-gray-800">System user Count</h1>
-        <div className="flex flex-wrap">
-         
-          {Object.entries(roleCount).map(([role, count]) => (
-            <div key={role} className="flex items-center justify-center border rounded p-4 mb-2 mr-2">
-              <div className={`text-white p-2 rounded-full bg-${getRoleColor(role)}`}>{role}</div>
-              <div className="ml-2">Count: {count}</div>
-            </div>
-          ))}
-        </div>
-
-        
+        <table className="min-w-full border border-gray-200">
+          <thead>
+            <tr>
+              <th className="px-6 py-3 border-b border-gray-200 bg-gray-100 text-left text-sm font-semibold text-gray-700">
+                Role
+              </th>
+              <th className="px-6 py-3 border-b border-gray-200 bg-gray-100 text-left text-sm font-semibold text-gray-700">
+                Count
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {Object.entries(roleCount).map(([role, count]) => (
+              <tr key={role}>
+                <td className={`px-6 py-4 border-b border-gray-200 text-sm text-white rounded-full bg-${getRoleColor(role)}`}>
+                  {role}
+                </td>
+                <td className="px-6 py-4 border-b border-gray-200 text-sm text-gray-700">
+                  {count}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
@@ -65,15 +78,15 @@ function getRoleColor(role) {
     case 'admin':
       return 'red-500';
     case 'coordinator':
-      return 'blue-500';
+      return 'red-500';
     case 'member':
       return 'green-500';
     case 'supervisor':
-      return 'yellow-400'; // Change to 'yellow-400' for better visibility
+      return 'yellow-400'; 
     case 'examiner':
-      return 'indigo-500';
+      return 'red-500';
     case 'student':
-      return 'purple-400'; // Change to 'purple-400' for better visibility
+      return 'blue-500';
     default:
       return 'gray-500';
   }

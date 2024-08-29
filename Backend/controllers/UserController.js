@@ -1,6 +1,7 @@
 import UserModel from "../models/UserModel.js";
 import jwt from 'jsonwebtoken';
 import { sendEmail } from "../utils/sendEmail.js";
+import SupervisorListModel from "../models/cordinatorModels/SupervisorList.js";
 
 
 //PASS EMAIL ADDRESS HERE AND THIS WILL GENERATE A JWT TOKEN
@@ -160,3 +161,55 @@ export const getAllCoSupervisors = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 }
+
+
+
+// Function to update the user's role by adding new roles to the existing array
+export const updateUserRole = async (req, res) => {
+    const { userId, newRole } = req.body;
+  
+    try {
+      // Find the user by ID
+      const user = await UserModel.findById(userId);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+      const newRolesArray = Array.isArray(newRole) ? newRole : [newRole];
+  
+
+      newRolesArray.forEach(role => {
+        if (!user.role.includes(role)) {
+          user.role.push(role);
+        }
+      });
+  
+      await user.save();
+  
+      res.status(200).json({ message: 'User role updated successfully', user });
+    } catch (error) {
+      res.status(500).json({ message: 'Server error', error: error.message });
+    }
+  };
+
+
+  // Controller function to remove a role from a user
+export const removeUserRole = async (req, res) => {
+    try {
+      const { userId, roleToRemove } = req.body;
+      const user = await UserModel.findById(userId);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      user.role = user.role.filter(role => role !== roleToRemove);
+  
+      // Save the updated user document
+      await user.save();
+  
+      return res.status(200).json({ message: 'User role updated successfully' });
+    } catch (error) {
+      console.error('Error updating user role:', error);
+      return res.status(500).json({ message: 'Server error' });
+    }
+  };
+

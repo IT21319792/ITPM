@@ -10,13 +10,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 
-/*
-USAGE EXAMPLE:
-await sendEmail(isExsit.email, "Title", { name: isExsit.name, description: description, }, "./template/emailtemplate.handlebars");
-*/
+
 export const sendEmail = async (email, subject, payload, template) => {
-    //console.log(__filename);
-    //console.log(__dirname);
+
     try {
 
         const transporter = nodemailer.createTransport({
@@ -28,7 +24,7 @@ export const sendEmail = async (email, subject, payload, template) => {
         });
 
         const source = fs.readFileSync(path.join(__dirname, template), "utf8");
-        //console.log(source);
+      
         const compiledTemplate = handlebars.compile(source);
 
         const options = () => {
@@ -55,4 +51,3 @@ export const sendEmail = async (email, subject, payload, template) => {
         console.log(error);
     }
 };
-

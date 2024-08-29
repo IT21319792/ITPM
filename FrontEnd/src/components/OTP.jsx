@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 // Assuming you have a toast library like react-toastify installed
 import { toast } from 'react-toastify';
@@ -9,10 +10,11 @@ export default function OTP() {
     const [email, setEmail] = useState('');
     const [otp, setOTP] = useState('');
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
   
     const handleSendOTP = async () => {
         try {
-            const response = await fetch(`http://localhost:510/student/sendOTP?email=${email}`);
+            const response = await fetch(`http://localhost:510/student/sendOTP?email=${searchParams.get('email')}`);
             const data = await response.json();
             console.log(data);
             if (response.status === 200) {
@@ -29,7 +31,7 @@ export default function OTP() {
     const handleVerifyOTP = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`http://localhost:510/student/verifyOTP?email=${email}&otp=${otp}`);
+            const response = await fetch(`http://localhost:510/student/verifyOTP?email=${searchParams.get('email')}&otp=${otp}`);
             const data = await response.json();
             console.log(data);
             if (response.status === 200) {
@@ -62,9 +64,9 @@ export default function OTP() {
                         className="border border-gray-300 p-2 w-full rounded"
                         placeholder="Type Your Account Email"
                         type="email"
-                        value={email}
+                        value={searchParams.get('email')}	
                         onChange={handleEmailChange}
-                        required
+                        disabled
                     />
                 </div>
                 <button

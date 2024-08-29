@@ -3,9 +3,10 @@ import ReportMarkAddModel from '../../models/supervisorModels/AddReportMark.js';
 // Add
 export const addReportMarks = async (req, res) => {
   try {
-    const { reportType, groupMarks, group } = req.body;
+    const { loggedUser, presentationType, group, groupMarks } = req.body;
     const newReportMark = new ReportMarkAddModel({
-      reportType,
+      loggedUser,
+      presentationType,
       group,
       groupMarks
     });
@@ -24,6 +25,7 @@ export const addReportMarks = async (req, res) => {
     res.status(500).json({ error: 'Failed to add report marks', details: error.message });
   }
 };
+
 
 // Get all
 // Get all report marks

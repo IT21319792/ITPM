@@ -16,14 +16,17 @@ import StudentRouter from './routes/studentRoutes/StudentRoutes.js';
 import GroupRouter from './routes/studentRoutes/GroupRoutes.js';
 import AddRepoMarkRouter from './routes/supervisorRoutes/AddReportMarkRouter.js';
 import researchRouter from './routes/studentRoutes/ResearchRoutes.js';
+
 import bodyparser from 'body-parser';
 import nodemailer from 'nodemailer';
 import { sendLoginOTP } from './controllers/studentControllers/StudentController.js';
 import PrMemberRouter from './routes/cordinatorRoutes/PrMemberRouter.js';
 import SupervisorRouter from './routes/cordinatorRoutes/SupervisorRoutes.js';
+import SupervisorListRouter from './routes/cordinatorRoutes/SupervisorLisrRoutes.js';
+import PublishRouter from './routes/cordinatorRoutes/PublishMarkRouter.js';
 
 // const bodyParser = require('body-parser');
-// const nodemailer = require('nodemailer');
+// const nodemailer = require('nodemailer')
 
 
 // Function to generate a random 4-digit OTP
@@ -53,7 +56,6 @@ export async function sendOTP(email, otp) {
     console.log('Message sent: %s', info.messageId);
 }
 
-
 const PORT = process.env.PORT || 510;
 const app = express();
 app.use(express.json());
@@ -80,7 +82,9 @@ app.use('/group', GroupRouter);
 app.use('/report', AddRepoMarkRouter);
 app.use('/research', researchRouter);
 app.use('/prmember', PrMemberRouter);
-app.use('/supervisor',SupervisorRouter);
+app.use('/supervisor', SupervisorRouter);
+app.use('/supervisorList', SupervisorListRouter);
+app.use('/publish', PublishRouter);
 
 dbConfig().then(() => {
     app.listen(PORT, () => {
