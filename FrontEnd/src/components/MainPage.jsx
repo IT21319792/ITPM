@@ -30,19 +30,7 @@ function MainPage() {
     // checking users in the databases
     //-----------------------------------------------------------------------------------------------------------------------
 
-    const findPrMemberByName = async (firstName) => {
-        try {
-            const response = await axios.get(`http://localhost:510/prmember/${firstName}`);
-            if (!response.data) {
-                return false;
-            }
-            return true;
-        } catch (error) {
 
-            console.error('Error finding PR member by name:', error);
-            return false; r
-        }
-    };
     const findPrMemberByName = async (firstName) => {
         try {
             const response = await axios.get(`http://localhost:510/prmember/${firstName}`);
@@ -82,9 +70,7 @@ function MainPage() {
 
                 // Check if the provided first name is present in any examiner's name within the schedule
                 const examinerFound = schedule.examiners.includes(firstName);
-                // Check if the provided first name is present in any examiner's name within the schedule
-                const examinerFound = schedule.examiners.includes(firstName);
-              
+         
 
                 console.log('Examiner found in this schedule:', examinerFound);
                 console.log('Examiner found in this schedule:', examinerFound);
