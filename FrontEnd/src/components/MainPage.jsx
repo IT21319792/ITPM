@@ -40,19 +40,6 @@ function MainPage() {
             return false; r
         }
     };
-    const findPrMemberByName = async (firstName) => {
-        try {
-            const response = await axios.get(`http://localhost:510/prmember/${firstName}`);
-            if (!response.data) {
-                return false;
-            }
-            return true;
-        } catch (error) {
-
-            console.error('Error finding PR member by name:', error);
-            return false; r
-        }
-    };
 
     const findExaminerByName = async (firstName) => {
         try {
@@ -63,8 +50,7 @@ function MainPage() {
 
             // Assuming the response contains an array of schedules
             const schedules = response.data.data;
-            // Assuming the response contains an array of schedules
-            const schedules = response.data.data;
+     
 
             console.log('Schedules:', schedules);
             console.log('Schedules:', schedules);
@@ -72,10 +58,7 @@ function MainPage() {
             // Initialize arrays to store schedule and group names
             const scheduleNames = [];
             const groupNames = [];
-            // Initialize arrays to store schedule and group names
-            const scheduleNames = [];
-            const groupNames = [];
-
+          
             // Iterate over each schedule
             schedules.forEach(schedule => {
                 console.log('Checking schedule:', schedule);
@@ -85,8 +68,7 @@ function MainPage() {
 
                 // Check if the provided first name is present in any examiner's name within the schedule
                 const examinerFound = schedule.examiners.includes(firstName);
-                // Check if the provided first name is present in any examiner's name within the schedule
-                const examinerFound = schedule.examiners.includes(firstName);
+              
 
                 console.log('Examiner found in this schedule:', examinerFound);
                 console.log('Examiner found in this schedule:', examinerFound);
@@ -197,6 +179,7 @@ function MainPage() {
     // handling the button click for userdashboards
     //-----------------------------------------------------------------------------------------------------------------------
 
+    
     const handleButtonClickCoordinator = () => {
         const role = Cookies.get('OriginalRole');
         console.log(role);
@@ -214,72 +197,55 @@ function MainPage() {
             });
         }
     };
-    const handleButtonClickCoordinator = () => {
-        const role = Cookies.get('OriginalRole');
-        console.log(role);
-        if (role === 'staff' && (level === '1')) {
-            const expirationTime = new Date();
-            expirationTime.setSeconds(expirationTime.getSeconds() + 10);
-            Cookies.set('role', 'coordinator', { expires: expirationTime });
-            navigate('/dashboard');
-        } else {
-
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'You are not authorized to access this page as a ' + staffPost + ' with level ' + level + 'access',
-            });
-        }
-    };
 
 
-    const handleButtonClickPMember = async () => {
-        const role = Cookies.get('OriginalRole');
-        console.log(role);
-        if (role === 'staff' && (level === '1' || level === '2')) {
-            const userExists = await findPrMemberByName(firstName);
-            if (userExists) {
-                Cookies.set('role', 'member');
-                navigate('/dashboard/pMemberDash');
-            } else {
-                if (level === '1') {
-                    Swal.fire({
-                        icon: 'question',
-                        title: 'You are not assigned as a project member!',
-                        text: 'Do you want to go to the dashboard as a project member?',
-                        showCancelButton: true,
-                        confirmButtonText: 'Yes',
-                        cancelButtonText: 'No',
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            Cookies.set('role', 'member');
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Success',
-                                text: 'Welcome to the project member dashboard!',
-                            });
-                            navigate('/dashboard/pMemberDash');
-                        }
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Seems like you have not been assigned as a project member!',
-                    });
-                }
+    // const handleButtonClickPMember = async () => {
+    //     const role = Cookies.get('OriginalRole');
+    //     console.log(role);
+    //     if (role === 'staff' && (level === '1' || level === '2')) {
+    //         const userExists = await findPrMemberByName(firstName);
+    //         if (userExists) {
+    //             Cookies.set('role', 'member');
+    //             navigate('/dashboard/pMemberDash');
+    //         } else {
+    //             if (level === '1') {
+    //                 Swal.fire({
+    //                     icon: 'question',
+    //                     title: 'You are not assigned as a project member!',
+    //                     text: 'Do you want to go to the dashboard as a project member?',
+    //                     showCancelButton: true,
+    //                     confirmButtonText: 'Yes',
+    //                     cancelButtonText: 'No',
+    //                 }).then((result) => {
+    //                     if (result.isConfirmed) {
+    //                         Cookies.set('role', 'member');
+    //                         Swal.fire({
+    //                             icon: 'success',
+    //                             title: 'Success',
+    //                             text: 'Welcome to the project member dashboard!',
+    //                         });
+    //                         navigate('/dashboard/pMemberDash');
+    //                     }
+    //                 });
+    //             } else {
+    //                 Swal.fire({
+    //                     icon: 'error',
+    //                     title: 'Oops...',
+    //                     text: 'Seems like you have not been assigned as a project member!',
+    //                 });
+    //             }
 
 
-            }
-        } else {
+    //         }
+    //     } else {
 
-            Swal.fire({
-                icon: 'warning',
-                title: 'Access Denied',
-                text: 'You are not authorized to access this page as a ' + staffPost + ' with level ' + level + 'access',
-            });
-        }
-    };
+    //         Swal.fire({
+    //             icon: 'warning',
+    //             title: 'Access Denied',
+    //             text: 'You are not authorized to access this page as a ' + staffPost + ' with level ' + level + 'access',
+    //         });
+    //     }
+    // };
     const handleButtonClickPMember = async () => {
         const role = Cookies.get('OriginalRole');
         console.log(role);
