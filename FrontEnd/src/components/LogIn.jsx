@@ -25,32 +25,9 @@ function Login() {
       Cookies.set('firstName', res.data.firstName);
       Cookies.set('level', res.data.level);
       Cookies.set('staffPost', res.data.staffPost);
-      // switch (res.data.userRole) {
-      //   case 'admin':
-      //     navigate('/dashboard/adminDash');
-      //     break;
-      //   case 'student':
-      //     navigate('/dashboard/studentDash');
-      //     break;
-      //   case 'examinar':
-      //     navigate('/dashboard/examinerDash');
-      //     break;
-      //   case 'supervisor':
-      //     navigate('/dashboard/supervisorDash');
-      //     break;
-      //   case 'member':
-      //     navigate('/dashboard/pMemberDash');
-      //     break;
-      //   case 'coordinator':
-      //     navigate('/dashboard');
-      //     break;
-      //   default:
-      //     navigate('/');
-      // }
-      // Assuming res.data.userRole is an array of roles
+      
       const userRoles = res.data.userRole;
 
-      // Check if the array includes a certain role
       if (userRoles.includes('admin')) {
         navigate('/dashboard/adminDash');
       } else if (userRoles.includes('student')) {
@@ -76,49 +53,71 @@ function Login() {
   };
 
   return (
-    <div className="bg-grey-lighter min-h-screen flex flex-col">
-      <div className="container max-w-xl mx-auto flex-1 flex flex-col items-center justify-center px-2">
-        <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
-          <h1 className="mb-8 text-3xl text-center">User Log In</h1>
-          <form onSubmit={handleSubmit} className="mb-4 md:flex md:flex-wrap md:justify-between">
+    <div className="min-h-screen flex flex-col justify-center items-center">
+      <div className="container max-w-md mx-auto p-8 bg-white rounded-lg shadow-lg">
+        <h1 className="text-4xl font-bold text-center text-gray-800 mb-6">Staff Log In</h1>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div>
             <input
               type="text"
-              className="block border border-grey-light w-full p-3 rounded mb-4"
               name="email"
               placeholder="Email"
               onChange={handleChange}
+              className="w-full p-4 text-sm text-gray-700 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
+          </div>
+          <div>
             <input
               type="password"
-              className="block border border-grey-light w-full p-3 rounded mb-4"
               name="password"
               placeholder="Password"
               onChange={handleChange}
+              className="w-full p-4 text-sm text-gray-700 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
+          </div>
+          <div>
             <button
               type="submit"
-              className="w-full text-center bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+              className="w-full py-4 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-300"
             >
               Sign In
             </button>
-          </form>
-        </div>
-        <div className="text-grey-dark mt-6 flex gap-2">
-          <p>Cannot Sign In? Contact Administrators!</p>
+          </div>
+        </form>
+        <div className="mt-6 text-center text-gray-700">
+          <p>
+            Cannot Sign In?{' '}
+            <span className="text-blue-500 cursor-pointer">Contact Administrators!</span>
+          </p>
           <Button
-            variant="text"
-            color="primary"
-            sx={{ textDecoration: 'none', borderBottom: '1px solid blue', color: 'blue' }}
+            variant="contained"
+            sx={{
+              backgroundColor: "blue",
+              color: "white",
+              mt: 2,
+              "&:hover": {
+                backgroundColor: "darkblue",
+              },
+            }}
             onClick={() => navigate('/s-login')}
           >
             Student Login
           </Button>
         </div>
-        <div className="text-grey-dark mt-6 flex gap-2">
-          <Link to='/'>
-            <span className="no-underline border-b border-blue text-blue-700">
+        <div className="mt-6 text-center">
+          <Link to="/">
+            <Button
+              variant="contained"
+              sx={{
+                backgroundColor: "green",
+                color: "white",
+                "&:hover": {
+                  backgroundColor: "darkgreen",
+                },
+              }}
+            >
               Home
-            </span>
+            </Button>
           </Link>
         </div>
       </div>

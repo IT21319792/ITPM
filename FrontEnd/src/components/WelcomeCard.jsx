@@ -40,7 +40,7 @@ const WelcomeCard = () => {
     Cookies.remove('token', { path: '/' });
     Cookies.remove('pvt', { path: '/' });
     toast.warning('Logout Success!')
-    navigate('/login');
+    navigate('/');
   };
 
   return (
