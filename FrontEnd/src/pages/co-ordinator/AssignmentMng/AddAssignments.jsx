@@ -13,7 +13,7 @@ function AssignmentAdd() {
   const role = Cookies.get('role');
 
 
-  
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -37,7 +37,7 @@ function AssignmentAdd() {
       .then(() => {
         alert('Assignment added successfully');
         setFormSubmitted(true); // Set formSubmitted to true after successful submission
-        setFormData({ title: '', type: '', subType: '', deadline: '', description: '' }); // Clear form data
+        setFormData({ title: '', type: '', subType: '', deadline: '', description: '',semester:'' }); // Clear form data
         setPdfBlob('path/to/placeholder.pdf');
         console.log('Assignment added successfully');
       })
@@ -108,6 +108,17 @@ function AssignmentAdd() {
               </select>
             )}
 
+            <select
+              className="block border border-grey-light w-full p-3 rounded mb-4"
+              name="semester"
+              onChange={handleChange}
+              defaultValue=""
+            >
+              <option value="" disabled hidden>Choose Semester</option>
+              <option value="1"> Semester 1</option>
+              <option value="2">Semester 2</option>
+            </select>
+
             <input
               type="date"
               className="block border border-grey-light w-full p-3 rounded mb-4"
@@ -121,6 +132,14 @@ function AssignmentAdd() {
               placeholder="Description"
               onChange={handleChange}
             />
+            <input
+              type="file"
+              className="block border border-grey-light w-full p-3 rounded mb-4"
+              name="pdfDocument"
+              accept="application/pdf"
+              onChange={(e) => setPdfBlob(e.target.files[0])}
+            />
+
             <button
               type="submit"
               className="w-full text-center bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
