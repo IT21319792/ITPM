@@ -95,7 +95,7 @@ function StudentLogin() {
             }}
             onClick={() => navigate("/login")}
           >
-            Other User Login
+            Staff Login
           </Button>
         </div>
         <div className="mt-6 text-center">
