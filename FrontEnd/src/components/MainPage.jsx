@@ -87,52 +87,58 @@ function MainPage() {
 
     const findSupervisorByName = async (firstName) => {
         try {
-            const response = await axios.get(`http://localhost:510/supervisor/`);
-
-            // Assuming the response contains an array of supervisors
+            const response = await axios.get(`http://localhost:510/supervisorList/`);
+    
+            // Log the entire response to see the structure
+            console.log('API Response:', response);
+    
+            // Extract the data from the response
             const supervisors = response.data;
-
+    
+            // Log the supervisors data to ensure it's an array
             console.log('Supervisors:', supervisors);
-
-            // Initialize arrays to store tittle and group names
-            const tittleNames = [];
-            const groupNames = [];
-
+    
+            // Ensure supervisors is an array before proceeding
+            if (!Array.isArray(supervisors)) {
+                console.error('Expected an array but got:', typeof supervisors);
+                return { found: false, error: 'Invalid data format from API' };
+            }
+    
+            // Initialize an array to store matched supervisors
+            const matchedSupervisors = [];
+    
             // Iterate over each supervisor
             supervisors.forEach(supervisor => {
                 console.log('Checking supervisor:', supervisor);
-
-                // Check if the provided first name is present in the supervisor's name
-                const supervisorName = `${supervisor.firstName} ${supervisor.lastName}`;
-                const supervisorFound = supervisorName.includes(firstName);
-
+    
+                // Check if the provided first name matches the supervisor's first name
+                const supervisorFound = supervisor.firstName && supervisor.firstName.toLowerCase() === firstName.toLowerCase();
+    
                 console.log('Supervisor found:', supervisorFound);
-
-                // If the supervisor is found, add tittle and group names to arrays
+    
+                // If the supervisor is found, add them to the matchedSupervisors array
                 if (supervisorFound) {
-                    console.log(`Supervisor ${firstName} found`);
-                    tittleNames.push(...supervisor.tittles);
-                    groupNames.push(...supervisor.groups);
+                    console.log(`Supervisor ${firstName} found:`, supervisor);
+                    matchedSupervisors.push(supervisor);
                 }
             });
-
-            console.log('Tittle Names:', tittleNames);
-            console.log('Group Names:', groupNames);
-
-            // If the supervisor is not found in any supervisor, return { found: false }
-            if (tittleNames.length === 0) {
-                console.log(`Supervisor ${firstName} not found `);
+    
+            console.log('Matched Supervisors:', matchedSupervisors);
+    
+            // If no supervisor is found, return { found: false }
+            if (matchedSupervisors.length === 0) {
+                console.log(`Supervisor ${firstName} not found`);
                 return { found: false };
             }
-
-            // Return found status, tittle names, and group names
-            return { found: true, tittleNames, groupNames };
+    
+            // Return found status and matched supervisors
+            return { found: true, matchedSupervisors };
         } catch (error) {
             console.error('Error finding supervisor by name:', error);
             return { found: false, error: error.message }; // Return error if encountered
         }
     };
-
+    
 
     // handling the button click for userdashboards
     //-----------------------------------------------------------------------------------------------------------------------
