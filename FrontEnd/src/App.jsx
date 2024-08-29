@@ -67,10 +67,10 @@ function App() {
       <Routes>
         {/* Common Routes  */}
         <Route path='/' element={<LandingPage />} />
-        <Route path='studentsignup' element={<StudentSignUp />} />
+        <Route path='/studentsignup' element={<StudentSignUp />} />
         <Route path='/addStudent' element={<AddStudents />} />
         <Route path='login' element={<Login />} />
-        <Route path='s-login' element={<StudentLogin />} />
+        <Route path='/s-login' element={<StudentLogin />} />
         <Route path='/profile' element={<UserProfile />} />
         <Route path='/signup' element={<SignUp  />} />
         <Route path='/main' element={<MainPage  />} />
@@ -143,11 +143,10 @@ function App() {
       </Routes>
       {/* <StickyFooter /> */}
 
-      </AuthProvider>ෆ
+      </AuthProvider>
     </BrowserRouter>
 
   );
-
 
 }
 
