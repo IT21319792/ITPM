@@ -34,6 +34,10 @@ function Login() {
         navigate('/dashboard/studentDash');
       } else if (userRoles.includes('examinar')) {
         navigate('/dashboard/examinerDash');
+        // } else if (userRoles.includes('supervisor')) {
+        //   navigate('/dashboard/supervisorDash');
+        // } else if (userRoles.includes('member')) {
+        //   navigate('/dashboard/pMemberDash');
       } else if (userRoles.includes('coordinator')) {
         navigate('/dashboard');
       } else if (userRoles.includes('staff')) {

@@ -76,20 +76,17 @@ export const getOneAssignShedule = async (req, res) => {
     }
 }
 
+
 // Search with any value
 export const searchAssignShedule = async (req, res) => {
     const { key } = req.params;
 
     try {
         const searchAssignShedule = await PrMemberAssignShedule.find({
-            $or: [
-                { memberName: { $regex: key, $options: 'i' } },
-                { semester: { $regex: key, $options: 'i' } },
-                { presentationName: { $regex: key, $options: 'i' } }
-            ]
+            firstName: { $regex: key, $options: 'i' }
         });
         res.status(200).json(searchAssignShedule);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-}
+};

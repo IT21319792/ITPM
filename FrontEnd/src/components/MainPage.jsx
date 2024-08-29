@@ -18,12 +18,28 @@ function MainPage() {
     const firstName = Cookies.get('firstName');
 
 
+
     const navigate = useNavigate();
 
 
     // checking users in the databases
     //-----------------------------------------------------------------------------------------------------------------------
+    // checking users in the databases
+    //-----------------------------------------------------------------------------------------------------------------------
 
+    const findPrMemberByName = async (firstName) => {
+        try {
+            const response = await axios.get(`http://localhost:510/prmember/${firstName}`);
+            if (!response.data) {
+                return false;
+            }
+            return true;
+        } catch (error) {
+
+            console.error('Error finding PR member by name:', error);
+            return false; r
+        }
+    };
     const findPrMemberByName = async (firstName) => {
         try {
             const response = await axios.get(`http://localhost:510/prmember/${firstName}`);
@@ -41,12 +57,21 @@ function MainPage() {
     const findExaminerByName = async (firstName) => {
         try {
             const response = await axios.get(`http://localhost:510/schedule/getSchedules`);
+    const findExaminerByName = async (firstName) => {
+        try {
+            const response = await axios.get(`http://localhost:510/schedule/getSchedules`);
 
+            // Assuming the response contains an array of schedules
+            const schedules = response.data.data;
             // Assuming the response contains an array of schedules
             const schedules = response.data.data;
 
             console.log('Schedules:', schedules);
+            console.log('Schedules:', schedules);
 
+            // Initialize arrays to store schedule and group names
+            const scheduleNames = [];
+            const groupNames = [];
             // Initialize arrays to store schedule and group names
             const scheduleNames = [];
             const groupNames = [];
@@ -54,12 +79,25 @@ function MainPage() {
             // Iterate over each schedule
             schedules.forEach(schedule => {
                 console.log('Checking schedule:', schedule);
+            // Iterate over each schedule
+            schedules.forEach(schedule => {
+                console.log('Checking schedule:', schedule);
 
+                // Check if the provided first name is present in any examiner's name within the schedule
+                const examinerFound = schedule.examiners.includes(firstName);
                 // Check if the provided first name is present in any examiner's name within the schedule
                 const examinerFound = schedule.examiners.includes(firstName);
 
                 console.log('Examiner found in this schedule:', examinerFound);
+                console.log('Examiner found in this schedule:', examinerFound);
 
+                // If the examiner is found in this schedule, add schedule and group names to arrays
+                if (examinerFound) {
+                    console.log(`Examiner ${firstName} found in schedule ${schedule.ScheduleID}`);
+                    scheduleNames.push(schedule.ScheduleID);
+                    groupNames.push(schedule.GroupID);
+                }
+            });
                 // If the examiner is found in this schedule, add schedule and group names to arrays
                 if (examinerFound) {
                     console.log(`Examiner ${firstName} found in schedule ${schedule.ScheduleID}`);
@@ -70,7 +108,14 @@ function MainPage() {
 
             console.log('Schedule Names:', scheduleNames);
             console.log('Group Names:', groupNames);
+            console.log('Schedule Names:', scheduleNames);
+            console.log('Group Names:', groupNames);
 
+            // If the examiner is not found in any schedule, return { found: false }
+            if (scheduleNames.length === 0) {
+                console.log(`Examiner ${firstName} not found in any schedule`);
+                return { found: false };
+            }
             // If the examiner is not found in any schedule, return { found: false }
             if (scheduleNames.length === 0) {
                 console.log(`Examiner ${firstName} not found in any schedule`);
@@ -84,56 +129,71 @@ function MainPage() {
             return { found: false, error: error.message }; // Return error if encountered
         }
     };
+            // Return found status, schedule names, and group names
+            return { found: true, scheduleNames, groupNames };
+        } catch (error) {
+            console.error('Error finding examiner by name:', error);
+            return { found: false, error: error.message }; // Return error if encountered
+        }
+    };
 
     const findSupervisorByName = async (firstName) => {
         try {
-            const response = await axios.get(`http://localhost:510/supervisor/`);
-
-            // Assuming the response contains an array of supervisors
+            const response = await axios.get(`http://localhost:510/supervisorList/`);
+    
+            // Log the entire response to see the structure
+            console.log('API Response:', response);
+    
+            // Extract the data from the response
             const supervisors = response.data;
-
+    
+            // Log the supervisors data to ensure it's an array
             console.log('Supervisors:', supervisors);
-
-            // Initialize arrays to store tittle and group names
-            const tittleNames = [];
-            const groupNames = [];
-
+    
+            // Ensure supervisors is an array before proceeding
+            if (!Array.isArray(supervisors)) {
+                console.error('Expected an array but got:', typeof supervisors);
+                return { found: false, error: 'Invalid data format from API' };
+            }
+    
+            // Initialize an array to store matched supervisors
+            const matchedSupervisors = [];
+    
             // Iterate over each supervisor
             supervisors.forEach(supervisor => {
                 console.log('Checking supervisor:', supervisor);
-
-                // Check if the provided first name is present in the supervisor's name
-                const supervisorName = `${supervisor.firstName} ${supervisor.lastName}`;
-                const supervisorFound = supervisorName.includes(firstName);
-
+    
+                // Check if the provided first name matches the supervisor's first name
+                const supervisorFound = supervisor.firstName && supervisor.firstName.toLowerCase() === firstName.toLowerCase();
+    
                 console.log('Supervisor found:', supervisorFound);
-
-                // If the supervisor is found, add tittle and group names to arrays
+    
+                // If the supervisor is found, add them to the matchedSupervisors array
                 if (supervisorFound) {
-                    console.log(`Supervisor ${firstName} found`);
-                    tittleNames.push(...supervisor.tittles);
-                    groupNames.push(...supervisor.groups);
+                    console.log(`Supervisor ${firstName} found:`, supervisor);
+                    matchedSupervisors.push(supervisor);
                 }
             });
-
-            console.log('Tittle Names:', tittleNames);
-            console.log('Group Names:', groupNames);
-
-            // If the supervisor is not found in any supervisor, return { found: false }
-            if (tittleNames.length === 0) {
-                console.log(`Supervisor ${firstName} not found `);
+    
+            console.log('Matched Supervisors:', matchedSupervisors);
+    
+            // If no supervisor is found, return { found: false }
+            if (matchedSupervisors.length === 0) {
+                console.log(`Supervisor ${firstName} not found`);
                 return { found: false };
             }
-
-            // Return found status, tittle names, and group names
-            return { found: true, tittleNames, groupNames };
+    
+            // Return found status and matched supervisors
+            return { found: true, matchedSupervisors };
         } catch (error) {
             console.error('Error finding supervisor by name:', error);
             return { found: false, error: error.message }; // Return error if encountered
         }
     };
+    
 
-
+    // handling the button click for userdashboards
+    //-----------------------------------------------------------------------------------------------------------------------
     // handling the button click for userdashboards
     //-----------------------------------------------------------------------------------------------------------------------
 
@@ -154,8 +214,72 @@ function MainPage() {
             });
         }
     };
+    const handleButtonClickCoordinator = () => {
+        const role = Cookies.get('OriginalRole');
+        console.log(role);
+        if (role === 'staff' && (level === '1')) {
+            const expirationTime = new Date();
+            expirationTime.setSeconds(expirationTime.getSeconds() + 10);
+            Cookies.set('role', 'coordinator', { expires: expirationTime });
+            navigate('/dashboard');
+        } else {
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'You are not authorized to access this page as a ' + staffPost + ' with level ' + level + 'access',
+            });
+        }
+    };
 
 
+    const handleButtonClickPMember = async () => {
+        const role = Cookies.get('OriginalRole');
+        console.log(role);
+        if (role === 'staff' && (level === '1' || level === '2')) {
+            const userExists = await findPrMemberByName(firstName);
+            if (userExists) {
+                Cookies.set('role', 'member');
+                navigate('/dashboard/pMemberDash');
+            } else {
+                if (level === '1') {
+                    Swal.fire({
+                        icon: 'question',
+                        title: 'You are not assigned as a project member!',
+                        text: 'Do you want to go to the dashboard as a project member?',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes',
+                        cancelButtonText: 'No',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            Cookies.set('role', 'member');
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: 'Welcome to the project member dashboard!',
+                            });
+                            navigate('/dashboard/pMemberDash');
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Seems like you have not been assigned as a project member!',
+                    });
+                }
+
+
+            }
+        } else {
+
+            Swal.fire({
+                icon: 'warning',
+                title: 'Access Denied',
+                text: 'You are not authorized to access this page as a ' + staffPost + ' with level ' + level + 'access',
+            });
+        }
+    };
     const handleButtonClickPMember = async () => {
         const role = Cookies.get('OriginalRole');
         console.log(role);

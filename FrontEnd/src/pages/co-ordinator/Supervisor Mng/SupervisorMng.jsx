@@ -258,12 +258,10 @@ function SupervisorMng() {
               <th scope="col" className="px-6 py-4">First Name</th>
               <th scope="col" className="px-6 py-4">Last Name</th>
               <th scope="col" className="px-6 py-4">Contact Number</th>
-              <th scope="col" className="px-6 py-4">Level</th>
-              <th scope="col" className="px-6 py-4">Post</th>
-              <th scope="col" className="px-6 py-4">Level</th>
+              {/* <th scope="col" className="px-6 py-4">Level</th> */}
               <th scope="col" className="px-6 py-4">Post</th>
               <th scope="col" className="px-6 py-4">Email</th>
-              <th scope="col" className="px-6 py-4">id</th>
+             
               <th scope="col" className="px-6 py-4">Actions</th>
             </tr>
           </thead>
@@ -275,10 +273,10 @@ function SupervisorMng() {
         <td className="px-6 py-4">{data.firstName}</td>
         <td className="px-6 py-4">{data.lastName}</td>
         <td className="px-6 py-4">{data.contactNo}</td>
-        <td className="px-6 py-4">{data.level}</td>
+        {/* <td className="px-6 py-4">{data.level}</td> */}
         <td className="px-6 py-4">{data.staffPost}</td>
         <td className="px-6 py-4">{data.email}</td>
-        <td className="px-6 py-4">{data._id}</td>
+        
       
         <td>
           <button

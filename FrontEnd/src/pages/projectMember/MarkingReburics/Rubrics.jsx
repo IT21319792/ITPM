@@ -418,7 +418,7 @@ function Rubrics() {
                 <input
                   type="text"
                   id="marks"
-                  placeholder="Enter Marks"
+                  placeholder="Enter Marks (out of 100)"
                   className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   required
                   onChange={handleOnChnage}

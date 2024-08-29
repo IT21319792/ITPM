@@ -44,7 +44,7 @@ function StudentSignUp() {
       .post("http://localhost:510/student/create", formData)
       .then(() => {
         toast.success("Student Account created successfully");
-        navigate("/s-login");
+       // navigate("/s-login");
       })
       .catch((err) => {
         console.log("Form data:", formData);

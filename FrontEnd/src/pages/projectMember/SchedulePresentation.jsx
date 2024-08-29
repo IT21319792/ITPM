@@ -19,13 +19,7 @@ function SchedulePresentation(props) {
     "Mr. Boshitha Gunarathne",
     "Mr. Deneth Pinsara",
     "Ms. Rashmi Shehela",
-    "Mr. Madhusha Prasad",
-    "Ms. Tharushi Perera",
-    "Mr. Tharindu Madushan",
-    "Ms. Tharushi Perera",
-    "Mr. Tharindu Madushan",
-    "Ms. Oshitha Kone",
-    "Mr. Kamshe Kure"
+
   ]);
   const [examiners, setexaminers] = useState([]);
   const [errors, setErrors] = useState({});
@@ -150,11 +144,7 @@ function SchedulePresentation(props) {
                       <option value="Group 01">Group 01</option>
                       <option value="Group 02">Group 02</option>
                       <option value="Group 03">Group 03</option>
-                      <option value="Group 04">Group 04</option>
-                      <option value="Group 01">Group 05</option>
-                      <option value="Group 02">Group 06</option>
-                      <option value="Group 03">Group 07</option>
-                      <option value="Group 04">Group 08</option>
+
                     </select>
 
                   </div>
@@ -186,6 +176,11 @@ function SchedulePresentation(props) {
                       }}
                       min={new Date().toISOString().split("T")[0]}
                     />
+
+
+
+
+
                     <p
                       className={
                         errors.date
@@ -247,6 +242,8 @@ function SchedulePresentation(props) {
                         settimeDuration(e.target.value);
                       }}
                     />
+
+                
                     <p
                       className={
                         errors.timeDuration
