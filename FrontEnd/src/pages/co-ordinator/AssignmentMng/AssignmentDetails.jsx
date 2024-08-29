@@ -213,6 +213,7 @@ function AssignmentView() {
             <thead>
               <tr>
                 <th className="px-4 py-2">Title</th>
+                <th className="px-4 py-2">Semester</th>
                 <th className="px-4 py-2">Type</th>
                 <th className="px-4 py-2">Subtype</th>
                 <th className="px-4 py-2">Deadline</th>
@@ -226,6 +227,7 @@ function AssignmentView() {
               {assignments.map((assignment) => (
                 <tr key={assignment._id}>
                   <td className="border px-4 py-2">{assignment.title}</td>
+                  <td className="border px-4 py-2">{assignment.semester}</td>
                   <td className="border px-4 py-2">{assignment.type}</td>
                   <td className="border px-4 py-2">{assignment.subType}</td>
                   <td className="border px-4 py-2">{new Date(assignment.deadline).toLocaleDateString()}</td>
