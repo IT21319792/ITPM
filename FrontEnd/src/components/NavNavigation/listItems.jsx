@@ -150,14 +150,6 @@ export const supervisorListItems = (
       </ListItemButton>
     </Link>
 
-    <Link to={'/dashboard/reports'}>
-      <ListItemButton>
-        <ListItemIcon>
-          <AssignmentIcon />
-        </ListItemIcon>
-        <ListItemText primary="Reports" />
-      </ListItemButton>
-    </Link>
 
 
   </React.Fragment>
@@ -265,7 +257,7 @@ export const cordinatorListItems = (
         <ListItemIcon>
           <AssignmentIcon />
         </ListItemIcon>
-        <ListItemText primary="Marking" />
+        <ListItemText primary="Marks" />
       </ListItemButton>
     </Link>
 
