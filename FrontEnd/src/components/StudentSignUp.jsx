@@ -42,7 +42,7 @@ function StudentSignUp() {
       .then(() => {
         alert('Student Account created successfully');
         console.log('Student Account created successfully');
-        navigate('/s-login');
+       // navigate('/s-login');
       })
       .catch((err) => {
         console.log('Form data:', formData);
