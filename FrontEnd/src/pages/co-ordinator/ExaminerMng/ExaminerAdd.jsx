@@ -162,4 +162,5 @@ function ExaminerAdd() {
   )
 }
 
+//export the component
 export default ExaminerAdd;
