@@ -8,7 +8,6 @@ import SupervisorWelcomeCard from '../../components/SupervisorWelcomeard';
 function PresentationTable() {
     const [presentations, setPresentations] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [newMark, setNewMark] = useState({ reportType: '', group: '', mark: '' });
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -49,71 +48,48 @@ function PresentationTable() {
         }
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await axios.post('http://localhost:510/report/add', newMark);
-            setPresentations(prev => [...prev, response.data]);
-            setNewMark({ reportType: '', group: '', mark: '' });
-            Swal.fire({
-                icon: 'success',
-                title: 'Mark Added!',
-                text: 'The mark has been added successfully.',
-            });
-        } catch (error) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Failed to add the mark. Please try again later.',
-            });
-            console.error('Error adding mark:', error);
-        }
-    };
-
     return (
         <div style={{ maxWidth: '100%', overflowX: 'auto', padding: '20px' }}>
-            <SupervisorWelcomeCard />
+           
+            <SupervisorWelcomeCard></SupervisorWelcomeCard>
             <h2>Presentation Data</h2>
-
-        
-
             {loading ? (
                 <p>Loading...</p>
             ) : (
                 <div style={{ overflowX: 'auto' }}>
                     <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                         <thead>
-                            <tr style={{ backgroundColor: '#f8f9fa', color: '#212529', fontWeight: 'bold' }}>
-                                <th style={{ padding: '10px', textAlign: 'left', borderBottom: '2px solid #dee2e6' }}>Report Type</th>
-                                <th style={{ padding: '10px', textAlign: 'left', borderBottom: '2px solid #dee2e6' }}>Group</th>
-                                <th style={{ padding: '10px', textAlign: 'left', borderBottom: '2px solid #dee2e6' }}>Mark</th>
-                                <th style={{ padding: '10px', textAlign: 'left', borderBottom: '2px solid #dee2e6' }}>Actions</th>
+                            <tr style={{ backgroundColor: '#f2f2f2' }}>
+                                <th className="table-header">Report Type</th>
+                                <th className="table-header">Group</th>
+                                <th className="table-header">Mark</th>
+                                <th className="table-header">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {presentations.length > 0 ? (
                                 presentations.map(presentation => (
-                                    <tr key={presentation._id} style={{ borderBottom: '1px solid #dee2e6', backgroundColor: '#ffffff', transition: 'background-color 0.3s' }}>
-                                        <td style={{ padding: '10px' }}>{presentation.reportType}</td>
-                                        <td style={{ padding: '10px' }}>{presentation.group}</td>
-                                        <td style={{ padding: '10px' }}>
+                                    <tr key={presentation._id} style={{ borderBottom: '1px solid #ddd' }}>
+                                        <td>{presentation.reportType}</td>
+                                        <td>{presentation.group}</td>
+                                        <td>
                                             {presentation.groupMarks.map(mark => (
                                                 <div key={mark.rubricID}>{mark.rubricID}</div>
                                             ))}
                                         </td>
-                                        <td style={{ padding: '10px' }}>
-                                            <button onClick={() => handleUpdate(presentation)} style={{ backgroundColor: '#007bff', border: 'none', color: '#fff', padding: '5px 10px', borderRadius: '4px', cursor: 'pointer', marginRight: '5px' }}>
-                                                <i className="fas fa-edit"></i>
+                                        <td>
+                                            <button onClick={() => handleUpdate(presentation)}>
+                                                <i className="fas fa-edit" style={{ color: '#007bff' }}></i>
                                             </button>
-                                            <button onClick={() => handleDelete(presentation)} style={{ backgroundColor: '#dc3545', border: 'none', color: '#fff', padding: '5px 10px', borderRadius: '4px', cursor: 'pointer' }}>
-                                                <i className="fas fa-trash-alt"></i>
+                                            <button onClick={() => handleDelete(presentation)}>
+                                                <i className="fas fa-trash-alt" style={{ color: '#dc3545' }}></i>
                                             </button>
                                         </td>
                                     </tr>
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan={4} style={{ textAlign: 'center', padding: '10px' }}>No data available.</td>
+                                    <td colSpan={4} style={{ textAlign: 'center' }}>No data available.</td>
                                 </tr>
                             )}
                         </tbody>
@@ -122,6 +98,7 @@ function PresentationTable() {
             )}
         </div>
     );
+
 }
 
 export default PresentationTable;
