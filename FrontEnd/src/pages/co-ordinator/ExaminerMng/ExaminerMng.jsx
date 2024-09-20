@@ -20,6 +20,7 @@ function ProjectMemberMng() {
     firstName: '',
     lastName: '',
     contactNo: '',
+
     email: ''
   });; // State to store the selected user for pop up form
 
@@ -30,10 +31,10 @@ function ProjectMemberMng() {
         setTableData(members);
         if (members.length === 0) {
           toast.info('No examiners found');
-        }else{
+        } else {
           toast.success('Examiners loaded successfully');
         }
-        
+
       })
       .catch(err => {
         console.log(err);
@@ -41,76 +42,76 @@ function ProjectMemberMng() {
       });
   }, []);
 
-    //pop up window eka
-    const handleUpdate = (user) => {
-      setSelectedUser(user); // Set the selected user details
-      setIsModalOpen(true); // Open the modal
-    };
-  
-    //update function
-    const handleUpdateUser = async (e) => {
-      e.preventDefault();
-      try {
-        const response = await axios.put(`http://localhost:510/user/update-account/${selectedUser._id}`, selectedUser);
-  
-        if (response.status === 200) {
-          console.log('User updated successfully:', response.data.message);
-          setTableData(prevData => prevData.map(data => data._id === selectedUser._id ? selectedUser : data)); // refresh nokara table eke adaala data eka witarak update wenawa
-          Sweetalert.fire({ 
-            title: 'Success',
-            text: 'User updated successfully',
-            icon: 'success',
-            confirmButtonText: 'OK'
-          })
-          setIsModalOpen(false); // Close modal after successful update
-         
-        } else {
-          console.error('Failed to update user:', response.data.message);
-          Sweetalert.fire({
-            title: 'Error',
-            text: 'Failed to update user',
-            text: response.data.message,
-            icon: 'error',
-            confirmButtonText: 'OK'
-          })
+  //pop up window eka
+  const handleUpdate = (user) => {
+    setSelectedUser(user); // Set the selected user details
+    setIsModalOpen(true); // Open the modal
+  };
 
-        }
-      } catch (error) {
-        console.error('Error updating user:', error.message);
-       Sweetalert.fire({
+  //update function
+  const handleUpdateUser = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.put(`http://localhost:510/user/update-account/${selectedUser._id}`, selectedUser);
+
+      if (response.status === 200) {
+        console.log('User updated successfully:', response.data.message);
+        setTableData(prevData => prevData.map(data => data._id === selectedUser._id ? selectedUser : data)); // refresh nokara table eke adaala data eka witarak update wenawa
+        Sweetalert.fire({
+          title: 'Success',
+          text: 'User updated successfully',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        })
+        setIsModalOpen(false); // Close modal after successful update
+
+      } else {
+        console.error('Failed to update user:', response.data.message);
+        Sweetalert.fire({
           title: 'Error',
-          text: 'Error updating user',
-          text: error.message,
+          text: 'Failed to update user',
+          text: response.data.message,
           icon: 'error',
           confirmButtonText: 'OK'
         })
+
       }
-    };
+    } catch (error) {
+      console.error('Error updating user:', error.message);
+      Sweetalert.fire({
+        title: 'Error',
+        text: 'Error updating user',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'OK'
+      })
+    }
+  };
 
-    // const handleDelete = async (id) => {
-    //   const confirmation = window.confirm('Are you sure you want to delete this user?');
-    
-    //   if (confirmation) {
-    //     try {
-    //       const response = await axios.delete(`http://localhost:510/user/delete-account/${id}`);
-    
-    //       if (response.status === 200) {
-    //         console.log('User deleted successfully');
-    //         // Remove the deleted user from the table data
-    //         setTableData(prevData => prevData.filter(data => data._id !== id)); 
-    //         toast.success('User deleted successfully');
-    //       } else {
-    //         console.error('Failed to delete user:', response.data.message);
-    //         toast.error('Failed to delete user:', response.data.message);
-    //       }
-    //     } catch (error) {
-    //       console.error('Error deleting user:', error.message);
-    //       toast.error('Error deleting user:', error.message);
-    //     }
-    //   }
-    // };
+  // const handleDelete = async (id) => {
+  //   const confirmation = window.confirm('Are you sure you want to delete this user?');
 
-    
+  //   if (confirmation) {
+  //     try {
+  //       const response = await axios.delete(`http://localhost:510/user/delete-account/${id}`);
+
+  //       if (response.status === 200) {
+  //         console.log('User deleted successfully');
+  //         // Remove the deleted user from the table data
+  //         setTableData(prevData => prevData.filter(data => data._id !== id)); 
+  //         toast.success('User deleted successfully');
+  //       } else {
+  //         console.error('Failed to delete user:', response.data.message);
+  //         toast.error('Failed to delete user:', response.data.message);
+  //       }
+  //     } catch (error) {
+  //       console.error('Error deleting user:', error.message);
+  //       toast.error('Error deleting user:', error.message);
+  //     }
+  //   }
+  // };
+
+
   const handleDelete = (id) => {
     Sweetalert.fire({
       title: 'Are you sure?',
@@ -125,7 +126,7 @@ function ProjectMemberMng() {
         axios.delete(`http://localhost:510/user/delete-account/${id}`).then((response) => {
           console.log(response)
           if (response.status === 200) {
-            setTableData(prevData => prevData.filter(data => data._id !== id)); 
+            setTableData(prevData => prevData.filter(data => data._id !== id));
             Sweetalert.fire(
               'Deleted!',
               'Your record has been deleted.',
@@ -173,8 +174,8 @@ function ProjectMemberMng() {
                   <td className="px-6 py-4">{data.address}</td>
                   <td className="px-6 py-4">{data.email}</td>
                   <td className="px-6 py-4 flex justify-center">
-                  <button onClick={() => handleUpdate(data)} className="bg-blue-500 rounded bg-primary px-3 pb-2 pt-2.5 ml-2">Update</button>
-                  <button onClick={() => handleDelete(data._id)} className="bg-red-500 inline-block rounded bg-primary px-3 pb-2 pt-2.5 ml-2">Delete</button>
+                    <button onClick={() => handleUpdate(data)} className="bg-blue-500 rounded bg-primary px-3 pb-2 pt-2.5 ml-2">Update</button>
+                    <button onClick={() => handleDelete(data._id)} className="bg-red-500 inline-block rounded bg-primary px-3 pb-2 pt-2.5 ml-2">Delete</button>
                   </td>
 
 
@@ -231,7 +232,7 @@ function ProjectMemberMng() {
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
               </div>
-            
+
               <div className="flex justify-end">
                 <button
                   type="button"
@@ -255,5 +256,6 @@ function ProjectMemberMng() {
     </div>
   )
 }
+//export the component
 
 export default ProjectMemberMng;
