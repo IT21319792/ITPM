@@ -14,7 +14,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 {/*Admin Lists bucket for the sidebar navigations */ }
 export const adminListItems = (
   <React.Fragment>
-    
+
     <Link to={'/dashboard/adminDash'}>
       <ListItemButton>
         <ListItemIcon>
@@ -41,7 +41,7 @@ export const adminListItems = (
         <ListItemText primary="Manage Users" />
       </ListItemButton>
     </Link>
-    
+
   </React.Fragment>
 
 );
@@ -112,8 +112,8 @@ export const studentListItems = (
 {/*Examinar Lists bucket for the sidebar navigations */ }
 export const examinarListItems = (
   <React.Fragment>
-    
-    <Link to={'/dashboard/examinarDash'}>
+
+    <Link to={'/dashboard/examinerDash'}>
       <ListItemButton>
         <ListItemIcon>
           <DashboardIcon />
@@ -131,7 +131,7 @@ export const examinarListItems = (
       </ListItemButton>
     </Link>
 
-  
+
   </React.Fragment>
 
 );
@@ -140,7 +140,7 @@ export const examinarListItems = (
 {/*Supervisor Lists bucket for the sidebar navigations */ }
 export const supervisorListItems = (
   <React.Fragment>
-    
+
     <Link to={'/dashboard/supervisorDash'}>
       <ListItemButton>
         <ListItemIcon>
@@ -150,16 +150,8 @@ export const supervisorListItems = (
       </ListItemButton>
     </Link>
 
-    <Link to={'/dashboard/reports'}>
-      <ListItemButton>
-        <ListItemIcon>
-          <AssignmentIcon />
-        </ListItemIcon>
-        <ListItemText primary="Reports" />
-      </ListItemButton>
-    </Link>
 
-  
+
   </React.Fragment>
 
 );
@@ -168,7 +160,7 @@ export const supervisorListItems = (
 {/*Project Member Lists bucket for the sidebar navigations */ }
 export const memberListItems = (
   <React.Fragment>
-    
+
     <Link to={'/dashboard/pMemberDash'}>
       <ListItemButton>
         <ListItemIcon>
@@ -196,15 +188,15 @@ export const memberListItems = (
       </ListItemButton>
     </Link>
 
-  
+
   </React.Fragment>
 
 );
 
-{/*Co-ordinator Lists bucket for the sidebar navigations */}
+{/*Co-ordinator Lists bucket for the sidebar navigations */ }
 export const cordinatorListItems = (
   <React.Fragment>
-    
+
     <Link to={'/dashboard'}>
       <ListItemButton>
         <ListItemIcon>
@@ -223,14 +215,6 @@ export const cordinatorListItems = (
       </ListItemButton>
     </Link>
 
-    <Link to={'/dashboard/examiners'}>
-      <ListItemButton>
-        <ListItemIcon>
-          <PeopleIcon />
-        </ListItemIcon>
-        <ListItemText primary="Examiners" />
-      </ListItemButton>
-    </Link>
 
     <Link to={'/dashboard/supervisors'}>
       <ListItemButton>
@@ -264,7 +248,7 @@ export const cordinatorListItems = (
         <ListItemIcon>
           <AssignmentIcon />
         </ListItemIcon>
-        <ListItemText primary="Presentation & Report Details" />
+        <ListItemText primary="Presentation Details" />
       </ListItemButton>
     </Link>
 
@@ -273,11 +257,11 @@ export const cordinatorListItems = (
         <ListItemIcon>
           <AssignmentIcon />
         </ListItemIcon>
-        <ListItemText primary="Marking" />
+        <ListItemText primary="Marks" />
       </ListItemButton>
     </Link>
 
 
-  
+
   </React.Fragment>
 );
