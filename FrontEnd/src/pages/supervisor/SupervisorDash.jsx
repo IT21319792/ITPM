@@ -124,5 +124,4 @@ function PresentationTable() {
     );
 }
 
-//sfdadf
 export default PresentationTable;
