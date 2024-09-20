@@ -36,9 +36,13 @@ const assignmentSchema = new mongoose.Schema({
     type: Date,
     required: true
   },
+  semester: {
+    type: Number,
+    
+  },
   description: {
     type: String,
-    required: true
+    
   },
   user: {
     type: String, 

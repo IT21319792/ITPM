@@ -10,7 +10,7 @@ function ExaminerAdd() {
   const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', contactNo: '', password: '', confirm_password: '' })
 
   const role = 'examinar'
-  const password = '1234' 
+  const password = '1234'
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -20,21 +20,24 @@ function ExaminerAdd() {
     })
   }
 
+
   const handleSubmit = (e) => {
     e.preventDefault();
-  
+
     // Validate form data
+    // If there are errors, display them and return
+    // If validation passes, proceed with form submission
     const errors = {};
     errors.firstName = validateFirstName(formData.firstName);
     errors.lastName = validateLastName(formData.lastName);
     errors.email = validateEmail(formData.email);
     errors.contactNo = validateContactNo(formData.contactNo);
-  
+
     // Filter out fields with errors
     const errorFields = Object.entries(errors)
       .filter(([field, error]) => error !== null)
       .map(([field, error]) => `${field} ${error}`);
-  
+
     // If there are errors, display them and return
     if (errorFields.length > 0) {
       Sweetalert.fire({
@@ -45,11 +48,11 @@ function ExaminerAdd() {
       })
       return;
     }
-  
+
     // If validation passes, proceed with form submission
     axios.post('http://localhost:510/user/create', formData)
       .then(() => {
-        Sweetalert.fire({ 
+        Sweetalert.fire({
           title: 'Success',
           text: 'Examiner added successfully',
           icon: 'success',
@@ -60,7 +63,7 @@ function ExaminerAdd() {
       .catch((err) => {
         console.log('Form data:', formData);
         console.log('Error:', err);
-       Sweetalert.fire({  
+        Sweetalert.fire({
           title: 'Error',
           text: 'Error adding examiner',
           text: err.response.data.message,
@@ -69,7 +72,7 @@ function ExaminerAdd() {
         })
       });
   };
-  
+
 
   return (
 
@@ -80,9 +83,9 @@ function ExaminerAdd() {
           <form onSubmit={handleSubmit} className="mb-4 md:flex md:flex-wrap md:justify-between" action="/signup/" method="post">
 
             <div className='flex gap-2 w-full'>
-            
+
               <input
-              
+
                 type="text"
                 className="block border border-grey-light w-full p-3 rounded mb-4"
                 name="firstName"
@@ -148,9 +151,9 @@ function ExaminerAdd() {
           <div className="text-center text-sm text-grey-dark mt-4">
             Password set to default:
             <h1 className="no-underline text-grey-dark">
-            Users must update their password in their profile
+              Users must update their password in their profile
             </h1> and
-         
+
           </div>
         </div>
 
@@ -159,4 +162,5 @@ function ExaminerAdd() {
   )
 }
 
+//export the component
 export default ExaminerAdd;

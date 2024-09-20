@@ -23,15 +23,16 @@ function StudentMng() {
   }
 
   const [tableData, setTableData] = useState([]);
+  const [groups, setGroups] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:510/user')
-      .then(res => {
-        const student = res.data.filter(user => user.role === "student");
-        setTableData(student);
+    // Fetch data when component mounts
+    axios.get('http://localhost:510/group/get-all-groups')
+      .then(response => {
+        setGroups(response.data); // Assuming response.data is an array of groups
       })
-      .catch(err => {
-        console.log(err);
+      .catch(error => {
+        console.error('Error fetching groups:', error);
       });
   }, []);
 
@@ -40,35 +41,36 @@ function StudentMng() {
       <CoordinatorWelcomeCard />
       <p className="mt-2 text-gray-600">Student Management</p>
       <div className="overflow-x-auto bg-white px-6 py-8 rounded shadow-md text-black w-full">
-        <table className="min-w-full text-left text-sm font-light">
-          <thead className="border-b bg-white font-medium dark:border-neutral-500 dark:bg-neutral-600">
-            <tr>
-              <th scope="col" className="px-6 py-4">First Name</th>
-              <th scope="col" className="px-6 py-4">Last Name</th>
-              <th scope="col" className="px-6 py-4">Contact Number</th>
-              <th scope="col" className="px-6 py-4">Address</th>
-              <th scope="col" className="px-6 py-4">Email</th>
-              <th scope="col" className="px-6 py-4">Actions</th>
+      <div className="p-4">
+      <h2 className="text-lg font-bold mb-4">Student Group Details</h2>
+
+      <table className="w-full border-collapse border border-gray-300">
+        <thead>
+          <tr className="bg-gray-100">
+            <th className="border border-gray-300 px-4 py-2">Group ID</th>
+            <th className="border border-gray-300 px-4 py-2">Member 1</th>
+            <th className="border border-gray-300 px-4 py-2">Member 2</th>
+            <th className="border border-gray-300 px-4 py-2">Member 3</th>
+            <th className="border border-gray-300 px-4 py-2">Member 4</th>
+            <th className="border border-gray-300 px-4 py-2">Supervisor</th>
+            <th className="border border-gray-300 px-4 py-2">Group Leader</th>
+          </tr>
+        </thead>
+        <tbody>
+          {groups.map(group => (
+            <tr key={group._id}>
+              <td className="border border-gray-300 px-4 py-2">{group.groupID}</td>
+              <td className="border border-gray-300 px-4 py-2">{group.member1}</td>
+              <td className="border border-gray-300 px-4 py-2">{group.member2}</td>
+              <td className="border border-gray-300 px-4 py-2">{group.member3}</td>
+              <td className="border border-gray-300 px-4 py-2">{group.member4}</td>
+              <td className="border border-gray-300 px-4 py-2">{group.supervisor}</td>
+              <td className="border border-gray-300 px-4 py-2">{group.groupLeader}</td>
             </tr>
-          </thead>
-          <tbody>
-            {tableData.map((data, index) => {
-              return (
-                <tr key={index} className="border-dark:border-neutral-500">
-                  <td className="px-6 py-4">{data.firstName}</td>
-                  <td className="px-6 py-4">{data.lastName}</td>
-                  <td className="px-6 py-4">{data.contactNo}</td>
-                  <td className="px-6 py-4">{data.address}</td>
-                  <td className="px-6 py-4">{data.email}</td>
-                  <td className="px-6 py-4 flex justify-center">
-                    <button onClick={handleUpdate} className="bg-blue-500 rounded bg-primary px-3 pb-2 pt-2.5 ml-2">Edit</button>
-                    <button onClick={handleDelete} className="bg-red-500 inline-block rounded bg-primary px-3 pb-2 pt-2.5 ml-2">Delete</button>
-                  </td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
+          ))}
+        </tbody>
+      </table>
+    </div>
       </div>
       <div className="px-4 py-2">
         <button onClick={handlePage} className="bg-blue-600 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded mr-2">

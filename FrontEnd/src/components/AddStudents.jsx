@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,Link } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from "react-toastify";
+import { Button } from '@mui/material';
 
 function AddStudents() {
     const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', contactNo: '', password: '', confirm_password: '', address: '', specialization: 'it', semester: 'semester1', role: 'student' });
@@ -18,8 +19,8 @@ function AddStudents() {
         e.preventDefault();
         axios.post('http://localhost:510/student/create', formData)
             .then(() => {
-                navigate('/dashboard/adminDash');
                 toast.success('Student created successfully');
+                navigate('/s-login');
             })
             .catch((err) => {
                 console.log('Error:', err);
@@ -30,7 +31,7 @@ function AddStudents() {
                 }
             });
     };
-    
+
 
     return (
         <div className="bg-grey-lighter min-h-screen flex flex-col">
@@ -141,6 +142,26 @@ function AddStudents() {
                             Add Student
                         </button>
                     </form>
+
+                    <div className="text-grey-dark mt-6 flex gap-2">
+                        <p>Already have an account? </p>
+                        <Link to="/s-login" >
+                            <span className="no-underline border-b border-blue text-blue-700" href="../login/">
+                                Log in
+                            </span>
+                        </Link>
+                        <Button
+                            variant="text"
+                            color="primary"
+                            sx={{ textDecoration: 'none', borderBottom: '1px solid blue', color: 'blue' }}
+                            onClick={() => navigate('/signup')}
+                        >
+                            Staff Signup
+                        </Button>
+
+                    </div>
+
+
                 </div>
             </div>
         </div>

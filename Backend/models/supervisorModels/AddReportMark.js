@@ -1,21 +1,27 @@
 import mongoose from 'mongoose';
 
 const presentationSchema = new mongoose.Schema({
-  reportType: {
+  loggedUser: {
     type: String,
-    
+    required: true
   },
-  group:{
+
+  presentationType: {
     type: String,
+    required: true
+  },
+  group: {
+    type: String,
+    required: true
   },
   groupMarks: [{
     rubricID: {
       type: String,
-      
+      required: true
     },
     mark: {
       type: Number,
-      
+      required: true
     }
   }]
 });

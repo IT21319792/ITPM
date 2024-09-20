@@ -50,7 +50,7 @@ const CoordinatorWelcomeCard = () => {
           size="small"
           onClick={handleLogout}
           style={{
-            backgroundColor: '#EF4444', 
+            backgroundColor: '#EF4444',
             color: '#FFFFFF',
             '&:hover': {
               backgroundColor: '#DC2626',
@@ -64,5 +64,6 @@ const CoordinatorWelcomeCard = () => {
     </Card>
   );
 };
+//export the component
 
 export default CoordinatorWelcomeCard;

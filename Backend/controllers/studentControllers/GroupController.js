@@ -1,5 +1,6 @@
 import GroupModel from "../../models/studentModels/GroupModel.js";
 import StudentModel from "../../models/studentModels/studentRegModel.js";
+import UserModel from "../../models/UserModel.js";
 
 
 
@@ -11,6 +12,7 @@ export const createGroup = async (req, res) => {
         member2,
         member3,
         member4,
+        supervisor,
         groupLeader,
         reason = false
     } = req.body;
@@ -69,7 +71,7 @@ export const createGroup = async (req, res) => {
 
     if (isMember1Exist || isMember2Exist || isMember3Exist || isMember4Exist) {
         res.status(500).json({
-            message: "One or more member(s) is already grouped!"
+            message: "One or more member(s) is already in a another group!"
         });
         return;
     }
@@ -78,7 +80,7 @@ export const createGroup = async (req, res) => {
     const groupCount = result.length;
 
     // generate new Group ID for the new Groups
-    const newGroupID = `GRP${groupCount + 1}`;
+    const newGroupID = `GRP_${groupCount + 1}`;//add the semester to the groupID - GRP_(year)_(semester1/2)_regular
 
     const mongooseRes = new GroupModel({
         groupID: newGroupID,
@@ -86,8 +88,14 @@ export const createGroup = async (req, res) => {
         member2,
         member3,
         member4,
+        supervisor,
         groupLeader
     });
+
+    const newSupervisor = await UserModel.findById(supervisor)
+    newSupervisor.role = [...newSupervisor.role, "supervisor"]
+    await newSupervisor.save()
+
 
     console.log(mongooseRes);
     mongooseRes.save().then((result) => {
@@ -107,9 +115,6 @@ export const createGroup = async (req, res) => {
 };
 
 
-
-
-
 //Get My Groups data
 export const getMyGroup = async (req, res) => {
     const userId = req.loggedInId;
@@ -122,7 +127,7 @@ export const getMyGroup = async (req, res) => {
                 { member3: loggedInUser.studentID },
                 { member4: loggedInUser.studentID }
             ]
-        });
+        }).populate("supervisor")
 
 
         res.status(200).json(Groups);
@@ -151,10 +156,7 @@ export const getAllGroups = async (req, res) => {
 
 
 
-
-
-
-//Update My Group
+// Update Group
 export const updateGroup = async (req, res) => {
     try {
         const id = req.params.id;
@@ -165,100 +167,78 @@ export const updateGroup = async (req, res) => {
             throw Error("Id can't be empty");
         }
 
-    //     // Check if any member is duplicated
-    // const members = [Data.member1, Data.member2, Data.member3, Data.member4];
-    // const uniqueMembers = [...new Set(members)];
-    // if (uniqueMembers.length !== members.length) {
-    //     res.status(401).json({
-    //         message: "Duplicate member(s) detected. Each member should be added only once."
-    //     });
-    //     return;
-    // }
+        // Check if any non-null member is duplicated
+        const members = [Data.member1, Data.member2, Data.member3, Data.member4];
 
+        // Filter out null values
+        const nonNullMembers = members.filter(member => member !== "");
 
-    // Check if any non-null member is duplicated
-const members = [Data.member1, Data.member2, Data.member3, Data.member4];
+        // Use Set to remove duplicates
+        const uniqueNonNullMembers = [...new Set(nonNullMembers)];
 
-// Filter out null values
-const nonNullMembers = members.filter(member => member !== "");
-
-// Use Set to remove duplicates
-const uniqueNonNullMembers = [...new Set(nonNullMembers)];
-
-if (uniqueNonNullMembers.length !== nonNullMembers.length) {
-    res.status(401).json({
-        message: "Duplicate non-null member(s) detected. Each non-null member should be added only once."})
-        return;
-    }
-
-    const Member1 = await StudentModel.findOne({ studentID: Data.member1 });
-    const Member2 = await StudentModel.findOne({ studentID: Data.member2 });
-    const Member3 = await StudentModel.findOne({ studentID: Data.member3 });
-    const Member4 = await StudentModel.findOne({ studentID: Data.member4 });
-
-    if (!Member1 || !Member2 || !Member3 || !Member4) {
-        res.status(401).json({
-            message: "One or more student Id is Invalid!"
-        })
-        return;
-    }
-
-
-
-
-    if (!Data.reason) {
-        if (!(Member1.specialization == Member2.specialization &&
-            Member1.specialization == Member3.specialization &&
-            Member1.specialization == Member4.specialization)) {
-
+        if (uniqueNonNullMembers.length !== nonNullMembers.length) {
             res.status(401).json({
-                message: "All Group members should be in the same specialization"
+                message: "Duplicate non-null member(s) detected. Each non-null member should be added only once."
             });
             return;
         }
-    }
 
-    if (!Data.reason) {
-        if (!(Member1.semester == Member2.semester &&
-            Member1.semester == Member3.semester &&
-            Member1.semester == Member4.semester)) {
+        const Member1 = await StudentModel.findOne({ studentID: Data.member1 });
+        const Member2 = await StudentModel.findOne({ studentID: Data.member2 });
+        const Member3 = await StudentModel.findOne({ studentID: Data.member3 });
+        const Member4 = await StudentModel.findOne({ studentID: Data.member4 });
 
+        if (!Member1 || !Member2 || !Member3 || !Member4) {
             res.status(401).json({
-                message: "All Group members should be in the same semester"
+                message: "One or more student Id is Invalid!"
             });
             return;
         }
-    }
 
+        if (!Data.reason) {
+            if (!(Member1.specialization == Member2.specialization &&
+                Member1.specialization == Member3.specialization &&
+                Member1.specialization == Member4.specialization)) {
+
+                res.status(401).json({
+                    message: "All Group members should be in the same specialization"
+                });
+                return;
+            }
+        }
+
+        if (!Data.reason) {
+            if (!(Member1.semester == Member2.semester &&
+                Member1.semester == Member3.semester &&
+                Member1.semester == Member4.semester)) {
+
+                res.status(401).json({
+                    message: "All Group members should be in the same semester"
+                });
+                return;
+            }
+        }
+
+        // Fetch supervisor ID from the request body
+        const supervisorId = Data.supervisor;
+
+        // Find the supervisor user
+        const supervisorUser = await UserModel.findById(supervisorId);
+
+        // Add "supervisor" role if not already present
+        if (!supervisorUser.role.includes("supervisor")) {
+            supervisorUser.role.push("supervisor");
+            await supervisorUser.save();
+        }
 
         const updatedGroup = await GroupModel.findByIdAndUpdate(id, Data, { new: true });
         res.status(200).json({ message: 'Group Updated Successfully', group: updatedGroup });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-}
+};
 
 
-
-
-
-
-
-// //Delete Group
-// export const deleteGroup = async (req, res) => {
-//     try {
-//         const id = req.params.id;
-
-//         if (!id) {
-//             throw Error("Id can't be empty");
-//         }
-
-//         const deletedSub = await GroupModel.findByIdAndDelete(id);
-//         res.status(200).json({ message: 'Group Deleted Successfully', item: deletedSub });
-//     } catch (error) {
-//         res.status(500).json({ message: error.message });
-//     }
-// }
 
 
 
@@ -266,7 +246,7 @@ if (uniqueNonNullMembers.length !== nonNullMembers.length) {
 export const deleteGroup = async (req, res) => {
     try {
         const id = req.params.id;
-        const loggedInUser = req.loggedInId; 
+        const loggedInUser = req.loggedInId;
 
         const groupLeader = await StudentModel.findById(loggedInUser);
         console.log(groupLeader);
@@ -286,7 +266,6 @@ export const deleteGroup = async (req, res) => {
             return res.status(403).json({ message: "Not authorized to delete this group" });
         }
 
-       
 
         // Proceed with group deletion
         const deletedGroup = await GroupModel.findByIdAndDelete(id);

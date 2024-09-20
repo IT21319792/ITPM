@@ -13,10 +13,11 @@ const SupervisorWelcomeCard = () => {
   const [firstName, setFirstName] = useState('Loading');
   // const [userRole, setUserRole] = useState('Loading');
   const cardStyle = {
-    minWidth: 250,
-    background: 'linear-gradient(to bottom right, #293660, rgba(0, 0, 0, 0)), url(https://cutewallpaper.org/21/school-background-image/Back-To-School-Background-in-2019-School-fonts-Cartoon-.jpg) top right no-repeat',
-    backgroundSize: 'cover',
+    minWidth: 200,
+    background: '#0B7528',
     position: 'relative',
+    margin: '0 5px', // Equal margins on both sides
+    paddingLeft: 0, // Removed padding from the left side
   };
 
   // Update the current time every second
@@ -43,25 +44,29 @@ const SupervisorWelcomeCard = () => {
     navigate('/login');
   };
 
+
   return (
-    <Card sx={cardStyle} className='mb-3'>
-
-      <CardContent>
-        <Typography variant='h5' gutterBottom className="text-lg font-semibold">
-          Welcome, {firstName}
-        </Typography>
-        <Typography variant="subtitle1" component="div" className="mb-2 text-white">
-          {/* This is {userRole}  */} Supervisor Dashboard
-        </Typography>
-        <Typography variant="body2" color="textSecondary" className="text-xs text-gray-400">
-          {currentTime.toUTCString()}
-        </Typography>
-      </CardContent>
-      <Button size="small" onClick={handleLogout} className="mt-4 bg-lightBlue-500 text-white hover:bg-lightBlue-600 hover:text-white">
-        Log out
-      </Button>
-
-    </Card>
+    <>
+      <Card sx={cardStyle}>
+        <CardContent>
+          <Typography variant='h6' gutterBottom className="text-lg font-semibold">
+            Welcome, {firstName} to Supervisor Dashboard
+          </Typography>
+          <Button
+            variant="contained"
+            color="warning"
+            size="small"
+            onClick={handleLogout}
+            style={{ position: 'absolute', top: 18, right: 15 }}
+          >
+            Log out
+          </Button>
+        </CardContent>
+      </Card>
+      <Typography variant="body2" color="textSecondary" style={{ textAlign: 'right', marginRight: '15px' }}>
+        {new Date().toUTCString()} {/* Display current time */}
+      </Typography>
+    </>
   );
 };
 

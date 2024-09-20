@@ -21,6 +21,10 @@ const GroupSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    supervisor: {
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: "users",
+    },
     groupLeader: {
         type: String,
         required: true,

@@ -8,6 +8,9 @@ const StudentSchema = new mongoose.Schema({
     firstName: {
         type: String,
     },
+    middleName: {
+        type: String,
+    },
     lastName: {
         type: String,
     },
@@ -18,9 +21,45 @@ const StudentSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    aLevelStream: {
+        type: String,
+        required: true,
+    },
+    subject1: {
+        type: String,
+        required: true,
+    },
+    subject1Result: {
+        type: String,
+        enum: ["A", "B", "C", "S", "F"],
+    },
+    subject2: {
+        type: String,
+        required: true,
+    },
+    subject2Result: {
+        type: String,
+        enum: ["A", "B", "C", "S", "F"],
+    },
+    subject3: {
+        type: String,
+        required: true,
+    },
+    subject3Result: {
+        type: String,
+        enum: ["A", "B", "C", "S", "F"],
+    },
+    guardianName: {
+        type: String,
+        required: true,
+    },
+    guardianEmail: {
+        type: String,
+        required: true,
+    },
     password: {
         type: String,
-        required: true
+        required: true,
     },
     specialization: {
         type: String,

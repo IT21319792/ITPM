@@ -7,37 +7,38 @@ import { Outlet } from 'react-router-dom';
 import { adminListItems, studentListItems, examinarListItems, supervisorListItems, memberListItems, cordinatorListItems } from '../../components/NavNavigation/listItems';
 import { useEffect } from 'react';
 import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
 
 export default function Layout() {
   const userRole = Cookies.get("role");
   const [navLinks, setNavlinks] = React.useState();
   useEffect(() => {
-        switch (userRole) {
-          case "admin": //Admin
-            setNavlinks(adminListItems);
-            break;
-          case "coordinator": //Coordinator
-            setNavlinks(cordinatorListItems);
-            break;
-          case "student": //Student
-            setNavlinks(studentListItems);
-            break;
-          case "examinar": //Examinar
-            setNavlinks(examinarListItems);
-            break;
-          case "supervisor": //Supervisor
-            setNavlinks(supervisorListItems);
-            break;
-          case "member": //Project Member
-            setNavlinks(memberListItems);
-            break;
-          
-          default:          
-            toast.error("Login Expired ! Please Login Again");
-            navigate("/");
-        }
-    
-      }, []);
+    switch (userRole) {
+      case "admin": //Admin
+        setNavlinks(adminListItems);
+        break;
+      case "coordinator": //Coordinator
+        setNavlinks(cordinatorListItems);
+        break;
+      case "student": //Student
+        setNavlinks(studentListItems);
+        break;
+      case "examinar": //Examinar
+        setNavlinks(examinarListItems);
+        break;
+      case "supervisor": //Supervisor
+        setNavlinks(supervisorListItems);
+        break;
+      case "member": //Project Member
+        setNavlinks(memberListItems);
+        break;
+
+      default:
+        toast.error("Login Expired ! Please Login Again");
+      // navigate("/");
+    }
+
+  }, []);
 
 
   return (
