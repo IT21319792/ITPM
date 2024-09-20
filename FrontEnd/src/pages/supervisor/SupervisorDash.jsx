@@ -124,7 +124,5 @@ function PresentationTable() {
     );
 }
 
-//fyukf
-//yukfyu
 
 export default PresentationTable;
